@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Vertex {
+public class Vertex : MathVertex {
 
-	private OList<int> connections;
 	private OList<GameObject> connectionObjects;
 
 	private GameObject vertexObject;
@@ -38,8 +37,7 @@ public class Vertex {
 		return false;
 	}
 
-	public Vertex(GameObject _vertexObject, string _vertexName){
-		connections = new OList<int> ();
+	public Vertex(GameObject _vertexObject, string _vertexName) : base(){
 		connectionObjects = new OList<GameObject> ();
 		VertexObject = _vertexObject;
 		vertexName = _vertexName;
@@ -52,7 +50,7 @@ public class Vertex {
 	}
 
 	public void AddPossibility(GameObject _newVertex){
-		connections.Add (0);
+		base.AddPossibility ();
 		connectionObjects.Add (_newVertex);
 	}
 
@@ -63,32 +61,8 @@ public class Vertex {
 		}
 	}
 
-	public int Count{
-		get{
-			return connections.Count;
-		}
-	}
-
-	public int this[int index]{
-		get{
-			return connections.Get (index);
-		}
-		set{
-			connections.Insert (value, index);
-		}
-	}
-
-	public void RemoveAt(int i){
-		connections.RemoveAt (i);
+	public new void RemoveAt(int i){
+		base.RemoveAt (i);
 		connectionObjects.RemoveAt (i);
-	}
-
-	public int Value(){
-		int x = 0;
-		for(int i=0; i<connections.Count; i++){
-			x+=connections[i];
-			
-		}
-		return x;
 	}
 }
