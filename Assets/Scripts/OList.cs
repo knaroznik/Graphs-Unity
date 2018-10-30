@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class OList<T> {
 	
@@ -15,6 +16,10 @@ public class OList<T> {
 		for (int i = 0; i < list.Count; i++) {
 			array [i] = list [i];
 		}
+	}
+
+	public List<T> ToList(){
+		return array.ToList ();
 	}
 
 	/// <summary>

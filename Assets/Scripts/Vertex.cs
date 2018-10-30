@@ -65,4 +65,9 @@ public class Vertex : MathVertex {
 		base.RemoveAt (i);
 		connectionObjects.RemoveAt (i);
 	}
+
+	public override string ToString ()
+	{
+		return VertexName.ToString ();
+	}
 }

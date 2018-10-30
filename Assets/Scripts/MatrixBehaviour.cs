@@ -13,6 +13,8 @@ public class MatrixBehaviour : MonoBehaviour {
 
 	private NeighborhoodMatrix matrix;
 
+	public bool DebugMode;
+
 	private string newVertexName;
 	private string newEdgeVertexNameOne;
 	private string newEdgeVertexNameTwo;
@@ -41,28 +43,32 @@ public class MatrixBehaviour : MonoBehaviour {
 	public void AddVertex(){
 		if (newVertexName != "" && newVertexName != null) {
 			matrix.AddVertex (newVertexName);
-			infoText.text = matrix.Print ();
+			if(DebugMode)
+				infoText.text = matrix.Print ();
 		}
 	}
 
 	public void RemoveVertex(){
 		if (newVertexName != "" && newVertexName != null) {
 			matrix.RemoveVertex (newVertexName);
-			infoText.text = matrix.Print ();
+			if(DebugMode)
+				infoText.text = matrix.Print ();
 		}
 	}
 
 	public void AddEdge(){
 		if (newEdgeVertexNameOne != "" && newEdgeVertexNameOne != null && newEdgeVertexNameTwo != "" && newEdgeVertexNameTwo != null) {
 			matrix.AddEdge (newEdgeVertexNameOne, newEdgeVertexNameTwo);
-			infoText.text = matrix.Print ();
+			if(DebugMode)
+				infoText.text = matrix.Print ();
 		}
 	}
 
 	public void RemoveEdge(){
 		if (newEdgeVertexNameOne != "" && newEdgeVertexNameOne != null && newEdgeVertexNameTwo != "" && newEdgeVertexNameTwo != null) {
 			matrix.RemoveEdge (newEdgeVertexNameOne, newEdgeVertexNameTwo);
-			infoText.text = matrix.Print ();
+			if(DebugMode)
+				infoText.text = matrix.Print ();
 		}
 	}
 

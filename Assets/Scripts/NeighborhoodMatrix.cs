@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 
 public class NeighborhoodMatrix{
 
@@ -21,7 +22,7 @@ public class NeighborhoodMatrix{
 			return;
 		}
 
-		GameObject vertex = MonoBehaviour.Instantiate (vertexPrefab, new Vector3 (Random.Range (-7f, 7f), Random.Range (-7f, 7f), 0f), Quaternion.identity);
+		GameObject vertex = MonoBehaviour.Instantiate (vertexPrefab, new Vector3 (UnityEngine.Random.Range (-7f, 7f), UnityEngine.Random.Range (-7f, 7f), 0f), Quaternion.identity);
 		for (int i = 0; i < vertexes.Count; i++) {
 			vertexes.Get (i).AddPossibility (vertex);
 		}
@@ -165,12 +166,16 @@ public class NeighborhoodMatrix{
 	}
 
 	private string naiveCycles(){
-		List<int> visitDict = new List<int>();
 		int cyclesFound = 0;
-		for (int i = 0; i < vertexes.Count; i++)
-		{
-			findCycle(i, visitDict, -1, ref cyclesFound);
+//		for (int i = 0; i < vertexes.Count; i++)
+//		{
+//			findCycle (i, visitDict, -1, ref cyclesFound);
+//		}
+
+		for (int i = 0; i < vertexes.Count; i++) {
+			findCycleLength(i, new OList<Vertex>(), i, 3,  ref cyclesFound);
 		}
+
 
 		if(cyclesFound > 0)
 		{
@@ -234,6 +239,32 @@ public class NeighborhoodMatrix{
 					{
 						cyclesFound++;
 						return true;
+					}
+				}
+			}
+		}
+
+		return false;
+	}
+
+	private bool findCycleLength(int current, OList<Vertex> visited, int original, int lenght, ref int cyclesFound)
+	{
+		if (visited.Count == lenght-1) {
+			string result = String.Join(" ", visited.ToList().Select(item => item.ToString()).ToArray());
+			Debug.Log ("ORIGINAL " + vertexes[original] + " went throught " + result + " and is now at " + vertexes[current]);
+			if (vertexes [original] [current] == 1) {
+				cyclesFound++;
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			visited.Add (vertexes[current]);
+			for (int i = 0; i < vertexes.Count; i++) {
+				if (vertexes [current] [i] == 1) {
+					if (!visited.ToList().Contains (vertexes [i])) {
+						OList<Vertex> x = new OList<Vertex> (visited.ToList ());
+						findCycleLength (i, x, original, lenght, ref cyclesFound);
 					}
 				}
 			}
