@@ -114,14 +114,14 @@ public class NeighborhoodMatrix{
 		return max.ToString();
 	}
 
-	public string LowestValue(){
+	public int LowestValue(){
 		int min = 999;
 		for(int i=0; i<vertexes.Count; i++){
 			int x = vertexes[i].Value();
 			if(x < min)
 				min = x;
 		}
-		return min.ToString();
+		return min;
 	}
 
 	public string EvenValues(){
@@ -164,6 +164,8 @@ public class NeighborhoodMatrix{
 		output += findCycleMultiplication ();
 		return output;
 	}
+
+
 
 	private string naiveCycles(){
 		int cyclesFound = 0;
@@ -272,4 +274,62 @@ public class NeighborhoodMatrix{
 
 		return false;
 	}
+	#region Zadanie 2
+	public string CheckCyclesOfLength(int x){
+		string output = "";
+		output += Print ();
+		output += "\n\n FINDING CYCLE OF MIN(deg(matrix) + 1 \n\n ";
+		output += "\nStarting from C" + x;
+		for (int i = x; i <= vertexes.Count; i++) {
+			OList<Vertex> cycle = naiveCycles (i);
+			if (cycle != null) {
+				string result = String.Join("->", cycle.ToList().Select(item => item.ToString()).ToArray());
+				output += "\nFound cycle C"+ i +" :\n";
+				output += result;
+				break;
+			}
+		}
+		return output;
+	}
+
+	private OList<Vertex> naiveCycles(int x){
+		for (int i = 0; i < vertexes.Count; i++) {
+			OList<Vertex> q = findCycleLength(i, new OList<Vertex>(), i, x);
+			if (q != null) {
+				return q;
+			}
+		}
+		return null;
+	}
+
+	private OList<Vertex> findCycleLength(int current, OList<Vertex> visited, int original, int lenght)
+	{
+		if (visited.Count == lenght-1) {
+			string result = String.Join(" ", visited.ToList().Select(item => item.ToString()).ToArray());
+			//Debug.Log ("ORIGINAL " + vertexes[original] + " went throught " + result + " and is now at " + vertexes[current]);
+			if (vertexes [original] [current] == 1) {
+				visited.Add (vertexes[current]);
+				return visited;
+			} else {
+				return null;
+			}
+		} else {
+			visited.Add (vertexes[current]);
+			for (int i = 0; i < vertexes.Count; i++) {
+				if (vertexes [current] [i] == 1) {
+					if (!visited.ToList().Contains (vertexes [i])) {
+						OList<Vertex> x = new OList<Vertex> (visited.ToList ());
+						OList<Vertex> q = findCycleLength (i, x, original, lenght);
+						if (q != null) {
+							return q;
+						}
+
+					}
+				}
+			}
+		}
+
+		return null;
+	}
+	#endregion
 }

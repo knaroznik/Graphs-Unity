@@ -116,4 +116,14 @@ public class MatrixBehaviour : MonoBehaviour {
 		}
 		return sequenceIsGraphic(temp);
 	}
+
+	public void CheckMinCycle(){
+		int minValue = matrix.LowestValue ();
+		if (minValue < 2) {
+			infoText.text = matrix.Print () + " \n\n Za mały minimalny stopień aby znaleźć cykl! ";
+			return;
+		}
+		minValue++;
+		infoText.text = matrix.CheckCyclesOfLength (minValue);
+	}
 }

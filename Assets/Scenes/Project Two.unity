@@ -195,6 +195,7 @@ MonoBehaviour:
     type: 2}
   EdgePrefab: {fileID: 1623078562390432, guid: 046c5848616ff434495627498c22e483, type: 2}
   infoText: {fileID: 1538567146}
+  DebugMode: 1
 --- !u!1 &170152266
 GameObject:
   m_ObjectHideFlags: 0
@@ -2000,7 +2001,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 170076736}
-        m_MethodName: AddEdge
+        m_MethodName: CheckMinCycle
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
