@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MathVertex {
 
-	protected OList<int> connections;
+	public OList<int> connections;
 
 	public MathVertex(){
 		connections = new OList<int> ();

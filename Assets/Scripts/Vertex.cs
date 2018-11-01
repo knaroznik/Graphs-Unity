@@ -49,6 +49,14 @@ public class Vertex : MathVertex {
 		vertexName = _vertexName;
 	}
 
+	public Vertex(string _name, OList<int> _connections){
+		vertexName = _name;
+		connections = new OList<int> ();
+		for (int i = 0; i < _connections.Count; i++) {
+			connections.Add (_connections [i]);
+		}
+	}
+
 	public void AddPossibility(GameObject _newVertex){
 		base.AddPossibility ();
 		connectionObjects.Add (_newVertex);
@@ -63,7 +71,9 @@ public class Vertex : MathVertex {
 
 	public new void RemoveAt(int i){
 		base.RemoveAt (i);
-		connectionObjects.RemoveAt (i);
+		if (connectionObjects != null) {
+			connectionObjects.RemoveAt (i);
+		}
 	}
 
 	public override string ToString ()

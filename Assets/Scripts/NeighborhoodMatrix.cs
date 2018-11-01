@@ -6,7 +6,7 @@ using System;
 
 public class NeighborhoodMatrix{
 
-	private OList<Vertex> vertexes;
+	public OList<Vertex> vertexes;
 	private GameObject vertexPrefab;
 	private GameObject edgePrefab;
 
@@ -14,6 +14,12 @@ public class NeighborhoodMatrix{
 		vertexes = new OList<Vertex> ();
 		vertexPrefab =  _vertexPrefab;
 		edgePrefab = _edgePrefab;
+	}
+
+	public int Count{
+		get{
+			return vertexes.Count;
+		}
 	}
 
 	public void AddVertex(string _newVertexName){
@@ -305,7 +311,7 @@ public class NeighborhoodMatrix{
 	private OList<Vertex> findCycleLength(int current, OList<Vertex> visited, int original, int lenght)
 	{
 		if (visited.Count == lenght-1) {
-			string result = String.Join(" ", visited.ToList().Select(item => item.ToString()).ToArray());
+			//string result = String.Join(" ", visited.ToList().Select(item => item.ToString()).ToArray());
 			//Debug.Log ("ORIGINAL " + vertexes[original] + " went throught " + result + " and is now at " + vertexes[current]);
 			if (vertexes [original] [current] == 1) {
 				visited.Add (vertexes[current]);
@@ -331,5 +337,75 @@ public class NeighborhoodMatrix{
 
 		return null;
 	}
+	#endregion
+
+	#region Jordan Algorithm
+
+	public bool IsConsistent(){
+		List<Vertex> graph = new List<Vertex> ();
+		GraphPassage (0, graph);
+		if (graph.Count == vertexes.Count) {
+			return true;
+		}
+		return false;
+	}
+
+	private void GraphPassage(int current, List<Vertex> visited)
+	{
+		visited.Add (vertexes[current]);
+		for (int i = 0; i < vertexes.Count; i++) {
+			if (vertexes [current] [i] == 1) {
+				if (!visited.ToList().Contains (vertexes [i])) {
+					GraphPassage (i, visited);
+				}
+			}
+		}
+	}
+
+	public string WriteVertexes(){
+		string result = String.Join(" ", vertexes.ToList().Select(item => item.ToString()).ToArray());
+		return result;
+	}
+
+	public bool HasCycle(){
+		OList<Vertex> cycle = null;
+		for (int cycleLength = 3; cycleLength <= vertexes.Count; cycleLength++) {
+			for (int i = 0; i < vertexes.Count; i++) {
+				OList<Vertex> q = findCycleLength (i, new OList<Vertex> (), i, cycleLength);
+				if (q != null) {
+					cycle = q;
+					break;
+				}
+			}
+		}
+
+		if (cycle != null) {
+			Debug.Log (cycle.Count);
+			return true;
+		}
+
+		return false;
+	}
+
+	public string FindNucleus(){
+		MathNeighborhoodMatrix mathMatrix = new MathNeighborhoodMatrix ();
+		mathMatrix.Construct (this);
+		while (mathMatrix.vertexes.Count > 2) {
+			OList<Vertex> toDelete = new OList<Vertex> ();
+			for (int i = 0; i < mathMatrix.vertexes.Count; i++) {
+				if (mathMatrix.vertexes [i].Value() == 1) {
+					toDelete.Add (mathMatrix.vertexes [i]);
+				}
+			}
+
+			for (int i = 0; i < toDelete.Count; i++) {
+				mathMatrix.RemoveNamedVertex (toDelete [i].VertexName);
+			}
+		}
+		string result = String.Join(" ", mathMatrix.vertexes.ToList().Select(item => item.ToString()).ToArray());
+		return result;
+
+	}
+
 	#endregion
 }

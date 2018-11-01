@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class MathNeighborhoodMatrix {
 
-	protected OList<MathVertex> vertexes;
+	public OList<Vertex> vertexes;
 
 	public MathNeighborhoodMatrix(){
-		vertexes = new OList<MathVertex> ();
+		vertexes = new OList<Vertex> ();
 	}
 
 	public void AddVertex(){
@@ -16,7 +16,7 @@ public class MathNeighborhoodMatrix {
 			vertexes.Get (i).AddPossibility ();
 		}
 
-		vertexes.Add (new MathVertex ());
+		vertexes.Add (new Vertex ("notImportant"));
 
 		vertexes.Get (vertexes.Count - 1).AddPossibilities (vertexes.Count);
 	}
@@ -86,5 +86,22 @@ public class MathNeighborhoodMatrix {
 				}
 			}
 		}
+	}
+
+	public void Construct(NeighborhoodMatrix m){
+		vertexes = new OList<Vertex> ();
+		for (int i = 0; i < m.vertexes.Count; i++) {
+			vertexes.Add (new Vertex(m.vertexes[i].VertexName, m.vertexes[i].connections));
+		}
+	}
+
+	public void RemoveNamedVertex(string _vertex){
+		int vertexNumber = vertexes.IndexOf (new Vertex (_vertex));
+
+		for (int i = 0; i < vertexes.Count; i++) {
+			vertexes [i].RemoveAt (vertexNumber);
+		}
+
+		vertexes.RemoveAt (vertexNumber);
 	}
 }

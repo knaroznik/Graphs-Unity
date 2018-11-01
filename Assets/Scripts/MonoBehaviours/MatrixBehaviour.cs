@@ -11,7 +11,7 @@ public class MatrixBehaviour : MonoBehaviour {
 	public GameObject EdgePrefab;
 	public Text infoText;
 
-	private NeighborhoodMatrix matrix;
+	public NeighborhoodMatrix matrix;
 
 	public bool DebugMode;
 
