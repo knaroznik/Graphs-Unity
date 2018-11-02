@@ -197,6 +197,8 @@ MonoBehaviour:
   EdgePrefab: {fileID: 1623078562390432, guid: 046c5848616ff434495627498c22e483, type: 2}
   infoText: {fileID: 1538567146}
   DebugMode: 1
+  OriginalMaterial: {fileID: 2100000, guid: 10c82fdc8d2a2de46a80c02a81032d3f, type: 2}
+  MarkedMaterial: {fileID: 2100000, guid: 49459c2b3b61c4844b7f73b2dd18b411, type: 2}
 --- !u!114 &170076737
 MonoBehaviour:
   m_ObjectHideFlags: 0

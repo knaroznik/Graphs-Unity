@@ -20,8 +20,12 @@ public class MatrixBehaviour : MonoBehaviour {
 	private string newEdgeVertexNameTwo;
 	private string graphicList;
 
+	[Header("Paint materials")]
+	public Material OriginalMaterial;
+	public Material MarkedMaterial;
+
 	void Awake () {
-		matrix = new NeighborhoodMatrix (VertexPrefab, EdgePrefab);
+		matrix = new NeighborhoodMatrix (VertexPrefab, EdgePrefab, OriginalMaterial, MarkedMaterial);
 	}
 
 	public void VertexNameChanged(string _name){
@@ -77,6 +81,10 @@ public class MatrixBehaviour : MonoBehaviour {
 	}
 
 	public void CheckGraphic(){
+		if (graphicList == "" || graphicList == null) {
+
+			return;
+		}
 		List<int> graph = graphicList.Split(',').Select(Int32.Parse).ToList();
 		string output = "";
 		if (sequenceIsGraphic (graph)) {

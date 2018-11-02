@@ -10,10 +10,22 @@ public class NeighborhoodMatrix{
 	private GameObject vertexPrefab;
 	private GameObject edgePrefab;
 
+	private PaintModule brush;
+	private InfoModule info;
+
 	public NeighborhoodMatrix(GameObject _vertexPrefab, GameObject _edgePrefab){
 		vertexes = new OList<Vertex> ();
 		vertexPrefab =  _vertexPrefab;
 		edgePrefab = _edgePrefab;
+		info = new InfoModule (this);
+	}
+
+	public NeighborhoodMatrix(GameObject _vertexPrefab, GameObject _edgePrefab, Material _originalMaterial, Material _markedMaterial){
+		vertexes = new OList<Vertex> ();
+		vertexPrefab =  _vertexPrefab;
+		edgePrefab = _edgePrefab;
+		info = new InfoModule (this);
+		brush = new PaintModule (_originalMaterial, _markedMaterial);
 	}
 
 	public int Count{
@@ -22,10 +34,18 @@ public class NeighborhoodMatrix{
 		}
 	}
 
+	public int LowestValue(){
+		return info.LowestValue ();
+	}
+
 	public void AddVertex(string _newVertexName){
 
 		if (vertexes.IndexOf (new Vertex (_newVertexName)) != -1) {
 			return;
+		}
+
+		if (brush != null) {
+			brush.Reset ();
 		}
 
 		GameObject vertex = MonoBehaviour.Instantiate (vertexPrefab, new Vector3 (UnityEngine.Random.Range (-7f, 7f), UnityEngine.Random.Range (-7f, 7f), 0f), Quaternion.identity);
@@ -44,13 +64,18 @@ public class NeighborhoodMatrix{
 		for (int i = 0; i < vertexes.Count; i++) {
 			vertexes [i].RemoveAt (vertexNumber);
 		}
-
+		if (brush != null) {
+			brush.Reset ();
+		}
 
 		vertexes [vertexNumber].VertexObject.GetComponent<VertexObject> ().Destroy ();
 		vertexes.RemoveAt (vertexNumber);
 	}
 
 	public void AddEdge(int x, int y){
+		if (brush != null) {
+			brush.Reset ();
+		}
 		vertexes [x] [y] += 1;
 		vertexes [y] [x] += 1;
 	}
@@ -67,6 +92,9 @@ public class NeighborhoodMatrix{
 	}
 
 	public void RemoveEdge(int x, int y){
+		if (brush != null) {
+			brush.Reset ();
+		}
 		vertexes [x] [y] -= 1;
 		vertexes [y] [x] -= 1;
 	}
@@ -101,68 +129,9 @@ public class NeighborhoodMatrix{
 				output += "\t" + vertexes[i][j];                  
 			}
 		}
-
-		output += "\n\nNajwyższy stopien : " + HeighestValue();
-		output += "\nNajniższy stopien : " + LowestValue();
-		output += "\nParzystych stopni : " + EvenValues();
-		output += "\nNieparzystych stopien : " + OddValues();
-		output += "\nCiąg : " + VertexArray();
+		output += info.PrintInfo ();
 		return output;
 	}
-
-	public string HeighestValue(){
-		int max = 0;
-		for(int i=0; i<vertexes.Count; i++){
-			int x = vertexes[i].Value();
-			if(x > max)
-				max = x;
-		}
-		return max.ToString();
-	}
-
-	public int LowestValue(){
-		int min = 999;
-		for(int i=0; i<vertexes.Count; i++){
-			int x = vertexes[i].Value();
-			if(x < min)
-				min = x;
-		}
-		return min;
-	}
-
-	public string EvenValues(){
-		int x = 0;
-		for(int i=0; i<vertexes.Count; i++){
-			if(vertexes[i].Value()%2 == 0)
-				x++;
-		}
-		return x.ToString();
-	}
-
-	public string OddValues(){
-		int x = 0;
-		for(int i=0; i<vertexes.Count; i++){
-			if(vertexes[i].Value()%2 == 1)
-				x++;
-		}
-		return x.ToString();
-	}
-
-	public string VertexArray(){
-		List<int> x =new List<int>();
-		
-		for(int i=0; i<vertexes.Count; i++){
-			x.Add(vertexes[i].Value());
-		}
-		x.Sort();
-		x.Reverse();
-		string q = "";
-		for(int i=0; i<x.Count; i++){
-			q+=x[i] + ",";
-		}
-		return q;
-	}
-
 
 	public string CheckCycles(){
 		string output = Print ();
@@ -171,14 +140,8 @@ public class NeighborhoodMatrix{
 		return output;
 	}
 
-
-
 	private string naiveCycles(){
 		int cyclesFound = 0;
-//		for (int i = 0; i < vertexes.Count; i++)
-//		{
-//			findCycle (i, visitDict, -1, ref cyclesFound);
-//		}
 
 		for (int i = 0; i < vertexes.Count; i++) {
 			findCycleLength(i, new OList<Vertex>(), i, 3,  ref cyclesFound);
@@ -258,8 +221,6 @@ public class NeighborhoodMatrix{
 	private bool findCycleLength(int current, OList<Vertex> visited, int original, int lenght, ref int cyclesFound)
 	{
 		if (visited.Count == lenght-1) {
-			string result = String.Join(" ", visited.ToList().Select(item => item.ToString()).ToArray());
-			Debug.Log ("ORIGINAL " + vertexes[original] + " went throught " + result + " and is now at " + vertexes[current]);
 			if (vertexes [original] [current] == 1) {
 				cyclesFound++;
 				return true;
@@ -292,6 +253,7 @@ public class NeighborhoodMatrix{
 				string result = String.Join("->", cycle.ToList().Select(item => item.ToString()).ToArray());
 				output += "\nFound cycle C"+ i +" :\n";
 				output += result;
+				brush.Paint (cycle);
 				break;
 			}
 		}
