@@ -12,6 +12,7 @@ public class NeighborhoodMatrix{
 
 	private PaintModule brush;
 	private InfoModule info;
+	private NucleusModule nucleus = new NucleusModule();
 
 	public NeighborhoodMatrix(GameObject _vertexPrefab, GameObject _edgePrefab){
 		vertexes = new OList<Vertex> ();
@@ -36,6 +37,12 @@ public class NeighborhoodMatrix{
 
 	public int LowestValue(){
 		return info.LowestValue ();
+	}
+
+	public NucleusModule Nucleus{
+		get{
+			return nucleus;
+		}
 	}
 
 	public void AddVertex(string _newVertexName){
@@ -273,8 +280,6 @@ public class NeighborhoodMatrix{
 	private OList<Vertex> findCycleLength(int current, OList<Vertex> visited, int original, int lenght)
 	{
 		if (visited.Count == lenght-1) {
-			//string result = String.Join(" ", visited.ToList().Select(item => item.ToString()).ToArray());
-			//Debug.Log ("ORIGINAL " + vertexes[original] + " went throught " + result + " and is now at " + vertexes[current]);
 			if (vertexes [original] [current] == 1) {
 				visited.Add (vertexes[current]);
 				return visited;
@@ -342,32 +347,13 @@ public class NeighborhoodMatrix{
 		}
 
 		if (cycle != null) {
-			Debug.Log (cycle.Count);
 			return true;
 		}
 
 		return false;
 	}
 
-	public string FindNucleus(){
-		MathNeighborhoodMatrix mathMatrix = new MathNeighborhoodMatrix ();
-		mathMatrix.Construct (this);
-		while (mathMatrix.vertexes.Count > 2) {
-			OList<Vertex> toDelete = new OList<Vertex> ();
-			for (int i = 0; i < mathMatrix.vertexes.Count; i++) {
-				if (mathMatrix.vertexes [i].Value() == 1) {
-					toDelete.Add (mathMatrix.vertexes [i]);
-				}
-			}
 
-			for (int i = 0; i < toDelete.Count; i++) {
-				mathMatrix.RemoveNamedVertex (toDelete [i].VertexName);
-			}
-		}
-		string result = String.Join(" ", mathMatrix.vertexes.ToList().Select(item => item.ToString()).ToArray());
-		return result;
-
-	}
 
 	#endregion
 }
