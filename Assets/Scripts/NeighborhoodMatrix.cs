@@ -67,6 +67,10 @@ public class NeighborhoodMatrix{
 
 	public void RemoveVertex(string _vertex){
 		int vertexNumber = vertexes.IndexOf (new Vertex (_vertex));
+
+		if (vertexNumber == -1)
+			return;
+
 		
 		for (int i = 0; i < vertexes.Count; i++) {
 			vertexes [i].RemoveAt (vertexNumber);
@@ -109,7 +113,7 @@ public class NeighborhoodMatrix{
 	public void RemoveEdge(string one, string two){
 		int x = vertexes.IndexOf (new Vertex (one));
 		int y = vertexes.IndexOf (new Vertex (two));
-		if(x == -1 || y == -1)
+		if(x == -1 || y == -1 || vertexes [x] [y] == 0)
 			return;
 		RemoveEdge (x, y);
 		vertexes.Get (x).VertexObject.GetComponent<VertexObject> ().RemoveEdgeWith (vertexes.Get (y).VertexObject.GetComponent<VertexObject> ());
