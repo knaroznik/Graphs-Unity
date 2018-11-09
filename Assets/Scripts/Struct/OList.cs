@@ -22,6 +22,15 @@ public class OList<T> {
 		return array.ToList ();
 	}
 
+	public override string ToString ()
+	{
+		string output = "";
+		for (int i = 0; i < array.Length; i++) {
+			output += array [i].ToString () + ", ";
+		}
+		return output;
+	}
+
 	/// <summary>
 	/// Add the specified newItem on the end of list.
 	/// </summary>

@@ -18,4 +18,10 @@ public class EdgeStruct {
 	public Vertex SecondPoint(){
 		return secondPoint;
 	}
+
+	public override string ToString ()
+	{
+		return firstPoint.ToString() + " | " + secondPoint.ToString();
+
+	}
 }

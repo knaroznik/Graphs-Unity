@@ -13,6 +13,8 @@ public class NeighborhoodMatrix{
 	private PaintModule brush;
 	private InfoModule info;
 	private NucleusModule nucleus = new NucleusModule();
+	private LocationModule locationModule = new LocationModule ();
+	private ConstructModule construct = new ConstructModule();
 
 	public NeighborhoodMatrix(GameObject _vertexPrefab, GameObject _edgePrefab){
 		vertexes = new OList<Vertex> ();
@@ -313,6 +315,10 @@ public class NeighborhoodMatrix{
 	#region Jordan Algorithm
 
 	public bool IsConsistent(){
+		if (vertexes.Count < 1) {
+			return false;
+		}
+
 		List<Vertex> graph = new List<Vertex> ();
 		GraphPassage (0, graph);
 		if (graph.Count == vertexes.Count) {
@@ -325,7 +331,7 @@ public class NeighborhoodMatrix{
 	{
 		visited.Add (vertexes[current]);
 		for (int i = 0; i < vertexes.Count; i++) {
-			if (vertexes [current] [i] == 1) {
+			if (vertexes [current] [i] > 0) {
 				if (!visited.ToList().Contains (vertexes [i])) {
 					GraphPassage (i, visited);
 				}
@@ -360,4 +366,16 @@ public class NeighborhoodMatrix{
 
 
 	#endregion
+
+	public OList<Vertex> FindUnseenBorderer(Vertex _currentVertex, OList<Vertex> _visited){
+		return locationModule.FindUnseenBorderer (_currentVertex, _visited, this);
+	}
+
+	public void ResetEdges(){
+		construct.ResetEdges (this);
+	}
+
+	public void InsertEdges(OList<EdgeStruct> _treeEdges){
+		construct.InsertEdges (_treeEdges, this);
+	}
 }

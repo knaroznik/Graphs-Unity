@@ -16,6 +16,10 @@ public class Stack<T> {
 		return output;
 	}
 
+	public T Last(){
+		return stack [stack.Count-1];
+	}
+
 	public void Push(T _newItem){
 		stack.Add (_newItem);
 	}
@@ -25,6 +29,15 @@ public class Stack<T> {
 			return true;
 		}
 		return false;
+	}
+
+	public override string ToString ()
+	{
+		string output = "";
+		for (int i = 0; i < stack.Count; i++) {
+			output += stack [i].ToString () + ", ";
+		}
+		return output;
 	}
 
 }
