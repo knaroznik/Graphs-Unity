@@ -124,6 +124,7 @@ GameObject:
   - component: {fileID: 170076734}
   - component: {fileID: 170076736}
   - component: {fileID: 170076737}
+  - component: {fileID: 170076738}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -207,7 +208,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 170076733}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78c86f7b27507e44f95e5ba025725280, type: 3}
+  m_Script: {fileID: 11500000, guid: d669da10dc08dd44986b6d43db273e2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &170076738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 170076733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 415a1ac599f805047a333e454adae458, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &170152266
@@ -622,7 +634,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 170076737}
-        m_MethodName: DFSAlgorithm
+        m_MethodName: Algorithm
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2138,8 +2150,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 170076736}
-        m_MethodName: CheckMinCycle
+      - m_Target: {fileID: 170076738}
+        m_MethodName: Algorithm
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

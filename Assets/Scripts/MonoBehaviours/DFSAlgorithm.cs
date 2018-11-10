@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectThreeBehaviour : MonoBehaviour {
+public class DFSAlgorithm : MonoBehaviour {
 
 	public NeighborhoodMatrix matrix;
 
-	#region DFS Algorithm
-
-	public void DFSAlgorithm(){
+	public void Algorithm(){
 		matrix = GetComponent<MatrixBehaviour> ().matrix;
 
 		if (!matrix.IsConsistent ()) {
@@ -24,7 +22,7 @@ public class ProjectThreeBehaviour : MonoBehaviour {
 		currentVertex = visitVertex(matrix.vertexes[0], ref stack, ref visitedVertexes);
 
 		while (!stack.IsEmpty ()) {
-			
+
 			OList<Vertex> borderers = matrix.FindUnseenBorderer (currentVertex, visitedVertexes);
 			if (borderers.Count > 0) {
 				treeEdges.Add (new EdgeStruct (currentVertex, borderers [0]));
@@ -47,6 +45,4 @@ public class ProjectThreeBehaviour : MonoBehaviour {
 		_visitedVertexes.Add (addVertex);
 		return addVertex;
 	}
-
-	#endregion
 }

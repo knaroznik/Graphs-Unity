@@ -15,6 +15,7 @@ public class NeighborhoodMatrix{
 	private NucleusModule nucleus = new NucleusModule();
 	private LocationModule locationModule = new LocationModule ();
 	private ConstructModule construct = new ConstructModule();
+	private ConsistencyModule consistency = new ConsistencyModule();
 
 	public NeighborhoodMatrix(GameObject _vertexPrefab, GameObject _edgePrefab){
 		vertexes = new OList<Vertex> ();
@@ -315,29 +316,9 @@ public class NeighborhoodMatrix{
 	#region Jordan Algorithm
 
 	public bool IsConsistent(){
-		if (vertexes.Count < 1) {
-			return false;
-		}
-
-		List<Vertex> graph = new List<Vertex> ();
-		GraphPassage (0, graph);
-		if (graph.Count == vertexes.Count) {
-			return true;
-		}
-		return false;
+		return consistency.IsConsistent (vertexes);
 	}
-
-	private void GraphPassage(int current, List<Vertex> visited)
-	{
-		visited.Add (vertexes[current]);
-		for (int i = 0; i < vertexes.Count; i++) {
-			if (vertexes [current] [i] > 0) {
-				if (!visited.ToList().Contains (vertexes [i])) {
-					GraphPassage (i, visited);
-				}
-			}
-		}
-	}
+		
 
 	public string WriteVertexes(){
 		string result = String.Join(" ", vertexes.ToList().Select(item => item.ToString()).ToArray());
@@ -377,5 +358,9 @@ public class NeighborhoodMatrix{
 
 	public void InsertEdges(OList<EdgeStruct> _treeEdges){
 		construct.InsertEdges (_treeEdges, this);
+	}
+
+	public void PaintConsistency(){
+		consistency.PaintConsistency (vertexes, brush);
 	}
 }
