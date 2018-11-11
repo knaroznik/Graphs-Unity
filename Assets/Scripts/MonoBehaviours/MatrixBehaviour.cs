@@ -18,6 +18,7 @@ public class MatrixBehaviour : MonoBehaviour {
 	private string newVertexName;
 	private string newEdgeVertexNameOne;
 	private string newEdgeVertexNameTwo;
+	private string newEdgeCost;
 	private string graphicList;
 
 	[Header("Paint materials")]
@@ -27,6 +28,9 @@ public class MatrixBehaviour : MonoBehaviour {
 	void Awake () {
 		matrix = new NeighborhoodMatrix (VertexPrefab, EdgePrefab, OriginalMaterial, MarkedMaterial);
 	}
+
+
+	#region Setting string variables 
 
 	public void VertexNameChanged(string _name){
 		newVertexName = _name;
@@ -43,6 +47,12 @@ public class MatrixBehaviour : MonoBehaviour {
 	public void GraphicGraphChanged(string _name){
 		graphicList = _name;
 	}
+
+	public void EdgeCostChanged(string _name){
+		newEdgeCost = _name;
+	}
+
+	#endregion
 
 	public void AddVertex(){
 		if (newVertexName != "" && newVertexName != null) {
@@ -62,7 +72,7 @@ public class MatrixBehaviour : MonoBehaviour {
 
 	public void AddEdge(){
 		if (newEdgeVertexNameOne != "" && newEdgeVertexNameOne != null && newEdgeVertexNameTwo != "" && newEdgeVertexNameTwo != null) {
-			matrix.AddEdge (newEdgeVertexNameOne, newEdgeVertexNameTwo);
+			matrix.AddEdge (newEdgeVertexNameOne, newEdgeVertexNameTwo, newEdgeCost);
 			if(DebugMode)
 				infoText.text = matrix.Print ();
 		}

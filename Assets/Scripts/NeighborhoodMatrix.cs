@@ -94,15 +94,33 @@ public class NeighborhoodMatrix{
 		vertexes [y] [x] += 1;
 	}
 
-	public void AddEdge(string one, string two){
+	public void AddEdge(string one, string two, string edgeCost){
 		int x = vertexes.IndexOf (new Vertex (one));
 		int y = vertexes.IndexOf (new Vertex (two));
-		if(x == -1 || y == -1)
+		int cost = 0;
+		int.TryParse (edgeCost, out cost);
+
+		if (edgeCost == "" || edgeCost == null) {
+			cost = 1;
+		}
+
+		if(x == -1 || y == -1|| cost == 0)
 			return;
 		AddEdge (x, y);
 
 		GameObject line = MonoBehaviour.Instantiate (edgePrefab, new Vector3 (0, 0, 0), Quaternion.identity) as GameObject;
-		line.GetComponent<EdgeObject> ().Init (vertexes.Get (x).VertexObject.GetComponent<VertexObject>(), vertexes.Get (y).VertexObject.GetComponent<VertexObject>());
+		line.GetComponent<EdgeObject> ().Init (vertexes.Get (x).VertexObject.GetComponent<VertexObject>(), vertexes.Get (y).VertexObject.GetComponent<VertexObject>(), cost);
+	}
+
+	public void AddEdge(string one, string two, int edgeCost){
+		int x = vertexes.IndexOf (new Vertex (one));
+		int y = vertexes.IndexOf (new Vertex (two));
+		if(x == -1 || y == -1|| edgeCost == 0)
+			return;
+		AddEdge (x, y);
+
+		GameObject line = MonoBehaviour.Instantiate (edgePrefab, new Vector3 (0, 0, 0), Quaternion.identity) as GameObject;
+		line.GetComponent<EdgeObject> ().Init (vertexes.Get (x).VertexObject.GetComponent<VertexObject>(), vertexes.Get (y).VertexObject.GetComponent<VertexObject>(), edgeCost);
 	}
 
 	public void RemoveEdge(int x, int y){
