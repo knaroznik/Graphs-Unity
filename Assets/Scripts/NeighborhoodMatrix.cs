@@ -366,19 +366,25 @@ public class NeighborhoodMatrix{
 
 	#endregion
 
-	public OList<Vertex> FindUnseenBorderer(Vertex _currentVertex, OList<Vertex> _visited){
-		return locationModule.FindUnseenBorderer (_currentVertex, _visited, this);
+	public OList<Vertex> FindUnseenBorderers(Vertex _currentVertex, OList<Vertex> _visited){
+		return locationModule.FindUnseenBorderers (_currentVertex, _visited, this);
 	}
 
 	public void ResetEdges(){
 		construct.ResetEdges (this);
 	}
 
-	public void InsertEdges(OList<EdgeStruct> _treeEdges){
-		construct.InsertEdges (_treeEdges, this);
+	public void InsertEdges(OList<EdgeStruct> _edges){
+		construct.InsertEdges (_edges, this);
 	}
 
 	public void PaintConsistency(){
 		consistency.PaintConsistency (vertexes, brush);
 	}
+
+	public OList<EdgeObject> GetEdges(){
+		return locationModule.GetEdges (vertexes);
+	}
+
+
 }

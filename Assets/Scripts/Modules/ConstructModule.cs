@@ -17,9 +17,9 @@ public class ConstructModule {
 		}
 	}
 
-	public void InsertEdges(OList<EdgeStruct> _treeEdges, NeighborhoodMatrix _matrix){
-		for (int i = 0; i < _treeEdges.Count; i++) {
-			_matrix.AddEdge (_treeEdges [i].FirstPoint().VertexName, _treeEdges [i].SecondPoint().VertexName, 1);
+	public void InsertEdges(OList<EdgeStruct> _edges, NeighborhoodMatrix _matrix){
+		for (int i = 0; i < _edges.Count; i++) {
+			_matrix.AddEdge (_edges [i].FirstPoint().VertexName, _edges [i].SecondPoint().VertexName, 1);
 		}
 	}
 }

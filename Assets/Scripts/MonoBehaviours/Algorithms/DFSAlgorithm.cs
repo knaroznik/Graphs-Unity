@@ -23,7 +23,7 @@ public class DFSAlgorithm : MonoBehaviour {
 
 		while (!stack.IsEmpty ()) {
 
-			OList<Vertex> borderers = matrix.FindUnseenBorderer (currentVertex, visitedVertexes);
+			OList<Vertex> borderers = matrix.FindUnseenBorderers (currentVertex, visitedVertexes);
 			if (borderers.Count > 0) {
 				treeEdges.Add (new EdgeStruct (currentVertex, borderers [0]));
 				currentVertex = visitVertex (borderers [0], ref stack, ref visitedVertexes);

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EdgeStruct {
 
-	private Vertex firstPoint, secondPoint;
+	protected Vertex firstPoint, secondPoint;
 
 	public EdgeStruct(Vertex _firstPoint, Vertex _secondPoint){
 		firstPoint = _firstPoint;

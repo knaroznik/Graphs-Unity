@@ -5,10 +5,10 @@ using UnityEngine.UI;
 
 public class EdgeObject : MonoBehaviour {
 
-	private VertexObject obj1;
-	private VertexObject obj2;
+	public VertexObject obj1;
+	public VertexObject obj2;
 	private LineRenderer render;
-	private int edgeCost;
+	public int edgeCost;
 
 	private bool isLoop = false;
 
@@ -69,6 +69,18 @@ public class EdgeObject : MonoBehaviour {
 		}
 
 		if (two == obj1 && one == obj2) {
+			return true;
+		}
+
+		return false;
+	}
+
+	public bool IsSame(EdgeObject edge){
+		if (edge.obj1 == obj1 && edge.obj2 == obj2) {
+			return true;
+		}
+
+		if (edge.obj2 == obj1 && edge.obj1 == obj2) {
 			return true;
 		}
 

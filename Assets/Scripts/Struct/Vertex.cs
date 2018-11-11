@@ -42,7 +42,7 @@ public class Vertex : MathVertex {
 		VertexObject = _vertexObject;
 		vertexName = _vertexName;
 
-		VertexObject.GetComponent<VertexObject> ().SetName (_vertexName);
+		VertexObject.GetComponent<VertexObject> ().SetName (_vertexName, this);
 	}
 
 	public Vertex(string _vertexName){

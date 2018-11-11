@@ -271,6 +271,7 @@ GameObject:
   - component: {fileID: 170076736}
   - component: {fileID: 170076737}
   - component: {fileID: 170076738}
+  - component: {fileID: 170076739}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -366,6 +367,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 415a1ac599f805047a333e454adae458, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &170076739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 170076733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66b404d301a36e445bb9426e6c3116a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &170152266
@@ -2645,8 +2657,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: JordanAlgorithm
+      - m_Target: {fileID: 170076739}
+        m_MethodName: Algorithm
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

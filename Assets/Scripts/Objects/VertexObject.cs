@@ -11,6 +11,7 @@ public class VertexObject : MonoBehaviour {
 	private OList<EdgeObject> edges;
 
 	public Text textName;
+	public Vertex vertexData;
 
 	void Awake(){
 		edges = new OList<EdgeObject> ();
@@ -29,8 +30,9 @@ public class VertexObject : MonoBehaviour {
 		transform.position = curPosition;
 	}
 
-	public void SetName(string _name){
+	public void SetName(string _name, Vertex _vertexData){
 		textName.text = _name;
+		vertexData = _vertexData;
 	}
 
 	public void AddEdge(EdgeObject edge){
@@ -58,4 +60,13 @@ public class VertexObject : MonoBehaviour {
 		Destroy (this.gameObject);
 	}
 
+	public int EdgeCount{
+		get{
+			return edges.Count;
+		}
+	}
+
+	public EdgeObject Edge(int i){
+		return edges [i];
+	}
 }
