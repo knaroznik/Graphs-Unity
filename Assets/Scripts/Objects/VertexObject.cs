@@ -48,6 +48,7 @@ public class VertexObject : MonoBehaviour {
 			if (edges [i].IsSame (this, anotherVertex)) {
 				EdgeObject x = edges [i];
 				x.Destroy ();
+				return;
 			}
 		}
 	}

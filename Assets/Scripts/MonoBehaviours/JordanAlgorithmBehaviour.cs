@@ -42,7 +42,7 @@ public class JordanAlgorithmBehaviour : MonoBehaviour {
 
 		//Usuwaj liście, aż zostanie mniej niż 3 węzły, jeśli są mniej niż 3 węzły zwróć je.
 
-		output += "Nucleus : " + matrix.Nucleus.FindNucleus (matrix);
+		output += "Nucleus : " + matrix.FindNucleus ();
 
 		//Wypisz wynik
 		Write(output);

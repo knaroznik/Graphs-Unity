@@ -7,30 +7,33 @@ using System;
 public class NeighborhoodMatrix{
 
 	public OList<Vertex> vertexes;
-	private GameObject vertexPrefab;
-	private GameObject edgePrefab;
 
 	private PaintModule brush;
 	private InfoModule info;
+	private ConstructModule construct;
+
 	private NucleusModule nucleus = new NucleusModule();
 	private LocationModule locationModule = new LocationModule ();
-	private ConstructModule construct = new ConstructModule();
 	private ConsistencyModule consistency = new ConsistencyModule();
+
+	#region Constructors 
+
+	//TODO : Merge constructors after refactor
 
 	public NeighborhoodMatrix(GameObject _vertexPrefab, GameObject _edgePrefab){
 		vertexes = new OList<Vertex> ();
-		vertexPrefab =  _vertexPrefab;
-		edgePrefab = _edgePrefab;
 		info = new InfoModule (this);
+		construct = new ConstructModule (_vertexPrefab, _edgePrefab, brush);
 	}
 
 	public NeighborhoodMatrix(GameObject _vertexPrefab, GameObject _edgePrefab, Material _originalMaterial, Material _markedMaterial){
 		vertexes = new OList<Vertex> ();
-		vertexPrefab =  _vertexPrefab;
-		edgePrefab = _edgePrefab;
 		info = new InfoModule (this);
 		brush = new PaintModule (_originalMaterial, _markedMaterial);
+		construct = new ConstructModule (_vertexPrefab, _edgePrefab,brush);
 	}
+
+	#endregion
 
 	public int Count{
 		get{
@@ -42,103 +45,29 @@ public class NeighborhoodMatrix{
 		return info.LowestValue ();
 	}
 
-	public NucleusModule Nucleus{
-		get{
-			return nucleus;
-		}
-	}
+	#region Construct Module 
 
 	public void AddVertex(string _newVertexName){
-
-		if (vertexes.IndexOf (new Vertex (_newVertexName)) != -1) {
-			return;
-		}
-
-		if (brush != null) {
-			brush.Reset ();
-		}
-
-		GameObject vertex = MonoBehaviour.Instantiate (vertexPrefab, new Vector3 (UnityEngine.Random.Range (-7f, 7f), UnityEngine.Random.Range (-7f, 7f), 0f), Quaternion.identity);
-		for (int i = 0; i < vertexes.Count; i++) {
-			vertexes.Get (i).AddPossibility (vertex);
-		}
-
-		vertexes.Add (new Vertex (vertex, _newVertexName));
-
-		vertexes.Get (vertexes.Count - 1).AddPossibilities (vertexes.Count, vertexes);
+		construct.AddVertex (_newVertexName, ref vertexes);
 	}
 
-	public void RemoveVertex(string _vertex){
-		int vertexNumber = vertexes.IndexOf (new Vertex (_vertex));
-
-		if (vertexNumber == -1)
-			return;
-
-		
-		for (int i = 0; i < vertexes.Count; i++) {
-			vertexes [i].RemoveAt (vertexNumber);
-		}
-		if (brush != null) {
-			brush.Reset ();
-		}
-
-		vertexes [vertexNumber].VertexObject.GetComponent<VertexObject> ().Destroy ();
-		vertexes.RemoveAt (vertexNumber);
-	}
-
-	public void AddEdge(int x, int y){
-		if (brush != null) {
-			brush.Reset ();
-		}
-		vertexes [x] [y] += 1;
-		vertexes [y] [x] += 1;
+	public void RemoveVertex(string _vertexName){
+		construct.RemoveVertex (_vertexName, ref vertexes);
 	}
 
 	public void AddEdge(string one, string two, string edgeCost){
-		int x = vertexes.IndexOf (new Vertex (one));
-		int y = vertexes.IndexOf (new Vertex (two));
-		int cost = 0;
-		int.TryParse (edgeCost, out cost);
-
-		if (edgeCost == "" || edgeCost == null) {
-			cost = 1;
-		}
-
-		if(x == -1 || y == -1|| cost == 0)
-			return;
-		AddEdge (x, y);
-
-		GameObject line = MonoBehaviour.Instantiate (edgePrefab, new Vector3 (0, 0, 0), Quaternion.identity) as GameObject;
-		line.GetComponent<EdgeObject> ().Init (vertexes.Get (x).VertexObject.GetComponent<VertexObject>(), vertexes.Get (y).VertexObject.GetComponent<VertexObject>(), cost);
+		construct.AddEdge (one, two, edgeCost, ref vertexes);
 	}
 
 	public void AddEdge(string one, string two, int edgeCost){
-		int x = vertexes.IndexOf (new Vertex (one));
-		int y = vertexes.IndexOf (new Vertex (two));
-		if(x == -1 || y == -1|| edgeCost == 0)
-			return;
-		AddEdge (x, y);
-
-		GameObject line = MonoBehaviour.Instantiate (edgePrefab, new Vector3 (0, 0, 0), Quaternion.identity) as GameObject;
-		line.GetComponent<EdgeObject> ().Init (vertexes.Get (x).VertexObject.GetComponent<VertexObject>(), vertexes.Get (y).VertexObject.GetComponent<VertexObject>(), edgeCost);
-	}
-
-	public void RemoveEdge(int x, int y){
-		if (brush != null) {
-			brush.Reset ();
-		}
-		vertexes [x] [y] -= 1;
-		vertexes [y] [x] -= 1;
+		construct.AddEdge (one, two, edgeCost, ref vertexes);
 	}
 
 	public void RemoveEdge(string one, string two){
-		int x = vertexes.IndexOf (new Vertex (one));
-		int y = vertexes.IndexOf (new Vertex (two));
-		if(x == -1 || y == -1 || vertexes [x] [y] == 0)
-			return;
-		RemoveEdge (x, y);
-		vertexes.Get (x).VertexObject.GetComponent<VertexObject> ().RemoveEdgeWith (vertexes.Get (y).VertexObject.GetComponent<VertexObject> ());
+		construct.RemoveEdge (one, two, ref vertexes);
 	}
+
+	#endregion
 
 	public string Print(){
 		string output = "";
@@ -386,5 +315,7 @@ public class NeighborhoodMatrix{
 		return locationModule.GetEdges (vertexes);
 	}
 
-
+	public string FindNucleus(){
+		return nucleus.FindNucleus (this);
+	}
 }
