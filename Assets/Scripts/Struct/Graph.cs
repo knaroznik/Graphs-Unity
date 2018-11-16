@@ -4,36 +4,25 @@ using UnityEngine;
 using System.Linq;
 using System;
 
-public class NeighborhoodMatrix{
+public class Graph{
 
 	public OList<Vertex> vertexes;
 
-	private PaintModule brush;
-	private InfoModule info;
-	private ConstructModule construct;
+	protected PaintModule brush;
+	protected InfoModule info;
+	protected ConstructModule construct;
+	protected LocationModule locationModule;
 
-	private NucleusModule nucleus = new NucleusModule();
-	private LocationModule locationModule = new LocationModule ();
-	private ConsistencyModule consistency = new ConsistencyModule();
+	protected NucleusModule nucleus = new NucleusModule();
+	protected ConsistencyModule consistency = new ConsistencyModule();
 
-	#region Constructors 
-
-	//TODO : Merge constructors after refactor
-
-	public NeighborhoodMatrix(GameObject _vertexPrefab, GameObject _edgePrefab){
+	public Graph(GameObject _vertexPrefab, GameObject _edgePrefab, Material _originalMaterial, Material _markedMaterial){
 		vertexes = new OList<Vertex> ();
-		info = new InfoModule (this);
-		construct = new ConstructModule (_vertexPrefab, _edgePrefab, brush);
-	}
-
-	public NeighborhoodMatrix(GameObject _vertexPrefab, GameObject _edgePrefab, Material _originalMaterial, Material _markedMaterial){
-		vertexes = new OList<Vertex> ();
+		locationModule = new LocationModule ();
 		info = new InfoModule (this);
 		brush = new PaintModule (_originalMaterial, _markedMaterial);
 		construct = new ConstructModule (_vertexPrefab, _edgePrefab,brush);
 	}
-
-	#endregion
 
 	public int Count{
 		get{
@@ -101,7 +90,7 @@ public class NeighborhoodMatrix{
 		return output;
 	}
 
-	private string naiveCycles(){
+	protected string naiveCycles(){
 		int cyclesFound = 0;
 
 		for (int i = 0; i < vertexes.Count; i++) {
@@ -119,7 +108,7 @@ public class NeighborhoodMatrix{
 		}
 	}
 
-	private string findCycleMultiplication()
+	protected string findCycleMultiplication()
 	{
 		var matrix = VertexesToArray ();
 		var matrixN = matrix;
@@ -140,7 +129,7 @@ public class NeighborhoodMatrix{
 		}
 	}
 
-	private int[][] VertexesToArray(){
+	protected int[][] VertexesToArray(){
 		int[][] output = new int[vertexes.Count][];
 		for (int i = 0; i < vertexes.Count; i++) {
 			output [i] = new int[vertexes.Count];
@@ -151,7 +140,7 @@ public class NeighborhoodMatrix{
 		return output;
 	}
 
-	private bool findCycle(int current, List<int> visited, int parent, ref int cyclesFound)
+	protected bool findCycle(int current, List<int> visited, int parent, ref int cyclesFound)
 	{
 		visited.Add(current);
 		for (int i = 0; i < vertexes[current].Count; i++)
@@ -179,7 +168,7 @@ public class NeighborhoodMatrix{
 		return false;
 	}
 
-	private bool findCycleLength(int current, OList<Vertex> visited, int original, int lenght, ref int cyclesFound)
+	protected bool findCycleLength(int current, OList<Vertex> visited, int original, int lenght, ref int cyclesFound)
 	{
 		if (visited.Count == lenght-1) {
 			if (vertexes [original] [current] == 1) {
@@ -221,7 +210,7 @@ public class NeighborhoodMatrix{
 		return output;
 	}
 
-	private OList<Vertex> naiveCycles(int x){
+	protected OList<Vertex> naiveCycles(int x){
 		for (int i = 0; i < vertexes.Count; i++) {
 			OList<Vertex> q = findCycleLength(i, new OList<Vertex>(), i, x);
 			if (q != null) {
@@ -231,7 +220,7 @@ public class NeighborhoodMatrix{
 		return null;
 	}
 
-	private OList<Vertex> findCycleLength(int current, OList<Vertex> visited, int original, int lenght)
+	protected OList<Vertex> findCycleLength(int current, OList<Vertex> visited, int original, int lenght)
 	{
 		if (visited.Count == lenght-1) {
 			if (vertexes [original] [current] == 1) {
@@ -295,10 +284,6 @@ public class NeighborhoodMatrix{
 
 	#endregion
 
-	public OList<Vertex> FindUnseenBorderers(Vertex _currentVertex, OList<Vertex> _visited){
-		return locationModule.FindUnseenBorderers (_currentVertex, _visited, this);
-	}
-
 	public void ResetEdges(){
 		construct.ResetEdges (this);
 	}
@@ -311,11 +296,19 @@ public class NeighborhoodMatrix{
 		consistency.PaintConsistency (vertexes, brush);
 	}
 
+	public void PaintConsistency(OList<OList<Vertex>> consistencyParts){
+		brush.Paint (consistencyParts);
+	}
+
 	public OList<EdgeObject> GetEdges(){
 		return locationModule.GetEdges (vertexes);
 	}
 
 	public string FindNucleus(){
 		return nucleus.FindNucleus (this);
+	}
+
+	public OList<EdgeStruct> DFSAlgorithm(){
+		return locationModule.DFS (this);
 	}
 }

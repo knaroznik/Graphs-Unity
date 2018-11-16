@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LocationModule {
 
-	public OList<Vertex> FindUnseenBorderers(Vertex _currentVertex, OList<Vertex> _visited, NeighborhoodMatrix _matrix){
+	private OList<Vertex> FindUnseenBorderers(Vertex _currentVertex, OList<Vertex> _visited, Graph _matrix){
 		OList<Vertex> output = new OList<Vertex> ();
 		for (int i = 0; i < _matrix.vertexes.Count; i++) {
 			int current = _matrix.vertexes.IndexOf (new Vertex (_currentVertex.VertexName));
@@ -47,4 +47,38 @@ public class LocationModule {
 		}
 		edges.Add (newEdge);
 	}
+
+	#region DFS 
+
+	public OList<EdgeStruct> DFS(Graph _matrix){
+		Vertex currentVertex;
+		Stack<Vertex> stack = new Stack<Vertex> ();
+		OList<EdgeStruct> treeEdges = new OList<EdgeStruct> ();
+		OList<Vertex> visitedVertexes = new OList<Vertex> ();
+
+		currentVertex = visitVertex(_matrix.vertexes[0], ref stack, ref visitedVertexes);
+
+		while (!stack.IsEmpty ()) {
+
+			OList<Vertex> borderers = FindUnseenBorderers (currentVertex, visitedVertexes, _matrix);
+			if (borderers.Count > 0) {
+				treeEdges.Add (new EdgeStruct (currentVertex, borderers [0]));
+				currentVertex = visitVertex (borderers [0], ref stack, ref visitedVertexes);
+			} else {
+				stack.Pop ();
+				if(!stack.IsEmpty())
+					currentVertex = stack.Last ();
+			}
+		}
+
+		return treeEdges;
+	}
+
+	protected Vertex visitVertex(Vertex addVertex, ref Stack<Vertex> _stack, ref OList<Vertex> _visitedVertexes){
+		_stack.Push (addVertex);
+		_visitedVertexes.Add (addVertex);
+		return addVertex;
+	}
+
+	#endregion
 }

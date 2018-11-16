@@ -88,7 +88,7 @@ public class MathNeighborhoodMatrix {
 		}
 	}
 
-	public void Construct(NeighborhoodMatrix m){
+	public void Construct(Graph m){
 		vertexes = new OList<Vertex> ();
 		for (int i = 0; i < m.vertexes.Count; i++) {
 			vertexes.Add (new Vertex(m.vertexes[i].VertexName, m.vertexes[i].connections));

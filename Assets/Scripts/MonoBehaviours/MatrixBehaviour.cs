@@ -11,9 +11,10 @@ public class MatrixBehaviour : MonoBehaviour {
 	public GameObject EdgePrefab;
 	public Text infoText;
 
-	public NeighborhoodMatrix matrix;
+	public Graph matrix;
 
 	public bool DebugMode;
+	public bool DiGraph;
 
 	private string newVertexName;
 	private string newEdgeVertexNameOne;
@@ -26,7 +27,11 @@ public class MatrixBehaviour : MonoBehaviour {
 	public Material MarkedMaterial;
 
 	void Awake () {
-		matrix = new NeighborhoodMatrix (VertexPrefab, EdgePrefab, OriginalMaterial, MarkedMaterial);
+		if (DiGraph) {
+			matrix = new DiGraph (VertexPrefab, EdgePrefab, OriginalMaterial, MarkedMaterial);
+		} else {
+			matrix = new Graph (VertexPrefab, EdgePrefab, OriginalMaterial, MarkedMaterial);
+		}
 	}
 
 

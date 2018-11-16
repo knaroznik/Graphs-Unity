@@ -23,7 +23,6 @@ public class PaintModule {
 		colors.Add (Color.cyan);
 		colors.Add (Color.gray);
 		colors.Add (Color.green);
-		colors.Add (Color.grey);
 		colors.Add (Color.magenta);
 		colors.Add (Color.red);
 		colors.Add (Color.yellow);

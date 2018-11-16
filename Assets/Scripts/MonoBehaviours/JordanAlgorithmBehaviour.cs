@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class JordanAlgorithmBehaviour : MonoBehaviour {
 
-	public NeighborhoodMatrix matrix;
+	public Graph matrix;
 
 	public void JordanAlgorithm(){
 		matrix = GetComponent<MatrixBehaviour> ().matrix;

@@ -6,7 +6,7 @@ using System.Linq;
 
 public class NucleusModule {
 
-	public string FindNucleus(NeighborhoodMatrix matrix){
+	public string FindNucleus(Graph matrix){
 		MathNeighborhoodMatrix mathMatrix = new MathNeighborhoodMatrix ();
 		mathMatrix.Construct (matrix);
 		while (mathMatrix.vertexes.Count > 2) {

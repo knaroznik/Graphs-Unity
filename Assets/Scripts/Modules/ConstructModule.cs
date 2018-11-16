@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class ConstructModule {
 
-	private GameObject vertexPrefab;
-	private GameObject edgePrefab;
-	private PaintModule brush;
+	protected GameObject vertexPrefab;
+	protected GameObject edgePrefab;
+	protected PaintModule brush;
 
 	public ConstructModule(GameObject _vertexPrefab, GameObject _edgePrefab, PaintModule _brush){
 		vertexPrefab = _vertexPrefab;
@@ -14,7 +14,7 @@ public class ConstructModule {
 		brush = _brush;
 	}
 
-	public void ResetEdges(NeighborhoodMatrix _matrix){
+	public void ResetEdges(Graph _matrix){
 		for (int i = 0; i < _matrix.vertexes.Count; i++) {
 			for (int j = 0; j < _matrix.vertexes.Count; j++) {
 				if (_matrix.vertexes [i] [j] > 0) {
@@ -27,7 +27,7 @@ public class ConstructModule {
 		}
 	}
 
-	public void InsertEdges(OList<EdgeStruct> _edges, NeighborhoodMatrix _matrix){
+	public void InsertEdges(OList<EdgeStruct> _edges, Graph _matrix){
 		for (int i = 0; i < _edges.Count; i++) {
 			_matrix.AddEdge (_edges [i].FirstPoint().VertexName, _edges [i].SecondPoint().VertexName, 1);
 		}

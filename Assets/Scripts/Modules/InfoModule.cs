@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class InfoModule {
 
-	NeighborhoodMatrix dataMatrix;
+	Graph dataMatrix;
 	OList<Vertex> vertexes;
 
-	public InfoModule(NeighborhoodMatrix _matrix){
+	public InfoModule(Graph _matrix){
 		dataMatrix = _matrix;
 	}
 

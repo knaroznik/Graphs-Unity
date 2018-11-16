@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ConsistencyAlgoritm : MonoBehaviour {
 
-	public NeighborhoodMatrix matrix;
+	public Graph matrix;
 
 	public void Algorithm(){
 		matrix = GetComponent<MatrixBehaviour> ().matrix;

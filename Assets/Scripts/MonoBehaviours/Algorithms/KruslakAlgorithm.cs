@@ -5,7 +5,7 @@ using System.Linq;
 
 public class KruslakAlgorithm : MonoBehaviour {
 
-	public NeighborhoodMatrix matrix;
+	public Graph matrix;
 
 	public void Algorithm(){
 		matrix = GetComponent<MatrixBehaviour> ().matrix;
