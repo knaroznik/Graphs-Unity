@@ -7,14 +7,14 @@ public class EdgeObject : MonoBehaviour {
 
 	public VertexObject obj1;
 	public VertexObject obj2;
-	private LineRenderer render;
+	protected LineRenderer render;
 	public int edgeCost;
 
-	private bool isLoop = false;
+	protected bool isLoop = false;
 
 	public Text costText;
 
-	public void Init(VertexObject one, VertexObject two, int _edgeCost){
+	public virtual void Init(VertexObject one, VertexObject two, int _edgeCost){
 		obj1 = one;
 		obj2 = two;
 		
@@ -30,18 +30,17 @@ public class EdgeObject : MonoBehaviour {
 		edgeCost = _edgeCost;
 		if (edgeCost != 1) {
 			costText.text = edgeCost.ToString ();
-			updatePosition ();
 			upateCostPosition ();
 			costText.gameObject.SetActive (true);
 		}
 	}
 
-	void Update(){
+	protected void Update(){
 		updatePosition ();
 		upateCostPosition ();
 	}
 
-	private void updatePosition(){
+	protected virtual void updatePosition(){
 		if (obj1 != null && obj2 != null) {
 			if(!isLoop){
 				render.SetPosition (0, obj1.transform.position);
@@ -56,14 +55,14 @@ public class EdgeObject : MonoBehaviour {
 		}
 	}
 
-	private void upateCostPosition(){
+	protected void upateCostPosition(){
 		if (isLoop)
 			return;
 
 		costText.gameObject.transform.SetPositionAndRotation ((obj1.transform.position + obj2.transform.position) / 2, Quaternion.identity);
 	}
 
-	public bool IsSame(VertexObject one, VertexObject two){
+	public virtual bool IsSame(VertexObject one, VertexObject two){
 		if (one == obj1 && two == obj2) {
 			return true;
 		}
@@ -75,7 +74,7 @@ public class EdgeObject : MonoBehaviour {
 		return false;
 	}
 
-	public bool IsSame(EdgeObject edge){
+	public virtual bool IsSame(EdgeObject edge){
 		if (edge.obj1 == obj1 && edge.obj2 == obj2) {
 			return true;
 		}

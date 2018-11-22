@@ -71,7 +71,7 @@ public class ConstructModule {
 		_vertexes.RemoveAt (vertexNumber);
 	}
 
-	public void AddEdge(int x, int y, ref OList<Vertex> _vertexes){
+	public virtual void AddEdge(int x, int y, ref OList<Vertex> _vertexes){
 		if (brush != null) {
 			brush.Reset ();
 		}
@@ -108,7 +108,7 @@ public class ConstructModule {
 		line.GetComponent<EdgeObject> ().Init (_vertexes.Get (x).VertexObject.GetComponent<VertexObject>(), _vertexes.Get (y).VertexObject.GetComponent<VertexObject>(), edgeCost);
 	}
 
-	public void RemoveEdge(int x, int y, ref OList<Vertex> _vertexes){
+	public virtual void RemoveEdge(int x, int y, ref OList<Vertex> _vertexes){
 		if (brush != null) {
 			brush.Reset ();
 		}
