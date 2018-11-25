@@ -2350,7 +2350,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "CO\u015A TAM ALGORITHM"
+  m_Text: KOSARAJU ALGORITHM
 --- !u!222 &1851454510
 CanvasRenderer:
   m_ObjectHideFlags: 0

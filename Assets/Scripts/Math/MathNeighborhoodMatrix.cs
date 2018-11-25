@@ -21,7 +21,20 @@ public class MathNeighborhoodMatrix {
 		vertexes.Get (vertexes.Count - 1).AddPossibilities (vertexes.Count);
 	}
 
-	public void RemoveVertex(int _vertex){
+    public void AddVertex(string _name)
+    {
+
+        for (int i = 0; i < vertexes.Count; i++)
+        {
+            vertexes.Get(i).AddPossibility();
+        }
+
+        vertexes.Add(new Vertex(_name));
+
+        vertexes.Get(vertexes.Count - 1).AddPossibilities(vertexes.Count);
+    }
+
+    public void RemoveVertex(int _vertex){
 		for (int i = 0; i < vertexes.Count; i++) {
 			vertexes [i].RemoveAt (_vertex);
 		}
@@ -29,12 +42,12 @@ public class MathNeighborhoodMatrix {
 		vertexes.RemoveAt (_vertex);
 	}
 
-	public void AddEdge(int x, int y){
+	public virtual void AddEdge(int x, int y){
 		vertexes [x] [y] += 1;
 		vertexes [y] [x] += 1;
 	}
 
-	public void RemoveEdge(int x, int y){
+	public virtual void RemoveEdge(int x, int y){
 		vertexes [x] [y] -= 1;
 		vertexes [y] [x] -= 1;
 	}

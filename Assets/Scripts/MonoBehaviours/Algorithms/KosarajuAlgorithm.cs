@@ -13,7 +13,8 @@ public class KosarajuAlgorithm : MonoBehaviour {
 		OList<OList<Vertex>> consistencyParts = new OList<OList<Vertex>> ();
 		OList<Vertex> visitedVertexes = new OList<Vertex> ();
 
-		MathDiGraph graphCopy = new MathDiGraph (matrix.vertexes, matrix.GetEdges ());
+		MathDiGraph graphCopy = new MathDiGraph ();
+        graphCopy.Construct(matrix);
 		graphCopy.Transpond ();
 
 		while (!globalStack.IsEmpty ()) {
@@ -25,13 +26,14 @@ public class KosarajuAlgorithm : MonoBehaviour {
 			}
 
 			OList<Vertex> consistencyPart = graphCopy.GetConsistencyPartOf (current);
-			Debug.Log (consistencyPart.Count);
 			for (int i = 0; i < consistencyPart.Count; i++) {
-				visitedVertexes.Add (consistencyPart [i]);
+                Vertex temp = consistencyPart[i];
+                visitedVertexes.Add (temp);
+                consistencyPart[i] = matrix.vertexes[matrix.vertexes.IndexOf(temp)];
+                
 			}
 			consistencyParts.Add (consistencyPart);
 		}
-
 		matrix.PaintConsistency (consistencyParts);
 
 	}

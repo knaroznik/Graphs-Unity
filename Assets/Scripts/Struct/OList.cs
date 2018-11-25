@@ -58,6 +58,11 @@ public class OList<T> {
 		array = tempArray;
 	}
 
+    public void Clear()
+    {
+        array = new T[0];
+    }
+
 	public void Remove(T obj){
 		T[] tempArray = new T[array.Length-1];
 		int i = 0;

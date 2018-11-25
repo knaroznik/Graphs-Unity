@@ -2,57 +2,52 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MathDiGraph {
+public class MathDiGraph : MathNeighborhoodMatrix{
 
-	OList<Vertex> vertexes;
-	OList<EdgeStruct> edges;
-
-	public MathDiGraph(OList<Vertex> _originalVertexes, OList<EdgeObject> _originalEdges){
-		vertexes = new OList<Vertex> ();
-		for (int i = 0; i < _originalVertexes.Count; i++) {
-			vertexes.Add (_originalVertexes [i]);
-		}
-
-		edges = new OList<EdgeStruct> ();
-
-		for (int i = 0; i < _originalEdges.Count; i++) {
-			edges.Add (new EdgeStruct (_originalEdges[i].obj1.vertexData, _originalEdges[i].obj2.vertexData));
-		}
-	}
 
 	public void Transpond(){
-		OList<EdgeStruct> copy = new OList<EdgeStruct> ();
-		for (int i = 0; i < edges.Count; i++) {
-			copy.Add (edges [i]);
-		}
-		edges = new OList<EdgeStruct> ();
-		for (int i = 0; i < copy.Count; i++) {
-			edges.Add (new EdgeStruct (copy [i].SecondPoint (), copy [i].FirstPoint ()));
-		}
+		OList<Vertex> copy = new OList<Vertex> ();
+        for (int i = 0; i < vertexes.Count; i++){
+            copy.Add(new Vertex(vertexes[i].VertexName, vertexes[i].connections));
+        }
+
+        vertexes.Clear();
+
+        for(int i=0; i< copy.Count; i++)
+        {
+            AddVertex(copy[i].VertexName);
+        }
+
+        for (int i=0; i<copy.Count; i++)
+        {
+            for(int j=0; j< copy[i].connections.Count; j++)
+            {
+                if(copy[i][j] == 1)
+                {
+                    vertexes[j][i] += 1;
+                }
+            }
+        }
 	}
 
 	private void RemoveVertexes(OList<Vertex> _toRemove){
 		for (int i = 0; i < _toRemove.Count; i++) {
-			vertexes.Remove (_toRemove [i]);
-			RemoveEdges (_toRemove [i]);
-		}
+            RemoveNamedVertex(_toRemove[i].VertexName);
+
+        }
 	}
 
-	private void RemoveEdges(Vertex _incidentalVertex){
-		OList<EdgeStruct> toDelete = new OList<EdgeStruct> ();
+    public override void AddEdge(int x, int y)
+    {
+        vertexes[x][y] += 1;
+    }
 
-		for (int i = 0; i < edges.Count; i++) {
-			if (edges [i].FirstPoint () == _incidentalVertex || edges [i].SecondPoint () == _incidentalVertex) {
-				toDelete.Add (edges [i]);
-			}
-		}
+    public override void RemoveEdge(int x, int y)
+    {
+        vertexes[x][y] -= 1;
+    }
 
-		for (int i = 0; i < toDelete.Count; i++) {
-			edges.Remove (toDelete [i]);
-		}
-	}
-
-	public OList<Vertex> GetConsistencyPartOf(Vertex start){
+    public OList<Vertex> GetConsistencyPartOf(Vertex start){
 		
 		Vertex currentVertex = start;
 		Stack<Vertex> stack = new Stack<Vertex> ();
@@ -78,15 +73,14 @@ public class MathDiGraph {
 
 	private OList<Vertex> FindUnseenBorderers(Vertex _currentVertex, OList<Vertex> _visited){
 		OList<Vertex> output = new OList<Vertex> ();
-
-		for (int i = 0; i < edges.Count; i++) {
-			if (edges [i].FirstPoint () == _currentVertex) {
-				if (!_visited.ToList ().Contains (edges [i].SecondPoint ())) {
-					output.Add (edges [i].SecondPoint ());
+        int vertexNumber = vertexes.IndexOf(new Vertex(_currentVertex.VertexName));
+        for (int i = 0; i < vertexes[vertexNumber].connections.Count; i++) {
+			if (vertexes[vertexNumber].connections[i] == 1) {
+				if (!_visited.ToList ().Contains (vertexes [i])) {
+					output.Add (vertexes[i]);
 				}
 			}
 		}
-
 		return output;
 	}
 
