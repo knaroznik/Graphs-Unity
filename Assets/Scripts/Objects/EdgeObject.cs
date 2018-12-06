@@ -30,12 +30,13 @@ public class EdgeObject : MonoBehaviour {
 		edgeCost = _edgeCost;
 		if (edgeCost != 1) {
 			costText.text = edgeCost.ToString ();
-			upateCostPosition ();
 			costText.gameObject.SetActive (true);
 		}
+
+        UpdateEdge();
 	}
 
-	protected void Update(){
+	public void UpdateEdge(){
 		updatePosition ();
 		upateCostPosition ();
 	}

@@ -28,14 +28,14 @@ public class DiEdgeObject : EdgeObject {
 
     public override void Init(VertexObject one, VertexObject two, int _edgeCost)
     {
-        base.Init(one, two, _edgeCost);
-
         renderers = new OList<LineRenderer>();
         LineRenderer[] tempRenderers = GetComponentsInChildren<LineRenderer>();
-        for(int i=0; i<tempRenderers.Length; i++)
+        for (int i = 0; i < tempRenderers.Length; i++)
         {
             renderers.Add(tempRenderers[i]);
         }
+
+        base.Init(one, two, _edgeCost);
     }
 
     protected override void updatePosition()
@@ -51,10 +51,6 @@ public class DiEdgeObject : EdgeObject {
                 renderers[0].SetPosition(1, centerPoint);
                 renderers[1].SetPosition(0, centerPoint);
                 renderers[1].SetPosition(1, obj2.transform.position);
-            }
-            else
-            {
-                //TODO : Jeśli pętla to robić inaczej.
             }
         }
     }

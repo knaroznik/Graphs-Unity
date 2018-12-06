@@ -28,7 +28,17 @@ public class VertexObject : MonoBehaviour {
 		Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
 		Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
 		transform.position = curPosition;
+
+        UpdateEdges();
 	}
+
+    void UpdateEdges()
+    {
+        for(int i=0; i<edges.Count; i++)
+        {
+            edges[i].UpdateEdge();
+        }
+    }
 
 	public void SetName(string _name, Vertex _vertexData){
 		textName.text = _name;
