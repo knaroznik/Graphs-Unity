@@ -40,7 +40,13 @@ public class Graph{
 		construct.AddVertex (_newVertexName, ref vertexes);
 	}
 
-	public void RemoveVertex(string _vertexName){
+    public void AddNewVertex(Vector3 vertexPosition)
+    {
+        construct.AddNewVertex(vertexPosition, ref vertexes);
+
+    }
+
+    public void RemoveVertex(string _vertexName){
 		construct.RemoveVertex (_vertexName, ref vertexes);
 	}
 

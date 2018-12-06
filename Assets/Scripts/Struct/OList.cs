@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 
+[System.Serializable]
 public class OList<T> {
 	
 	private T[] array;

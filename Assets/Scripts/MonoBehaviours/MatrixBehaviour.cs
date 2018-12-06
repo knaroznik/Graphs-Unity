@@ -67,6 +67,12 @@ public class MatrixBehaviour : MonoBehaviour {
 		}
 	}
 
+    public void Print()
+    {
+        if (DebugMode)
+            infoText.text = matrix.Print();
+    }
+
 	public void RemoveVertex(){
 		if (newVertexName != "" && newVertexName != null) {
 			matrix.RemoveVertex (newVertexName);

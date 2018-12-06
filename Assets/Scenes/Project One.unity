@@ -123,6 +123,7 @@ GameObject:
   - component: {fileID: 170076735}
   - component: {fileID: 170076734}
   - component: {fileID: 170076736}
+  - component: {fileID: 170076737}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -196,6 +197,32 @@ MonoBehaviour:
   EdgePrefab: {fileID: 1623078562390432, guid: 046c5848616ff434495627498c22e483, type: 2}
   infoText: {fileID: 1538567146}
   DebugMode: 1
+  DiGraph: 0
+  OriginalMaterial: {fileID: 0}
+  MarkedMaterial: {fileID: 0}
+--- !u!114 &170076737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 170076733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3408b522c11876418d5b8afc8b82039, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneButtons:
+  - {fileID: 1150467428}
+  - {fileID: 170152268}
+  - {fileID: 1792571042}
+  - {fileID: 1104730998}
+  - {fileID: 2055338493}
+  - {fileID: 1755317772}
+  sceneFields:
+  - {fileID: 1563490078}
+  - {fileID: 1967063514}
+  - {fileID: 875198183}
+  - {fileID: 708289540}
 --- !u!1 &170152266
 GameObject:
   m_ObjectHideFlags: 0

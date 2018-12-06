@@ -70,4 +70,14 @@ public class VertexObject : MonoBehaviour {
 	public EdgeObject Edge(int i){
 		return edges [i];
 	}
+
+    private void OnMouseOver()
+    {
+        InputBehaviour.instance.CurrentSelectedGameObject = this.gameObject;
+    }
+
+    private void OnMouseExit()
+    {
+        InputBehaviour.instance.CurrentSelectedGameObject = null;
+    }
 }

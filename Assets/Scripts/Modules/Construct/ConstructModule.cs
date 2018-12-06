@@ -33,7 +33,7 @@ public class ConstructModule {
 		}
 	}
 
-	public void AddVertex(string _newVertexName, ref OList<Vertex> _vertexes){
+	public void AddVertex(string _newVertexName, ref OList<Vertex> _vertexes, Vector3? vertexPosition = null){
 
 		if (_vertexes.IndexOf (new Vertex (_newVertexName)) != -1) {
 			return;
@@ -43,8 +43,16 @@ public class ConstructModule {
 			brush.Reset ();
 		}
 
-		GameObject vertex = MonoBehaviour.Instantiate (vertexPrefab, new Vector3 (UnityEngine.Random.Range (-7f, 7f), UnityEngine.Random.Range (-7f, 7f), 0f), Quaternion.identity);
-		for (int i = 0; i < _vertexes.Count; i++) {
+        GameObject vertex;
+        if (vertexPosition == null)
+        {
+            vertex = MonoBehaviour.Instantiate(vertexPrefab, new Vector3(UnityEngine.Random.Range(-7f, 7f), UnityEngine.Random.Range(-7f, 7f), 0f), Quaternion.identity);
+        }
+        else
+        {
+            vertex = MonoBehaviour.Instantiate(vertexPrefab, vertexPosition.GetValueOrDefault(), Quaternion.identity);
+        }
+        for (int i = 0; i < _vertexes.Count; i++) {
 			_vertexes.Get (i).AddPossibility (vertex);
 		}
 
@@ -125,4 +133,15 @@ public class ConstructModule {
 		_vertexes.Get (x).VertexObject.GetComponent<VertexObject> ().RemoveEdgeWith (_vertexes.Get (y).VertexObject.GetComponent<VertexObject> ());
 	}
 
+    public void AddNewVertex(Vector3 _vertexPosition, ref OList<Vertex> _vertexes)
+    {
+        int newVertexName = 0;
+
+        while(_vertexes.IndexOf(new Vertex(newVertexName.ToString())) != -1)
+        {
+            newVertexName++;
+        }
+
+        AddVertex(newVertexName.ToString(), ref _vertexes, _vertexPosition);
+    }
 }
