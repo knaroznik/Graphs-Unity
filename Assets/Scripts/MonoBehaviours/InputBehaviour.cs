@@ -5,15 +5,20 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class InputBehaviour : MonoBehaviour {
+
     public static InputBehaviour instance;
 
     public List<Button> sceneButtons;
     public List<InputField> sceneFields;
 
+    public GameObject linePrefab;
+    public Text inputModeName;
+
     private MatrixBehaviour matrix;
-    private bool editMode = false;
+    private InputMode inputMode = InputMode.IDLE;
 
     public GameObject CurrentSelectedGameObject { get; set; }
+    private DrawEdgeObject CurrentDrawingLine;
 
     private void Awake()
     {
@@ -35,13 +40,29 @@ public class InputBehaviour : MonoBehaviour {
     {
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            editMode = !editMode;
+            if(inputMode == InputMode.IDLE)
+            {
+                inputMode = InputMode.EDIT;
+            }else if (inputMode == InputMode.EDIT)
+            {
+                inputMode = InputMode.DELETE;
+            }else if (inputMode == InputMode.DELETE)
+            {
+                inputMode = InputMode.IDLE;
+            }
+            inputModeName.text = inputMode.ToString();
             HandleObjects();
         }
     }
 
     void HandleObjects()
     {
+        bool editMode = true;
+        if(inputMode == InputMode.IDLE)
+        {
+            editMode = false;
+        }
+
         for(int i=0; i<sceneButtons.Count; i++)
         {
             sceneButtons[i].interactable = !editMode;
@@ -55,12 +76,21 @@ public class InputBehaviour : MonoBehaviour {
 
     void HandleInput()
     {
-        if(!editMode || matrix == null)
+        if(matrix == null)
         {
             return;
         }
 
-        HandleClick();
+        if (inputMode == InputMode.IDLE){
+            HandleDrag();
+        }
+        else if(inputMode == InputMode.EDIT){
+            HandleClick();
+        }else if(inputMode == InputMode.DELETE){
+            HandleDelete();
+        }
+
+        
     }
 
     void HandleClick()
@@ -69,7 +99,14 @@ public class InputBehaviour : MonoBehaviour {
         {
             if (CurrentSelectedGameObject != null)
             {
-                //Start drawing line.
+                if (CurrentDrawingLine != null)
+                {
+                    EndLine(CurrentSelectedGameObject);
+                }
+                else
+                {
+                    DrawLine(CurrentSelectedGameObject);
+                }
             }
             else
             {
@@ -82,4 +119,39 @@ public class InputBehaviour : MonoBehaviour {
         }
     }
 
+    void HandleDrag()
+    {
+
+    }
+
+    void HandleDelete()
+    {
+
+    }
+
+    void DrawLine(GameObject startLine)
+    {
+        GameObject line = Instantiate(linePrefab, Vector3.zero, Quaternion.identity);
+        line.GetComponent<DrawEdgeObject>().startLineOnbject = startLine;
+        line.GetComponent<DrawEdgeObject>().StartVertexName = startLine.GetComponent<VertexObject>().vertexData.VertexName;
+        CurrentDrawingLine = line.GetComponent<DrawEdgeObject>();
+    }
+
+    void EndLine(GameObject endLine)
+    {
+        string start = CurrentDrawingLine.StartVertexName;
+        string end = endLine.GetComponent<VertexObject>().vertexData.VertexName;
+        //TODO : Koszt krawędzi
+
+        if(start != end)
+        {
+            matrix.matrix.AddEdge(start, end, 1);
+        }
+
+        Destroy(CurrentDrawingLine.gameObject);
+        CurrentDrawingLine = null;
+    }
+
 }
+
+public enum InputMode { IDLE, EDIT, DELETE}
