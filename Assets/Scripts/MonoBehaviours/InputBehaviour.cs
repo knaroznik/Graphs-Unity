@@ -14,10 +14,32 @@ public class InputBehaviour : MonoBehaviour {
     public GameObject linePrefab;
     public Text inputModeName;
 
-    private MatrixBehaviour matrix;
+    private MatrixBehaviour matrixObject;
     private InputMode inputMode = InputMode.IDLE;
 
-    public GameObject CurrentSelectedGameObject { get; set; }
+    private GameObject currentSelectedGameObject;
+    public GameObject CurrentSelectedGameObject {
+        get
+        {
+            return currentSelectedGameObject;
+        }
+        set
+        {
+            if(inputMode == InputMode.IDLE)
+            {
+                if (value == true)
+                {
+                    currentSelectedGameObject = value;
+                }
+            }
+            else
+            {
+                currentSelectedGameObject = value;
+            }
+        }
+    }
+
+
     private DrawEdgeObject CurrentDrawingLine;
 
     private void Awake()
@@ -27,7 +49,7 @@ public class InputBehaviour : MonoBehaviour {
 
     private void Start()
     {
-        matrix = GetComponent<MatrixBehaviour>();
+        matrixObject = GetComponent<MatrixBehaviour>();
     }
 
     // Update is called once per frame
@@ -76,7 +98,7 @@ public class InputBehaviour : MonoBehaviour {
 
     void HandleInput()
     {
-        if(matrix == null)
+        if(matrixObject == null)
         {
             return;
         }
@@ -113,20 +135,43 @@ public class InputBehaviour : MonoBehaviour {
                 Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 mousePosition = new Vector3(mousePosition.x, mousePosition.y, 0f);
 
-                matrix.matrix.AddNewVertex(mousePosition);
-                matrix.Print();
+                matrixObject.matrix.AddNewVertex(mousePosition);
+                matrixObject.Print();
             }
         }
     }
 
     void HandleDrag()
     {
+        if(CurrentSelectedGameObject != null && Input.GetMouseButton(0))
+        {
+            MoveObject(CurrentSelectedGameObject);
+        }
+    }
 
+    void MoveObject(GameObject movingObject)
+    {
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition = new Vector3(mousePosition.x, mousePosition.y, 0f);
+
+        movingObject.transform.position = mousePosition;
+        movingObject.GetComponent<VertexObject>().UpdateEdges();
     }
 
     void HandleDelete()
     {
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (CurrentSelectedGameObject != null)
+            {
+                DestroyObject(CurrentSelectedGameObject);
+            }
+        }
+    }
 
+    void DestroyObject(GameObject destoyingObject)
+    {
+        matrixObject.matrix.RemoveVertex(destoyingObject.GetComponent<VertexObject>().vertexData.VertexName);
     }
 
     void DrawLine(GameObject startLine)
@@ -145,7 +190,7 @@ public class InputBehaviour : MonoBehaviour {
 
         if(start != end)
         {
-            matrix.matrix.AddEdge(start, end, 1);
+            matrixObject.matrix.AddEdge(start, end, 1);
         }
 
         Destroy(CurrentDrawingLine.gameObject);
