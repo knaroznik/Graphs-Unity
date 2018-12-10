@@ -38,6 +38,7 @@ GameObject:
   - component: {fileID: 4946822700180692}
   - component: {fileID: 120628903444629754}
   - component: {fileID: 114016548836383600}
+  - component: {fileID: 65449046985843442}
   m_Layer: 0
   m_Name: EdgeObject
   m_TagString: Untagged
@@ -77,6 +78,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &65449046985843442
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1623078562390432}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 2}
+  m_Center: {x: 278.8108, y: -529.54266, z: 0.5}
 --- !u!114 &114016548836383600
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -88,6 +101,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a181316341ca886429b7eda4d8461171, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  obj1: {fileID: 0}
+  obj2: {fileID: 0}
+  edgeCost: 0
   costText: {fileID: 114261321356662234}
 --- !u!114 &114261321356662234
 MonoBehaviour:

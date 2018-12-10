@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4129480490279402}
   - component: {fileID: 114726950777493192}
+  - component: {fileID: 65717648916083296}
   m_Layer: 0
   m_Name: EdgeDirectionObject
   m_TagString: Untagged
@@ -136,6 +137,18 @@ Transform:
   m_Father: {fileID: 4129480490279402}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &65717648916083296
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1036539641370082}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &114024520869286894
 MonoBehaviour:
   m_ObjectHideFlags: 1

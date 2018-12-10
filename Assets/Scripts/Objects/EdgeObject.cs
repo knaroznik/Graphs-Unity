@@ -8,6 +8,7 @@ public class EdgeObject : MonoBehaviour {
 	public VertexObject obj1;
 	public VertexObject obj2;
 	protected LineRenderer render;
+    protected BoxCollider boxCollider;
 	public int edgeCost;
 
 	protected bool isLoop = false;
@@ -27,6 +28,8 @@ public class EdgeObject : MonoBehaviour {
 			obj2.AddEdge (this);
 		}
 
+        boxCollider = GetComponent<BoxCollider>();
+
 		edgeCost = _edgeCost;
 		if (edgeCost != 1) {
 			costText.text = edgeCost.ToString ();
@@ -39,6 +42,7 @@ public class EdgeObject : MonoBehaviour {
 	public void UpdateEdge(){
 		updatePosition ();
 		upateCostPosition ();
+        updateCollider();
 	}
 
 	protected virtual void updatePosition(){
@@ -62,6 +66,15 @@ public class EdgeObject : MonoBehaviour {
 
 		costText.gameObject.transform.SetPositionAndRotation ((obj1.transform.position + obj2.transform.position) / 2, Quaternion.identity);
 	}
+
+    protected void updateCollider()
+    {
+        float width = Vector3.Distance(obj1.transform.position, obj2.transform.position);
+        boxCollider.size = new Vector3(1, 1, width * 0.9f);
+        Vector3 midPoint = (obj1.transform.position + obj2.transform.position) / 2;
+        boxCollider.transform.position = midPoint;
+        boxCollider.transform.LookAt(obj1.transform.position);
+    }
 
 	public virtual bool IsSame(VertexObject one, VertexObject two){
 		if (one == obj1 && two == obj2) {
@@ -96,4 +109,14 @@ public class EdgeObject : MonoBehaviour {
 		}
 		Destroy (this.gameObject);
 	}
+
+    private void OnMouseOver()
+    {
+        InputBehaviour.instance.CurrentSelectedGameObject = this.gameObject;
+    }
+
+    private void OnMouseExit()
+    {
+        InputBehaviour.instance.CurrentSelectedGameObject = null;
+    }
 }

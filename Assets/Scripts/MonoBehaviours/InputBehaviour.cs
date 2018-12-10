@@ -9,7 +9,6 @@ public class InputBehaviour : MonoBehaviour {
     public static InputBehaviour instance;
 
     public List<Button> sceneButtons;
-    public List<InputField> sceneFields;
 
     public GameObject linePrefab;
     public Text inputModeName;
@@ -52,6 +51,7 @@ public class InputBehaviour : MonoBehaviour {
     private void Start()
     {
         matrixObject = GetComponent<MatrixBehaviour>();
+        edgeCostString = "";
     }
 
     // Update is called once per frame
@@ -160,11 +160,6 @@ public class InputBehaviour : MonoBehaviour {
         {
             sceneButtons[i].interactable = !editMode;
         }
-
-        for (int i = 0; i < sceneFields.Count; i++)
-        {
-            sceneFields[i].interactable = !editMode;
-        }
     }
 
     void HandleInput()
@@ -194,6 +189,7 @@ public class InputBehaviour : MonoBehaviour {
             {
                 if (CurrentDrawingLine != null)
                 {
+
                     EndLine(CurrentSelectedGameObject);
                 }
                 else
@@ -214,7 +210,7 @@ public class InputBehaviour : MonoBehaviour {
 
     void HandleDrag()
     {
-        if(CurrentSelectedGameObject != null && Input.GetMouseButton(0))
+        if(CurrentSelectedGameObject != null && CurrentSelectedGameObject.GetComponent<VertexObject>() && Input.GetMouseButton(0))
         {
             MoveObject(CurrentSelectedGameObject);
         }
@@ -240,9 +236,17 @@ public class InputBehaviour : MonoBehaviour {
         }
     }
 
-    void DestroyObject(GameObject destoyingObject)
+    void DestroyObject(GameObject destroyingObject)
     {
-        matrixObject.matrix.RemoveVertex(destoyingObject.GetComponent<VertexObject>().vertexData.VertexName);
+        if (destroyingObject.GetComponent<VertexObject>())
+        {
+            matrixObject.matrix.RemoveVertex(destroyingObject.GetComponent<VertexObject>().vertexData.VertexName);
+        }
+        else
+        {
+            matrixObject.matrix.RemoveEdge(destroyingObject.GetComponent<EdgeObject>().obj1.vertexData.VertexName,
+                destroyingObject.GetComponent<EdgeObject>().obj2.vertexData.VertexName);
+        }
     }
 
     void DrawLine(GameObject startLine)
@@ -257,10 +261,12 @@ public class InputBehaviour : MonoBehaviour {
 
     void EndLine(GameObject endLine)
     {
+        
         string start = CurrentDrawingLine.StartVertexName;
         string end = endLine.GetComponent<VertexObject>().vertexData.VertexName;
         int edgeCost = 1;
-        if(edgeCostString != "")
+
+        if (edgeCostString != "")
         {
             int.TryParse(edgeCostString, out edgeCost);
         }
@@ -268,6 +274,7 @@ public class InputBehaviour : MonoBehaviour {
         if(start != end)
         {
             matrixObject.matrix.AddEdge(start, end, edgeCost);
+            matrixObject.Print();
         }
 
         Destroy(CurrentDrawingLine.gameObject);
