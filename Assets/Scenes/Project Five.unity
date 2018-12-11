@@ -123,8 +123,8 @@ GameObject:
   - component: {fileID: 170076735}
   - component: {fileID: 170076734}
   - component: {fileID: 170076736}
-  - component: {fileID: 170076737}
   - component: {fileID: 170076738}
+  - component: {fileID: 170076737}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -209,9 +209,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 170076733}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26077dde6419cbc48aa05fd27a5a126b, type: 3}
+  m_Script: {fileID: 11500000, guid: c99f292b0b5271749bda10a2651772cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startingVertex: 0
 --- !u!114 &170076738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -641,7 +642,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.023740439, y: 0.314}
   m_AnchorMax: {x: 0.9654551, y: 0.9097173}
-  m_AnchoredPosition: {x: -0.48640442, y: 0.40000153}
+  m_AnchoredPosition: {x: -0.48638916, y: 0.40000153}
   m_SizeDelta: {x: -0.717, y: 1.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1538567146
@@ -868,7 +869,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.023740439, y: 0.9212827}
   m_AnchorMax: {x: 0.9654551, y: 0.9737174}
-  m_AnchoredPosition: {x: 0.009994507, y: 0.8274536}
+  m_AnchoredPosition: {x: 0.010009766, y: 0.8274536}
   m_SizeDelta: {x: 0.29, y: 1.655}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2134237370

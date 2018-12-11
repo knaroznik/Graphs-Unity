@@ -41,8 +41,8 @@ public class EdgeObject : MonoBehaviour {
 
 	public void UpdateEdge(){
 		updatePosition ();
-		upateCostPosition ();
         updateCollider();
+        upateCostPosition ();
 	}
 
 	protected virtual void updatePosition(){

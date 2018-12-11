@@ -33,6 +33,16 @@ public class OList<T> {
 		return output;
 	}
 
+    public OList<T> Copy()
+    {
+        OList<T> copy = new OList<T>();
+        for(int i=0; i<Count; i++)
+        {
+            copy.Add(array[i]);
+        }
+        return copy;
+    }
+
 	/// <summary>
 	/// Add the specified newItem on the end of list.
 	/// </summary>

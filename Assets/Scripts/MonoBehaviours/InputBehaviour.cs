@@ -56,6 +56,7 @@ public class InputBehaviour : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
+
         HandleSwitch();
         HandleInput();
 
@@ -210,7 +211,7 @@ public class InputBehaviour : MonoBehaviour {
 
     void HandleDrag()
     {
-        if(CurrentSelectedGameObject != null && CurrentSelectedGameObject.GetComponent<VertexObject>() && Input.GetMouseButton(0))
+        if(CurrentSelectedGameObject != null && CurrentSelectedGameObject.GetComponent<VertexObject>() && Input.GetMouseButton(1))
         {
             MoveObject(CurrentSelectedGameObject);
         }
