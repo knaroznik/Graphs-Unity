@@ -66,6 +66,24 @@ public class VertexObject : MonoBehaviour {
 		return edges [i];
 	}
 
+    public int Value
+    {
+        get
+        {
+            return GetValue();
+        }
+    }
+
+    private int GetValue()
+    {
+        int value = 0;
+        for(int i=0; i<EdgeCount; i++)
+        {
+            value += Edge(i).EdgeCost;
+        }
+        return value;
+    }
+
     private void OnMouseOver()
     {
         InputBehaviour.instance.CurrentSelectedGameObject = this.gameObject;

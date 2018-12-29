@@ -42,7 +42,7 @@ public class DijkstraAlgorithm : MonoBehaviour {
             EdgeObject edge = GetEdge(currentVertex, uncheckedVertexes[i].VertexName);
             if (edge != null)
             {
-                array.CheckValue(array.Get(uncheckedVertexes[i].VertexName), array.Get(currentVertex), edge.edgeCost);
+                array.CheckValue(array.Get(uncheckedVertexes[i].VertexName), array.Get(currentVertex), edge.EdgeCost);
             }
         }
 
@@ -59,7 +59,7 @@ public class DijkstraAlgorithm : MonoBehaviour {
                 EdgeObject edge = GetEdge(currentVertex, uncheckedVertexes[i].VertexName);
                 if (edge != null)
                 {
-                    array.CheckValue(array.Get(uncheckedVertexes[i].VertexName), array.Get(currentVertex), edge.edgeCost);
+                    array.CheckValue(array.Get(uncheckedVertexes[i].VertexName), array.Get(currentVertex), edge.EdgeCost);
                 }
             }
         }

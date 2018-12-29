@@ -9,9 +9,39 @@ public class EdgeObject : MonoBehaviour {
 	public VertexObject obj2;
 	protected LineRenderer render;
     protected BoxCollider boxCollider;
-	public int edgeCost;
+    private int edgeCost;
+    public int EdgeCost
+    {
+        get
+        {
+            return edgeCost;
+        }
+
+        set
+        {
+            edgeCost = value;
+            costText.text = edgeCost.ToString();
+            costText.gameObject.SetActive(true);
+
+        }
+    }
 
 	protected bool isLoop = false;
+    private Operator sign;
+    public Operator Sign {
+        get
+        {
+            return sign;
+        }
+        set
+        {
+            if(value == Operator.MINUS)
+            {
+                costText.color = Color.red;
+            }
+            sign = value;
+        }
+    }
 
 	public Text costText;
 
@@ -60,7 +90,7 @@ public class EdgeObject : MonoBehaviour {
 		}
 	}
 
-	protected void upateCostPosition(){
+	protected virtual void upateCostPosition(){
 		if (isLoop)
 			return;
 
@@ -110,6 +140,7 @@ public class EdgeObject : MonoBehaviour {
 		Destroy (this.gameObject);
 	}
 
+
     private void OnMouseOver()
     {
         InputBehaviour.instance.CurrentSelectedGameObject = this.gameObject;
@@ -119,4 +150,11 @@ public class EdgeObject : MonoBehaviour {
     {
         InputBehaviour.instance.CurrentSelectedGameObject = null;
     }
+
+    public override string ToString()
+    {
+        return "("+obj1.vertexData.VertexName + "," + obj2.vertexData.VertexName + ")";
+    }
 }
+
+public enum Operator { PLUS, MINUS}

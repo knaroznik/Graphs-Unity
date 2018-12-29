@@ -16,7 +16,7 @@ public class KruslakAlgorithm : MonoBehaviour {
 
 		OList<EdgeObject> edges = matrix.GetEdges ();
 		List<EdgeObject> edgesList = edges.ToList ();
-		edgesList = edgesList.OrderBy (x => x.edgeCost).ToList();
+		edgesList = edgesList.OrderBy (x => x.EdgeCost).ToList();
 		KruskalEdges (edgesList);
 
 		GetComponent<MatrixBehaviour> ().infoText.text = matrix.Print ();
@@ -25,7 +25,7 @@ public class KruslakAlgorithm : MonoBehaviour {
 	private void KruskalEdges(List<EdgeObject> edges){
 		OList<CostEdgeStruct> edgesCopy = new OList<CostEdgeStruct> ();
 		for (int i = 0; i < edges.Count; i++) {
-			edgesCopy.Add (new CostEdgeStruct (edges [i].obj1.vertexData, edges [i].obj2.vertexData, edges[i].edgeCost));
+			edgesCopy.Add (new CostEdgeStruct (edges [i].obj1.vertexData, edges [i].obj2.vertexData, edges[i].EdgeCost));
 		}
 		matrix.ResetEdges ();
 		for (int i = 0; i < edgesCopy.Count; i++) {

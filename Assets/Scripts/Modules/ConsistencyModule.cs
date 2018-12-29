@@ -17,6 +17,13 @@ public class ConsistencyModule {
 		}
 		return false;
 	}
+    
+    public List<Vertex> GetConnectedVertexes(OList<Vertex> _vertexes, int startedVertex)
+    {
+        List<Vertex> graph = new List<Vertex>();
+        GraphPassage(startedVertex, graph, _vertexes);
+        return graph;
+    }
 
 	private void GraphPassage(int current, List<Vertex> visited, OList<Vertex> _vertexes)
 	{

@@ -82,6 +82,12 @@ public class InputBehaviour : MonoBehaviour {
                 }
             }
 
+            if (Input.GetKeyDown(KeyCode.Slash))
+            {
+                edgeCostString += "/";
+                EdgeCostTextComponent.text = edgeCostString;
+            }
+
             //Less than zero numbers.
             if (Input.GetKeyDown(KeyCode.Minus))
             {
@@ -186,16 +192,21 @@ public class InputBehaviour : MonoBehaviour {
     {
         if (Input.GetMouseButtonDown(0))
         {
+            
             if (CurrentSelectedGameObject != null)
             {
-                if (CurrentDrawingLine != null)
+                VertexObject obj = CurrentSelectedGameObject.GetComponent<VertexObject>();
+                if (obj != null)
                 {
+                    if (CurrentDrawingLine != null)
+                    {
 
-                    EndLine(CurrentSelectedGameObject);
-                }
-                else
-                {
-                    DrawLine(CurrentSelectedGameObject);
+                        EndLine(CurrentSelectedGameObject);
+                    }
+                    else
+                    {
+                        DrawLine(CurrentSelectedGameObject);
+                    }
                 }
             }
             else
@@ -267,22 +278,48 @@ public class InputBehaviour : MonoBehaviour {
         string end = endLine.GetComponent<VertexObject>().vertexData.VertexName;
         int edgeCost = 1;
 
+        //TODO : Situations when inputed 13/11 etc.
+
         if (edgeCostString != "")
         {
-            int.TryParse(edgeCostString, out edgeCost);
-        }
-
-        if(start != end)
+            if(!int.TryParse(edgeCostString, out edgeCost) && CornerParser.IsGraphic(edgeCostString))
+            {
+                int edgeCostReturn = -1;
+                CornerParser.Parse(edgeCostString, ref edgeCost, ref edgeCostReturn);
+                if (edgeCost != 0)
+                {
+                    addEdge(start, end, edgeCost, Operator.MINUS);
+                }
+                if (edgeCostReturn != 0)
+                {
+                    addEdge(end, start, edgeCostReturn);
+                }
+            }
+            else
+            {
+                addEdge(start, end, edgeCost, Operator.MINUS);
+            }
+        }else
         {
-            matrixObject.matrix.AddEdge(start, end, edgeCost);
-            matrixObject.Print();
+            addEdge(start, end, edgeCost, Operator.MINUS);
         }
 
+
+        matrixObject.Print();
         Destroy(CurrentDrawingLine.gameObject);
         CurrentDrawingLine = null;
         EdgeCostTextComponent.gameObject.SetActive(false);
         EdgeCostTextComponent.text = "";
         edgeCostString = "";
+    }
+
+    private void addEdge(string start, string end, int edgeCost, Operator sign = Operator.PLUS)
+    {
+        if (start != end)
+        {
+            matrixObject.matrix.AddEdge(start, end, edgeCost, sign);
+            
+        }
     }
 }
 

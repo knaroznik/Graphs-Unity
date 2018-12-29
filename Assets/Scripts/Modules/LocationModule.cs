@@ -48,9 +48,24 @@ public class LocationModule {
 		edges.Add (newEdge);
 	}
 
-	#region DFS 
+    public OList<Vertex> FindBorderers(Vertex _currentVertex, Graph _matrix)
+    {
+        OList<Vertex> output = new OList<Vertex>();
+        for (int i = 0; i < _matrix.vertexes.Count; i++)
+        {
+            int current = _matrix.vertexes.IndexOf(new Vertex(_currentVertex.VertexName));
+            if (_matrix.vertexes[current][i] > 0)
+            {
+                output.Add(_matrix.vertexes[i]);
+            }
+        }
 
-	public OList<EdgeStruct> DFS(Graph _matrix){
+        return output;
+    }
+
+    #region DFS 
+
+    public OList<EdgeStruct> DFS(Graph _matrix){
 		Vertex currentVertex;
 		Stack<Vertex> stack = new Stack<Vertex> ();
 		OList<EdgeStruct> treeEdges = new OList<EdgeStruct> ();

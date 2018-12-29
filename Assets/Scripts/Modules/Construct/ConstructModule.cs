@@ -64,6 +64,13 @@ public class ConstructModule {
 	public void RemoveVertex(string _vertexName, ref OList<Vertex> _vertexes){
 		int vertexNumber = _vertexes.IndexOf (new Vertex (_vertexName));
 
+        for(int i=0; i<_vertexes[vertexNumber].VertexObject.GetComponent<VertexObject>().EdgeCount; i++)
+        {
+            EdgeObject edge = _vertexes[vertexNumber].VertexObject.GetComponent<VertexObject>().Edge(i);
+            edge.obj1.vertexData.OutEdges--;
+            edge.obj2.vertexData.InEdges++;
+        }
+
 		if (vertexNumber == -1)
 			return;
 
@@ -85,9 +92,12 @@ public class ConstructModule {
 		}
 		_vertexes [x] [y] += 1;
 		_vertexes [y] [x] += 1;
+
+        _vertexes[x].OutEdges++;
+        _vertexes[y].InEdges++;
 	}
 
-	public void AddEdge(string one, string two, string edgeCost, ref OList<Vertex> _vertexes){
+	public void AddEdge(string one, string two, string edgeCost, ref OList<Vertex> _vertexes, Operator sign = Operator.PLUS){
 		int x = _vertexes.IndexOf (new Vertex (one));
 		int y = _vertexes.IndexOf (new Vertex (two));
 		int cost = 0;
@@ -100,21 +110,26 @@ public class ConstructModule {
 		if(x == -1 || y == -1|| cost == 0)
 			return;
 		AddEdge (x, y, ref _vertexes);
+        
 
 		GameObject line = MonoBehaviour.Instantiate (edgePrefab, new Vector3 (0, 0, 0), Quaternion.identity) as GameObject;
 		line.GetComponent<EdgeObject> ().Init (_vertexes.Get (x).VertexObject.GetComponent<VertexObject>(), _vertexes.Get (y).VertexObject.GetComponent<VertexObject>(), cost);
-	}
+        line.GetComponent<EdgeObject>().Sign = sign;
 
-	public void AddEdge(string one, string two, int edgeCost, ref OList<Vertex> _vertexes){
+    }
+
+	public void AddEdge(string one, string two, int edgeCost, ref OList<Vertex> _vertexes, Operator sign = Operator.PLUS)
+    {
 		int x = _vertexes.IndexOf (new Vertex (one));
 		int y = _vertexes.IndexOf (new Vertex (two));
-		if(x == -1 || y == -1|| edgeCost == 0)
+		if(x == -1 || y == -1)
 			return;
 		AddEdge (x, y, ref _vertexes);
 
 		GameObject line = MonoBehaviour.Instantiate (edgePrefab, new Vector3 (0, 0, 0), Quaternion.identity) as GameObject;
 		line.GetComponent<EdgeObject> ().Init (_vertexes.Get (x).VertexObject.GetComponent<VertexObject>(), _vertexes.Get (y).VertexObject.GetComponent<VertexObject>(), edgeCost);
-	}
+        line.GetComponent<EdgeObject>().Sign = sign;
+    }
 
 	public virtual void RemoveEdge(int x, int y, ref OList<Vertex> _vertexes){
 		if (brush != null) {
@@ -122,7 +137,10 @@ public class ConstructModule {
 		}
 		_vertexes [x] [y] -= 1;
 		_vertexes [y] [x] -= 1;
-	}
+
+        _vertexes[x].OutEdges--;
+        _vertexes[y].InEdges--;
+    }
 
 	public void RemoveEdge(string one, string two, ref OList<Vertex> _vertexes){
 		int x = _vertexes.IndexOf (new Vertex (one));
@@ -133,15 +151,21 @@ public class ConstructModule {
 		_vertexes.Get (x).VertexObject.GetComponent<VertexObject> ().RemoveEdgeWith (_vertexes.Get (y).VertexObject.GetComponent<VertexObject> ());
 	}
 
-    public void AddNewVertex(Vector3 _vertexPosition, ref OList<Vertex> _vertexes)
+    public void AddNewVertex(Vector3 _vertexPosition, ref OList<Vertex> _vertexes, string _vertexName = "")
     {
-        int newVertexName = 0;
-
-        while(_vertexes.IndexOf(new Vertex(newVertexName.ToString())) != -1)
+        if (_vertexName == "")
         {
-            newVertexName++;
-        }
+            int newVertexName = 0;
 
-        AddVertex(newVertexName.ToString(), ref _vertexes, _vertexPosition);
+            while (_vertexes.IndexOf(new Vertex(newVertexName.ToString())) != -1)
+            {
+                newVertexName++;
+            }
+            AddVertex(newVertexName.ToString(), ref _vertexes, _vertexPosition);
+        }
+        else
+        {
+            AddVertex(_vertexName, ref _vertexes, _vertexPosition);
+        }
     }
 }

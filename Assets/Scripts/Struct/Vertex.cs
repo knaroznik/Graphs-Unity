@@ -80,4 +80,65 @@ public class Vertex : MathVertex {
 	{
 		return VertexName.ToString ();
 	}
+
+    #region Cechowanie
+
+    public int InEdges{get; set;}
+    public int OutEdges{get; set;}
+
+    public new int Value
+    {
+        get
+        {
+            return VertexObject.GetComponent<VertexObject>().Value;
+        }
+    }
+
+    public Vertex pathVertex;
+    public float pathCost;
+    public Operator sign;
+
+    public void Reset()
+    {
+        pathVertex = null;
+        pathCost = Mathf.Infinity;
+    }
+
+    public string Return(Graph _graph, float _pathCost)
+    {
+        if (pathVertex == null)
+        {
+            return "(" + VertexName + " " + sign.ToString() + ")";
+        }
+        //Odjąć koszt ze znanej ścieżki, 
+        EdgeObject edge = _graph.GetEdge(pathVertex, this, sign);
+        edge.EdgeCost -= (int)_pathCost;
+        if (edge.EdgeCost == 0)
+        {
+            _graph.RemoveEdge(pathVertex.vertexName, VertexName);
+        }
+
+        //dodać do ścieżki w drugą stronę
+        Operator oppositeSign = Operator.PLUS;
+        if(sign == Operator.PLUS)
+        {
+            oppositeSign = Operator.MINUS;
+        }
+        else
+        {
+            oppositeSign = Operator.PLUS;
+        }
+
+        edge = _graph.GetEdge(this, pathVertex, oppositeSign);
+        if (edge == null)
+        {
+            Debug.Log("Nie ma używanej już krawędzi o znaku " + oppositeSign.ToString() + " z wierzchołka " + VertexName);
+            _graph.AddEdge(VertexName, pathVertex.VertexName, 0, oppositeSign);
+            edge = _graph.GetEdge(this, pathVertex, oppositeSign);
+        }
+
+        edge.EdgeCost += (int)_pathCost;
+        return "(" + VertexName + " " + sign.ToString() + ")" + " " + pathVertex.Return(_graph, _pathCost);
+    }
+    #endregion
 }

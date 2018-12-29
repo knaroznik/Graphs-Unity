@@ -15,6 +15,8 @@ public class DiConstructModule : ConstructModule {
             brush.Reset();
         }
         _vertexes[x][y] += 1;
+        _vertexes[x].OutEdges++;
+        _vertexes[y].InEdges++;
     }
 
     public override void RemoveEdge(int x, int y, ref OList<Vertex> _vertexes)
@@ -23,6 +25,9 @@ public class DiConstructModule : ConstructModule {
         {
             brush.Reset();
         }
+
         _vertexes[x][y] -= 1;
+        _vertexes[x].OutEdges--;
+        _vertexes[y].InEdges--;
     }
 }
