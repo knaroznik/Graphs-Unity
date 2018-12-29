@@ -16,6 +16,7 @@ public class Graph{
 	protected NucleusModule nucleus = new NucleusModule();
 	protected ConsistencyModule consistency = new ConsistencyModule();
     public MarkModule markModule;
+    public CycleModule cycleModule;
 
 	public Graph(GameObject _vertexPrefab, GameObject _edgePrefab, Material _originalMaterial, Material _markedMaterial){
 		vertexes = new OList<Vertex> ();
@@ -24,6 +25,7 @@ public class Graph{
 		brush = new PaintModule (_originalMaterial, _markedMaterial);
 		construct = new ConstructModule (_vertexPrefab, _edgePrefab,brush);
         markModule = new MarkModule(this); ;
+        cycleModule = new CycleModule(this);
     }
 
 	public int Count{
@@ -90,62 +92,9 @@ public class Graph{
 		return output;
 	}
 
-	public string CheckCycles(){
-		string output = Print ();
-		output += naiveCycles ();
-		output += findCycleMultiplication ();
-		return output;
-	}
+	
 
-	protected string naiveCycles(){
-		int cyclesFound = 0;
-
-		for (int i = 0; i < vertexes.Count; i++) {
-			findCycleLength(i, new OList<Vertex>(), i, 3,  ref cyclesFound);
-		}
-
-
-		if(cyclesFound > 0)
-		{
-			return "\n\nNaive C3 : YES";
-		}
-		else
-		{
-			return "\n\nNaive C3 : NO";
-		}
-	}
-
-	protected string findCycleMultiplication()
-	{
-		var matrix = VertexesToArray ();
-		var matrixN = matrix;
-		for (int i = 0; i < 2; i++)
-		{
-			matrixN = Utilities.MultiplyMatrix(matrixN, matrix);
-		}
-
-		var trace = Utilities.MatrixTrace(matrixN);
-
-		if (trace/6 > 0)
-		{
-			return "\nMULTIPLE : YES";
-		}
-		else
-		{
-			return "\nMULTIPLE : NO";
-		}
-	}
-
-	protected int[][] VertexesToArray(){
-		int[][] output = new int[vertexes.Count][];
-		for (int i = 0; i < vertexes.Count; i++) {
-			output [i] = new int[vertexes.Count];
-			for (int j = 0; j < vertexes.Count; j++) {
-				output [i] [j] = vertexes [i] [j];
-			}
-		}
-		return output;
-	}
+	
 
 	protected bool findCycle(int current, List<int> visited, int parent, ref int cyclesFound)
 	{
@@ -175,29 +124,7 @@ public class Graph{
 		return false;
 	}
 
-	protected bool findCycleLength(int current, OList<Vertex> visited, int original, int lenght, ref int cyclesFound)
-	{
-		if (visited.Count == lenght-1) {
-			if (vertexes [original] [current] == 1) {
-				cyclesFound++;
-				return true;
-			} else {
-				return false;
-			}
-		} else {
-			visited.Add (vertexes[current]);
-			for (int i = 0; i < vertexes.Count; i++) {
-				if (vertexes [current] [i] == 1) {
-					if (!visited.ToList().Contains (vertexes [i])) {
-						OList<Vertex> x = new OList<Vertex> (visited.ToList ());
-						findCycleLength (i, x, original, lenght, ref cyclesFound);
-					}
-				}
-			}
-		}
-
-		return false;
-	}
+	
 	#region Zadanie 2
 	public string CheckCyclesOfLength(int x){
 		string output = "";
