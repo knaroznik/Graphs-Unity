@@ -141,4 +141,63 @@ public class Vertex : MathVertex {
         return "(" + VertexName + " " + sign.ToString() + ")" + " " + pathVertex.Return(_graph, _pathCost);
     }
     #endregion
+
+    public OList<Vertex> GetConnectedVertexes()
+    {
+        OList<Vertex> output = new OList<Vertex>();
+        for(int i=0; i<connections.Count; i++)
+        {
+            if(connections[i] == 1)
+            {
+                output.Add(connectionObjects[i].GetComponent<VertexObject>().vertexData);
+            }
+        }
+        return output;
+    }
+
+    public int color;
+
+    public bool CheckColor(int wantedColor)
+    {
+        //Algorytm jeszcze nie był w tym wierzchołku
+        if (color == -1)
+        {
+            color = wantedColor;
+            OList<bool> coloring = new OList<bool>();
+            int nextColor = -1;
+            if (wantedColor == 0)
+            {
+                nextColor = 1;
+            }
+            else
+            {
+                nextColor = 0;
+            }
+            OList<Vertex> vertexes = GetConnectedVertexes();
+            for(int i=0; i< vertexes.Count; i++)
+            {
+                coloring.Add(vertexes[i].CheckColor(nextColor));
+            }
+
+            if (coloring.Contains(false))
+            {
+                return false;
+            }
+            return true;
+
+        }
+        else
+        {
+            if (color == wantedColor)
+            {
+                return true;
+            }
+            else if (color != wantedColor)
+            {
+                return false;
+            }
+        }
+
+        return false;
+    }
 }

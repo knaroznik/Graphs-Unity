@@ -9,6 +9,9 @@ public class MatrixBehaviour : MonoBehaviour {
 
 	public GameObject VertexPrefab;
 	public GameObject EdgePrefab;
+
+    public GameObject DiEdgePrefab;
+
 	public Text infoText;
 
 	public Graph matrix;
@@ -22,7 +25,7 @@ public class MatrixBehaviour : MonoBehaviour {
 
 	void Awake () {
 		if (DiGraph) {
-			matrix = new DiGraph (VertexPrefab, EdgePrefab, OriginalMaterial, MarkedMaterial);
+			matrix = new DiGraph (VertexPrefab, DiEdgePrefab, OriginalMaterial, MarkedMaterial);
 		} else {
 			matrix = new Graph (VertexPrefab, EdgePrefab, OriginalMaterial, MarkedMaterial);
 		}
@@ -43,4 +46,50 @@ public class MatrixBehaviour : MonoBehaviour {
 		minValue++;
 		infoText.text = matrix.CheckCyclesOfLength (minValue);
 	}
+
+    public void ConstructDiGraph()
+    {
+        DiGraph = !DiGraph;
+        OList<MathEdgeStruct> edgesCopy = GetEdges();
+        matrix.Reset();
+
+        if (DiGraph)
+        {
+            matrix = new DiGraph(VertexPrefab, DiEdgePrefab, OriginalMaterial, MarkedMaterial);
+        }
+        else
+        {
+            matrix = new Graph(VertexPrefab, EdgePrefab, OriginalMaterial, MarkedMaterial);
+        }
+        
+        matrix.Construct(edgesCopy);
+        Print();
+    }
+
+    public void GraphColor()
+    {
+        if (matrix.IsConsistent())
+        {
+            bool x = matrix.Color();
+            Debug.Log(x);
+        }
+
+        for(int i=0; i<matrix.vertexes.Count; i++)
+        {
+            Debug.Log(matrix.vertexes[i].VertexName + " " + matrix.vertexes[i].color);
+        }
+    }
+
+    private OList<MathEdgeStruct> GetEdges()
+    {
+        OList<MathEdgeStruct> edgesCopy = new OList<MathEdgeStruct>();
+
+        OList<EdgeObject> edges = matrix.GetEdges();
+        for(int i=0; i< edges.Count; i++)
+        {
+            edgesCopy.Add(edges[i].Copy());
+        }
+
+        return edgesCopy;
+    }
 }

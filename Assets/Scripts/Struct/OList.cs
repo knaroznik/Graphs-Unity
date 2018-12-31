@@ -123,4 +123,16 @@ public class OList<T> {
 		}
 	}
 
+    public bool Contains(T item)
+    {
+        for (int i = 0; i < Count; i++)
+        {
+            if (array[i].Equals(item))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

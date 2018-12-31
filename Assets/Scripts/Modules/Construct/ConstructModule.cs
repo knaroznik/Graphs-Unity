@@ -27,6 +27,15 @@ public class ConstructModule {
 		}
 	}
 
+    public void ResetVertexes(Graph _matrix)
+    {
+        int x = _matrix.vertexes.Count;
+        for (int i=0; i< x; i++)
+        {
+            RemoveVertex(_matrix.vertexes[0].VertexName, ref _matrix.vertexes);
+        }
+    }
+
 	public void InsertEdges(OList<EdgeStruct> _edges, Graph _matrix){
 		for (int i = 0; i < _edges.Count; i++) {
 			_matrix.AddEdge (_edges [i].FirstPoint().VertexName, _edges [i].SecondPoint().VertexName, 1);

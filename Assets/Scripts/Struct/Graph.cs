@@ -224,7 +224,32 @@ public class Graph{
 		construct.ResetEdges (this);
 	}
 
-	public void InsertEdges(OList<EdgeStruct> _edges){
+    public void Reset()
+    {
+        construct.ResetEdges(this);
+        construct.ResetVertexes(this);
+        vertexes = new OList<Vertex>();
+    }
+
+    public void Construct(OList<MathEdgeStruct> edgesCopy)
+    {
+        for (int i = 0; i < edgesCopy.Count; i++)
+        {
+            if (!vertexes.Contains(new Vertex(edgesCopy[i].obj1)))
+            {
+                AddNewVertex(edgesCopy[i].obj1Position, edgesCopy[i].obj1);
+            }
+
+            if (!vertexes.Contains(new Vertex(edgesCopy[i].obj2)))
+            {
+                AddNewVertex(edgesCopy[i].obj2Position, edgesCopy[i].obj2);
+            }
+
+            AddEdge(edgesCopy[i].obj1, edgesCopy[i].obj2, edgesCopy[i].edgeCost);
+        }
+    }
+
+    public void InsertEdges(OList<EdgeStruct> _edges){
 		construct.InsertEdges (_edges, this);
 	}
 
@@ -313,4 +338,14 @@ public class Graph{
 	public OList<EdgeStruct> DFSAlgorithm(){
 		return locationModule.DFS (this);
 	}
+
+    public bool Color()
+    {
+        for(int i=0; i<vertexes.Count; i++)
+        {
+            vertexes[i].color = -1;
+        }
+        return vertexes[0].CheckColor(0);
+        
+    }
 }

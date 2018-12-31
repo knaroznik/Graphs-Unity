@@ -89,7 +89,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 2}
-  m_Center: {x: 278.8108, y: -529.54266, z: 0.5}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &114016548836383600
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -103,7 +103,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obj1: {fileID: 0}
   obj2: {fileID: 0}
-  edgeCost: 0
   costText: {fileID: 114261321356662234}
 --- !u!114 &114261321356662234
 MonoBehaviour:

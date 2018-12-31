@@ -103,6 +103,7 @@ public class EdgeObject : MonoBehaviour {
         boxCollider.size = new Vector3(1, 1, width * 0.9f);
         Vector3 midPoint = (obj1.transform.position + obj2.transform.position) / 2;
         boxCollider.transform.position = midPoint;
+        boxCollider.center = Vector3.zero;
         boxCollider.transform.LookAt(obj1.transform.position);
     }
 
@@ -154,6 +155,12 @@ public class EdgeObject : MonoBehaviour {
     public override string ToString()
     {
         return "("+obj1.vertexData.VertexName + "," + obj2.vertexData.VertexName + ")";
+    }
+
+    //TODO : Jeśli pokolorowane to w dobrej kolejności.
+    public MathEdgeStruct Copy()
+    {
+        return new MathEdgeStruct(obj1.vertexData.VertexName, obj1.transform.position, obj2.vertexData.VertexName, obj2.transform.position, edgeCost);
     }
 }
 

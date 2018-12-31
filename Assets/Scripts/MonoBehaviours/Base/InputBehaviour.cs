@@ -259,6 +259,7 @@ public class InputBehaviour : MonoBehaviour {
             matrixObject.matrix.RemoveEdge(destroyingObject.GetComponent<EdgeObject>().obj1.vertexData.VertexName,
                 destroyingObject.GetComponent<EdgeObject>().obj2.vertexData.VertexName);
         }
+        matrixObject.Print();
     }
 
     void DrawLine(GameObject startLine)
