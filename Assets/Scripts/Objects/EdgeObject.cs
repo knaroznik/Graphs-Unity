@@ -160,6 +160,14 @@ public class EdgeObject : MonoBehaviour {
     //TODO : Jeśli pokolorowane to w dobrej kolejności.
     public MathEdgeStruct Copy()
     {
+        if (obj1.vertexData.color == -1)
+        {
+            return new MathEdgeStruct(obj1.vertexData.VertexName, obj1.transform.position, obj2.vertexData.VertexName, obj2.transform.position, edgeCost);
+        }
+        if(obj1.vertexData.color > obj2.vertexData.color)
+        {
+            return new MathEdgeStruct(obj2.vertexData.VertexName, obj2.transform.position, obj1.vertexData.VertexName, obj1.transform.position, edgeCost);
+        }
         return new MathEdgeStruct(obj1.vertexData.VertexName, obj1.transform.position, obj2.vertexData.VertexName, obj2.transform.position, edgeCost);
     }
 }

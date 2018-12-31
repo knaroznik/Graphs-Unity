@@ -196,7 +196,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   VertexPrefab: {fileID: 1457429120891706, guid: 06ae71fd045c47c4695320f012d421d9,
     type: 2}
-  EdgePrefab: {fileID: 1036539641370082, guid: f9f238672c0e47747a893a110b14cc2c, type: 2}
+  EdgePrefab: {fileID: 1623078562390432, guid: 046c5848616ff434495627498c22e483, type: 2}
+  DiEdgePrefab: {fileID: 1036539641370082, guid: f9f238672c0e47747a893a110b14cc2c,
+    type: 2}
   infoText: {fileID: 1538567146}
   DebugMode: 1
   DiGraph: 1
@@ -535,11 +537,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 170076739}
         m_MethodName: Algorithm
-        m_Mode: 1
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -979,7 +981,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.023740439, y: 0.24343455}
   m_AnchorMax: {x: 0.9654551, y: 0.78771734}
-  m_AnchoredPosition: {x: -0.48638916, y: -0.5600004}
+  m_AnchoredPosition: {x: -0.48638916, y: -0.55999756}
   m_SizeDelta: {x: -0.7, y: 1.0799999}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1538567146

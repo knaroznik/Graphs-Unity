@@ -126,6 +126,7 @@ GameObject:
   - component: {fileID: 170076737}
   - component: {fileID: 170076738}
   - component: {fileID: 170076739}
+  - component: {fileID: 170076740}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -241,6 +242,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cc747e7198b7130448241c4e794f01a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &170076740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 170076733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7b4f7c65a9d22c448706e629d0f9d43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &195860374
@@ -1303,8 +1315,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -208.16403, y: 15.9999695}
-  m_SizeDelta: {x: 366.3, y: -242.70004}
+  m_AnchoredPosition: {x: -208.16403, y: -0.5}
+  m_SizeDelta: {x: 366.3, y: -275.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1538567146
 MonoBehaviour:

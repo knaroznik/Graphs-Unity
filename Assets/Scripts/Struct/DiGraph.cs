@@ -103,5 +103,27 @@ public class DiGraph : Graph {
         return output;
     }
 
+    public string GetAssociation()
+    {
+        string output = "";
+        OList<EdgeObject> edges = GetEdges();
+        for (int i = 0; i < edges.Count; i++)
+        {
+            if (edges[i].Sign == Operator.PLUS)
+            {
+                if(edges[i].obj1.vertexData.VertexName == "T" || edges[i].obj1.vertexData.VertexName == "S"
+                    || edges[i].obj2.vertexData.VertexName == "T" || edges[i].obj2.vertexData.VertexName == "S")
+                {
+
+                }
+                else
+                {
+                    output += edges[i].ToString() + " ";
+                }
+                
+            }
+        }
+        return output;
+    }
     
 }

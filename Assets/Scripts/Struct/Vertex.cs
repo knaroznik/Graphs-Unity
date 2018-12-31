@@ -132,13 +132,12 @@ public class Vertex : MathVertex {
         edge = _graph.GetEdge(this, pathVertex, oppositeSign);
         if (edge == null)
         {
-            Debug.Log("Nie ma używanej już krawędzi o znaku " + oppositeSign.ToString() + " z wierzchołka " + VertexName);
             _graph.AddEdge(VertexName, pathVertex.VertexName, 0, oppositeSign);
             edge = _graph.GetEdge(this, pathVertex, oppositeSign);
         }
 
         edge.EdgeCost += (int)_pathCost;
-        return "(" + VertexName + " " + sign.ToString() + ")" + " " + pathVertex.Return(_graph, _pathCost);
+        return "(" + VertexName + ")" + " " + pathVertex.Return(_graph, _pathCost);
     }
     #endregion
 

@@ -40,13 +40,41 @@ public class FlowAlgorithm : MonoBehaviour {
         }
     }
 
-    public void Algorithm()
+    public void Check(int _value)
+    {
+        Init();
+        graph = (DiGraph)matrixBehaviour.matrix;
+
+
+        OList<Vertex> sources = graph.GetSources();
+        OList<Vertex> escapes = graph.GetEscapes();
+
+        if (sources.Count == 0 || escapes.Count == 0)
+        {
+            CrashAlgorithm();
+            return;
+        }
+        else
+        {
+            GetSource(sources, _value);
+            GetEscape(escapes, _value);
+
+        }
+
+        if (!Connected())
+        {
+            CrashAlgorithm();
+            return;
+        }
+    }
+
+    public void Algorithm(int steps = 1)
     {
         DiGraph graph = (DiGraph)matrixBehaviour.matrix;
         int whileCounter = 0;
         
 
-        while (whileCounter < 1)
+        while (whileCounter < steps)
         {
             //Mark Phase
 
@@ -63,7 +91,6 @@ public class FlowAlgorithm : MonoBehaviour {
             {
                 int markedVertexes = 0;
                 OList<Vertex> borderers = graph.FindBorderers(currentVertex);
-                Debug.Log(borderers.Count);
                 string x = "";
                 for (int i = 0; i < borderers.Count; i++)
                 {
@@ -109,7 +136,7 @@ public class FlowAlgorithm : MonoBehaviour {
         sceneText = matrixBehaviour.infoText;
     }
 
-    private void GetSource(OList<Vertex> _sources)
+    private void GetSource(OList<Vertex> _sources, int _value = -1)
     {
         if (_sources.Count > 1)
         {
@@ -117,7 +144,15 @@ public class FlowAlgorithm : MonoBehaviour {
 
             for (int i = 0; i < _sources.Count; i++)
             {
-                matrixBehaviour.matrix.AddEdge("S", _sources[i].VertexName, _sources[i].Value);
+                if(_value != -1)
+                {
+                    matrixBehaviour.matrix.AddEdge("S", _sources[i].VertexName, _value);
+                }
+                else
+                {
+                    matrixBehaviour.matrix.AddEdge("S", _sources[i].VertexName, _sources[i].Value);
+                }
+                
             }
             int vertexNumber = matrixBehaviour.matrix.vertexes.IndexOf(new Vertex("S"));
             source = matrixBehaviour.matrix.vertexes[vertexNumber];
@@ -128,7 +163,7 @@ public class FlowAlgorithm : MonoBehaviour {
         }
     }
 
-    private void GetEscape(OList<Vertex> _escapes)
+    private void GetEscape(OList<Vertex> _escapes, int _value = -1)
     {
         if (_escapes.Count > 1)
         {
@@ -136,7 +171,15 @@ public class FlowAlgorithm : MonoBehaviour {
 
             for (int i = 0; i < _escapes.Count; i++)
             {
-                matrixBehaviour.matrix.AddEdge(_escapes[i].VertexName, "T", _escapes[i].Value);
+                if(_value != -1)
+                {
+                    matrixBehaviour.matrix.AddEdge(_escapes[i].VertexName, "T", _value);
+                }
+                else
+                {
+                    matrixBehaviour.matrix.AddEdge(_escapes[i].VertexName, "T", _escapes[i].Value);
+                }
+                
             }
             int vertexNumber = matrixBehaviour.matrix.vertexes.IndexOf(new Vertex("T"));
             escape = matrixBehaviour.matrix.vertexes[vertexNumber];

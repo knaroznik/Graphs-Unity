@@ -70,13 +70,19 @@ public class MatrixBehaviour : MonoBehaviour {
     {
         if (matrix.IsConsistent())
         {
-            bool x = matrix.Color();
-            Debug.Log(x);
-        }
-
-        for(int i=0; i<matrix.vertexes.Count; i++)
-        {
-            Debug.Log(matrix.vertexes[i].VertexName + " " + matrix.vertexes[i].color);
+            if (DiGraph)
+            {
+                ConstructDiGraph();
+                return;
+            }
+            if (matrix.Color())
+            {
+                ConstructDiGraph();
+                GetComponent<FlowAlgorithm>().Check(1);
+                GetComponent<FlowAlgorithm>().Algorithm(10000000);
+                infoText.text = "Maksymalne skojarzenie : " + ((DiGraph)matrix).GetAssociation();
+                return;
+            }
         }
     }
 
