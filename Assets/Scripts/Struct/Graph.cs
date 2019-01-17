@@ -8,7 +8,7 @@ public class Graph{
 
 	public OList<Vertex> vertexes;
 
-	protected PaintModule brush;
+	public PaintModule brush;
 	protected InfoModule info;
 	protected ConstructModule construct;
 	protected LocationModule locationModule;
@@ -98,10 +98,6 @@ public class Graph{
 		return output;
 	}
 
-	
-
-	
-
 	protected bool findCycle(int current, List<int> visited, int parent, ref int cyclesFound)
 	{
 		visited.Add(current);
@@ -130,64 +126,6 @@ public class Graph{
 		return false;
 	}
 
-	
-	#region Zadanie 2
-	public string CheckCyclesOfLength(int x){
-		string output = "";
-		output += Print ();
-		output += "\n\n FINDING CYCLE OF MIN(deg(matrix) + 1 \n\n ";
-		output += "\nStarting from C" + x;
-		for (int i = x; i <= vertexes.Count; i++) {
-			OList<Vertex> cycle = naiveCycles (i);
-			if (cycle != null) {
-				string result = String.Join("->", cycle.ToList().Select(item => item.ToString()).ToArray());
-				output += "\nFound cycle C"+ i +" :\n";
-				output += result;
-				brush.Paint (cycle);
-				break;
-			}
-		}
-		return output;
-	}
-
-	protected OList<Vertex> naiveCycles(int x){
-		for (int i = 0; i < vertexes.Count; i++) {
-			OList<Vertex> q = findCycleLength(i, new OList<Vertex>(), i, x);
-			if (q != null) {
-				return q;
-			}
-		}
-		return null;
-	}
-
-	protected OList<Vertex> findCycleLength(int current, OList<Vertex> visited, int original, int lenght)
-	{
-		if (visited.Count == lenght-1) {
-			if (vertexes [original] [current] == 1) {
-				visited.Add (vertexes[current]);
-				return visited;
-			} else {
-				return null;
-			}
-		} else {
-			visited.Add (vertexes[current]);
-			for (int i = 0; i < vertexes.Count; i++) {
-				if (vertexes [current] [i] == 1) {
-					if (!visited.ToList().Contains (vertexes [i])) {
-						OList<Vertex> x = new OList<Vertex> (visited.ToList ());
-						OList<Vertex> q = findCycleLength (i, x, original, lenght);
-						if (q != null) {
-							return q;
-						}
-
-					}
-				}
-			}
-		}
-
-		return null;
-	}
-	#endregion
 
 	public bool IsConsistent(){
 		return consistency.IsConsistent (vertexes);
@@ -206,24 +144,7 @@ public class Graph{
 		return result;
 	}
 
-	public bool HasCycle(){
-		OList<Vertex> cycle = null;
-		for (int cycleLength = 3; cycleLength <= vertexes.Count; cycleLength++) {
-			for (int i = 0; i < vertexes.Count; i++) {
-				OList<Vertex> q = findCycleLength (i, new OList<Vertex> (), i, cycleLength);
-				if (q != null) {
-					cycle = q;
-					break;
-				}
-			}
-		}
-
-		if (cycle != null) {
-			return true;
-		}
-
-		return false;
-	}
+	
 
 
 	public void ResetEdges(){

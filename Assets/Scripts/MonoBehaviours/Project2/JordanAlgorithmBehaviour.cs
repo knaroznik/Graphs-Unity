@@ -33,7 +33,7 @@ public class JordanAlgorithmBehaviour : MonoBehaviour {
 			return;
 		}
 
-        if (matrix.HasCycle()){
+        if (matrix.cycleModule.HasCycle()){
             output += "Graph got cycle!";
             Write(output);
             return;

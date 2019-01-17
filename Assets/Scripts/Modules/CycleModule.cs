@@ -11,6 +11,68 @@ public class CycleModule {
         graph = _graph;
     }
 
+    public bool HasCycle()
+    {
+        OList<Vertex> cycle = null;
+        for (int cycleLength = 3; cycleLength <= graph.vertexes.Count; cycleLength++)
+        {
+            for (int i = 0; i < graph.vertexes.Count; i++)
+            {
+                OList<Vertex> q = findCycleLength(i, new OList<Vertex>(), i, cycleLength);
+                if (q != null)
+                {
+                    cycle = q;
+                    break;
+                }
+            }
+        }
+
+        if (cycle != null)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public OList<Vertex> findCycleLength(int current, OList<Vertex> visited, int original, int lenght)
+    {
+        if (visited.Count == lenght - 1)
+        {
+            if (graph.vertexes[original][current] == 1)
+            {
+                visited.Add(graph.vertexes[current]);
+                return visited;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        else
+        {
+            visited.Add(graph.vertexes[current]);
+            for (int i = 0; i < graph.vertexes.Count; i++)
+            {
+                if (graph.vertexes[current][i] == 1)
+                {
+                    if (!visited.ToList().Contains(graph.vertexes[i]))
+                    {
+                        OList<Vertex> x = new OList<Vertex>(visited.ToList());
+                        OList<Vertex> q = findCycleLength(i, x, original, lenght);
+                        if (q != null)
+                        {
+                            return q;
+                        }
+
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
     public string CheckCycles()
     {
         string output = graph.Print();

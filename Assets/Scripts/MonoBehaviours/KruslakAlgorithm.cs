@@ -31,7 +31,7 @@ public class KruslakAlgorithm : MonoBehaviour {
 		for (int i = 0; i < edgesCopy.Count; i++) {
 			matrix.AddEdge (edgesCopy [i].FirstPoint ().VertexName, edgesCopy [i].SecondPoint ().VertexName, edgesCopy [i].EdgeCost);
 
-			if (matrix.HasCycle()) {
+			if (matrix.cycleModule.HasCycle()) {
 				matrix.RemoveEdge (edgesCopy [i].FirstPoint ().VertexName, edgesCopy [i].SecondPoint ().VertexName);
 			}
 		}

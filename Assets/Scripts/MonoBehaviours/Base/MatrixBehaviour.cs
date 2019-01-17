@@ -37,16 +37,6 @@ public class MatrixBehaviour : MonoBehaviour {
             infoText.text = matrix.Print();
     }
 
-	public void CheckMinCycle(){
-		int minValue = matrix.LowestValue ();
-		if (minValue < 2) {
-			infoText.text = matrix.Print () + " \n\n Za mały minimalny stopień aby znaleźć cykl! ";
-			return;
-		}
-		minValue++;
-		infoText.text = matrix.CheckCyclesOfLength (minValue);
-	}
-
     public void ConstructDiGraph()
     {
         DiGraph = !DiGraph;
