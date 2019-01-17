@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class VertexObject : MonoBehaviour {
+public class VertexObject : VertexBaseObject {
 
 	private Vector3 screenPoint;
 	private Vector3 offset;

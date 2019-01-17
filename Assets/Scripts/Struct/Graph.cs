@@ -12,8 +12,7 @@ public class Graph{
 	protected InfoModule info;
 	protected ConstructModule construct;
 	protected LocationModule locationModule;
-
-	protected NucleusModule nucleus = new NucleusModule();
+    
 	protected ConsistencyModule consistency = new ConsistencyModule();
     public MarkModule markModule;
     public CycleModule cycleModule;
@@ -33,6 +32,13 @@ public class Graph{
 			return vertexes.Count;
 		}
 	}
+
+    public bool IsEmpty()
+    {
+        if (Count < 1)
+            return true;
+        return false;
+    }
 
 	public int LowestValue(){
 		return info.LowestValue ();
@@ -335,10 +341,6 @@ public class Graph{
     {
         return locationModule.FindBorderers(_currentVertex, this);
     }
-
-    public string FindNucleus(){
-		return nucleus.FindNucleus (this);
-	}
 
 	public OList<EdgeStruct> DFSAlgorithm(){
 		return locationModule.DFS (this);
