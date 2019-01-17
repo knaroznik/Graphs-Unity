@@ -14,7 +14,7 @@ public class InputBehaviour : MonoBehaviour {
     public Text inputModeName;
 
     private MatrixBehaviour matrixObject;
-    private InputMode inputMode = InputMode.IDLE;
+    public InputMode inputMode = InputMode.IDLE;
 
     private GameObject currentSelectedGameObject;
     public GameObject CurrentSelectedGameObject {

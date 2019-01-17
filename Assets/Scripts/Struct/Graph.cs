@@ -326,6 +326,11 @@ public class Graph{
         return null;
     }
 
+    public Vertex GetVertex(int _number)
+    {
+        return vertexes[_number];
+    }
+
     public OList<Vertex> FindBorderers(Vertex _currentVertex)
     {
         return locationModule.FindBorderers(_currentVertex, this);

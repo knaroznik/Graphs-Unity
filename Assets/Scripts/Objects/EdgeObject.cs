@@ -144,7 +144,8 @@ public class EdgeObject : MonoBehaviour {
 
     private void OnMouseOver()
     {
-        InputBehaviour.instance.CurrentSelectedGameObject = this.gameObject;
+        if(InputBehaviour.instance.inputMode != InputMode.IDLE)
+            InputBehaviour.instance.CurrentSelectedGameObject = this.gameObject;
     }
 
     private void OnMouseExit()
@@ -156,8 +157,7 @@ public class EdgeObject : MonoBehaviour {
     {
         return "("+obj1.vertexData.VertexName + "," + obj2.vertexData.VertexName + ")";
     }
-
-    //TODO : Jeśli pokolorowane to w dobrej kolejności.
+    
     public MathEdgeStruct Copy()
     {
         if (obj1.vertexData.color == -1)
