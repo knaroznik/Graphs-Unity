@@ -110,9 +110,23 @@ public class OList<T> {
 		}
 	}
 
-	public T Get(int i){
+    #region Get Item
+
+    public T Get(int i){
 		return array [i];
 	}
+
+    public T Get(string _objectName)
+    {
+        for(int i=0; i<Count; i++)
+        {
+            if(array[i].ToString() == _objectName)
+            {
+                return array[i];
+            }
+        }
+        return default(T);
+    }
 
 	public T this[int index]{
 		get{
@@ -122,6 +136,10 @@ public class OList<T> {
 			Insert (value, index);
 		}
 	}
+
+    #endregion
+
+    #region Contains
 
     public bool Contains(T item)
     {
@@ -134,5 +152,19 @@ public class OList<T> {
         }
         return false;
     }
+
+    public bool Contains(string _objectName)
+    {
+        for (int i = 0; i < Count; i++)
+        {
+            if (array[i].ToString() == _objectName)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    #endregion
 
 }

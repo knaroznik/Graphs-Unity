@@ -10,7 +10,7 @@ public class DFSAlgorithm : MonoBehaviour {
 		matrix = GetComponent<MatrixBehaviour> ().matrix;
 
 		if (!matrix.IsConsistent ()) {
-			GetComponent<MatrixBehaviour> ().infoText.text = matrix.Print() + " \n\nDFS STARTING...\n\n Graph is not consistent or is empty!";
+			GetComponent<MatrixBehaviour> ().infoText.text = matrix.info.Print() + " \n\nDFS STARTING...\n\n Graph is not consistent or is empty!";
 			return;
 		}
 
@@ -19,6 +19,6 @@ public class DFSAlgorithm : MonoBehaviour {
 		matrix.ResetEdges ();
 		matrix.InsertEdges (treeEdges);
 
-		GetComponent<MatrixBehaviour> ().infoText.text = matrix.Print () + " \n\nDFS STARTING...\n\n DFS found tree!";;
+		GetComponent<MatrixBehaviour> ().infoText.text = matrix.info.Print () + " \n\nDFS STARTING...\n\n DFS found tree!";;
 	}
 }

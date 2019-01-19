@@ -22,8 +22,8 @@ public class GalaxyCreator : MonoBehaviour {
 
         while (!galaxy.IsConsistent())
         {
-            int x = Random.Range(0, galaxy.Count);
-            int y = Random.Range(0, galaxy.Count);
+            int x = Random.Range(0, galaxy.Size);
+            int y = Random.Range(0, galaxy.Size);
             Vertex one = galaxy.GetVertex(x);
             Vertex two = galaxy.GetVertex(y);
             

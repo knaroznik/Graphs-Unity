@@ -9,10 +9,11 @@ public class Graph{
 	public OList<Vertex> vertexes;
 
     public LocationModule locationModule;
+    public InfoModule info;
 
 
     public PaintModule brush;
-	protected InfoModule info;
+	
 	protected ConstructModule construct;
 	
     
@@ -30,26 +31,42 @@ public class Graph{
         cycleModule = new CycleModule(this);
     }
 
-	public int Count{
+    /// <summary>
+    /// Size of graph. Count of vertexes.
+    /// </summary>
+	public int Size{
 		get{
 			return vertexes.Count;
 		}
 	}
 
+    /// <summary>
+    /// Check if graph is empty.
+    /// </summary>
+    /// <returns>Is Graph Empty</returns>
     public bool IsEmpty()
     {
-        if (Count < 1)
+        if (Size < 1)
             return true;
         return false;
     }
 
-	public int LowestValue(){
-		return info.LowestValue ();
-	}
+    /// <summary>
+    /// Is Graph Consistent.
+    /// </summary>
+    /// <returns> True if is consistent, false otherwise.</returns>
+    public bool IsConsistent()
+    {
+        return consistency.IsConsistent(vertexes);
+    }
 
-	#region Construct Module 
+    public Vertex GetVertex(int _number){
+        return vertexes[_number];
+    }
 
-	public void AddVertex(string _newVertexName){
+    #region Construct Module 
+
+    public void AddVertex(string _newVertexName){
 		construct.AddVertex (_newVertexName, ref vertexes);
 	}
 
@@ -76,35 +93,8 @@ public class Graph{
 
 	#endregion
 
-	public string Print(){
-		string output = "";
-		output += " Macierz sąsiedztwa : \n";
-		for (int i = 0; i < vertexes.Count; i++)
-		{
-			output += "\t" + vertexes[i].VertexName;
-		}
 
-		for (int i = 0; i < vertexes.Count; i++)
-		{
-			output += "\n";
-			for (int j = 0; j < vertexes.Get(i).Count; j++)
-			{
-				if(j == 0)
-				{
-					output += vertexes[i].VertexName;
-				}
-
-				output += "\t" + vertexes[i][j];                  
-			}
-		}
-		output += info.PrintInfo ();
-		return output;
-	}
-
-
-	public bool IsConsistent(){
-		return consistency.IsConsistent (vertexes);
-	}
+	
 
     public List<Vertex> GetConnectedVertexes(string _startedVertexName)
     {
@@ -208,23 +198,6 @@ public class Graph{
             }
         }
         return null;
-    }
-
-    public Vertex GetVertexByName(string _name)
-    {
-        for(int i=0; i<vertexes.Count; i++)
-        {
-            if(vertexes[i].VertexName == _name)
-            {
-                return vertexes[i];
-            }
-        }
-        return null;
-    }
-
-    public Vertex GetVertex(int _number)
-    {
-        return vertexes[_number];
     }
 
     public bool Color()

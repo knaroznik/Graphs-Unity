@@ -39,7 +39,7 @@ public class JordanAlgorithmBehaviour : MonoBehaviour {
             return;
         }
 
-        if (matrix.Count < 3){ //Check if tree got more than 2 vertexes, otherwise these vertexes are tree center.
+        if (matrix.Size < 3){ //Check if tree got more than 2 vertexes, otherwise these vertexes are tree center.
             output += "Nucleus : " + matrix.WriteVertexes ();
 			Write(output);
 			return;
@@ -53,7 +53,7 @@ public class JordanAlgorithmBehaviour : MonoBehaviour {
 	}
 
 	public void Write(string o){
-		GetComponent<MatrixBehaviour>().infoText.text = matrix.Print() + o;
+		GetComponent<MatrixBehaviour>().infoText.text = matrix.info.Print() + o;
 	}
 
     public string FindNucleus()

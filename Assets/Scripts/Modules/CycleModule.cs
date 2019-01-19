@@ -75,7 +75,7 @@ public class CycleModule {
 
     public string CheckCycles()
     {
-        string output = graph.Print();
+        string output = graph.info.Print();
         output += naiveCycles();
         output += findCycleMultiplication();
         return output;

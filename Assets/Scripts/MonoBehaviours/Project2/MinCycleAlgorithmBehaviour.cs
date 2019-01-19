@@ -15,7 +15,7 @@ public class MinCycleAlgorithmBehaviour : MonoBehaviour {
 	
     public void Algorithm()
     {
-        int minValue = matrix.LowestValue();
+        int minValue = matrix.info.LowestValue();
         if (minValue < 2)
         {
             Write(" \n\n Za mały minimalny stopień aby znaleźć cykl! ");
@@ -27,7 +27,7 @@ public class MinCycleAlgorithmBehaviour : MonoBehaviour {
 
     public void Write(string o)
     {
-        GetComponent<MatrixBehaviour>().infoText.text = matrix.Print() + o;
+        GetComponent<MatrixBehaviour>().infoText.text = matrix.info.Print() + o;
     }
 
     public string CheckCyclesOfLength(int x)
@@ -35,7 +35,7 @@ public class MinCycleAlgorithmBehaviour : MonoBehaviour {
         string output = "";
         output += "\n\n FINDING CYCLE OF MIN(deg(matrix) + 1) \n\n ";
         output += "\nStarting from C" + x;
-        for (int i = x; i <= matrix.Count; i++)
+        for (int i = x; i <= matrix.Size; i++)
         {
             OList<Vertex> cycle = naiveCycles(i);
             if (cycle != null)

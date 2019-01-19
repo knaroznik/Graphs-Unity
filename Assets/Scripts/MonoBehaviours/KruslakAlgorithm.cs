@@ -19,7 +19,7 @@ public class KruslakAlgorithm : MonoBehaviour {
 		edgesList = edgesList.OrderBy (x => x.EdgeCost).ToList();
 		KruskalEdges (edgesList);
 
-		GetComponent<MatrixBehaviour> ().infoText.text = matrix.Print ();
+		GetComponent<MatrixBehaviour> ().infoText.text = matrix.info.Print ();
 	}
 
 	private void KruskalEdges(List<EdgeObject> edges){

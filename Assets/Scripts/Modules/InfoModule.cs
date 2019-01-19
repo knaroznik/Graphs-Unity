@@ -11,7 +11,33 @@ public class InfoModule {
 		dataMatrix = _matrix;
 	}
 
-	public string PrintInfo(){
+    public string Print()
+    {
+        string output = "";
+        output += " Macierz sąsiedztwa : \n";
+        for (int i = 0; i < vertexes.Count; i++)
+        {
+            output += "\t" + vertexes[i].VertexName;
+        }
+
+        for (int i = 0; i < vertexes.Count; i++)
+        {
+            output += "\n";
+            for (int j = 0; j < vertexes.Get(i).Count; j++)
+            {
+                if (j == 0)
+                {
+                    output += vertexes[i].VertexName;
+                }
+
+                output += "\t" + vertexes[i][j];
+            }
+        }
+        output += PrintInfo();
+        return output;
+    }
+
+    public string PrintInfo(){
 		vertexes = dataMatrix.vertexes;
 		string output = "";
 		output += "\n\nNajwyższy stopien : " + HeighestValue();

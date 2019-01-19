@@ -34,7 +34,7 @@ public class MatrixBehaviour : MonoBehaviour {
     public void Print()
     {
         if (DebugMode)
-            infoText.text = matrix.Print();
+            infoText.text = matrix.info.Print();
     }
 
     public void ConstructDiGraph()
