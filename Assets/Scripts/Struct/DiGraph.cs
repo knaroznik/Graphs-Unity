@@ -6,7 +6,7 @@ public class DiGraph : Graph {
 	
 	public DiGraph(GameObject _vertexPrefab, GameObject _edgePrefab, Material _originalMaterial, Material _markedMaterial) : 
 		base(_vertexPrefab, _edgePrefab, _originalMaterial, _markedMaterial){
-		locationModule = new LocationDirectionModule ();
+		locationModule = new LocationDirectionModule (this);
         construct = new DiConstructModule(_vertexPrefab, _edgePrefab, brush);
     }
 
@@ -50,7 +50,7 @@ public class DiGraph : Graph {
 
     public OList<EdgeObject> GetEdgesFrom(Vertex _fromVertex, Operator sign = Operator.PLUS)
     {
-        OList<EdgeObject> edges = GetEdges();
+        OList<EdgeObject> edges = locationModule.GetEdges();
         OList<EdgeObject> myEdges = new OList<EdgeObject>();
         for (int i = 0; i < edges.Count; i++)
         {
@@ -64,7 +64,7 @@ public class DiGraph : Graph {
 
     public OList<EdgeObject> GetEdgesTo(Vertex _toVertex, Operator sign = Operator.PLUS)
     {
-        OList<EdgeObject> edges = GetEdges();
+        OList<EdgeObject> edges = locationModule.GetEdges();
         OList<EdgeObject> myEdges = new OList<EdgeObject>();
         for (int i = 0; i < edges.Count; i++)
         {
@@ -106,7 +106,7 @@ public class DiGraph : Graph {
     public string GetAssociation()
     {
         string output = "";
-        OList<EdgeObject> edges = GetEdges();
+        OList<EdgeObject> edges = locationModule.GetEdges();
         for (int i = 0; i < edges.Count; i++)
         {
             if (edges[i].Sign == Operator.PLUS)

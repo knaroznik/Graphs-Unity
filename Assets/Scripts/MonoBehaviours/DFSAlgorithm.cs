@@ -14,7 +14,7 @@ public class DFSAlgorithm : MonoBehaviour {
 			return;
 		}
 
-		OList<EdgeStruct> treeEdges = matrix.DFSAlgorithm ();
+		OList<EdgeStruct> treeEdges = matrix.locationModule.DFS ();
 
 		matrix.ResetEdges ();
 		matrix.InsertEdges (treeEdges);

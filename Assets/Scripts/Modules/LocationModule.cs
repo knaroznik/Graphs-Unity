@@ -4,13 +4,20 @@ using UnityEngine;
 
 public class LocationModule {
 
-	private OList<Vertex> FindUnseenBorderers(Vertex _currentVertex, OList<Vertex> _visited, Graph _matrix){
+    protected OList<Vertex> vertexes;
+
+    public LocationModule(Graph _graph)
+    {
+        vertexes = _graph.vertexes;
+    }
+
+	private OList<Vertex> FindUnseenBorderers(Vertex _currentVertex, OList<Vertex> _visited){
 		OList<Vertex> output = new OList<Vertex> ();
-		for (int i = 0; i < _matrix.vertexes.Count; i++) {
-			int current = _matrix.vertexes.IndexOf (new Vertex (_currentVertex.VertexName));
-			if (_matrix.vertexes [current] [i] == 1) {
-				if (!_visited.ToList ().Contains (_matrix.vertexes [i])) {
-					output.Add (_matrix.vertexes [i]);
+		for (int i = 0; i < vertexes.Count; i++) {
+			int current = vertexes.IndexOf (new Vertex (_currentVertex.VertexName));
+			if (vertexes [current] [i] == 1) {
+				if (!_visited.ToList ().Contains (vertexes [i])) {
+					output.Add (vertexes [i]);
 				}
 			}
 		}
@@ -21,13 +28,12 @@ public class LocationModule {
 	/// Return all edges in graph. No repetitions.
 	/// </summary>
 	/// <returns>All edges in graph</returns>
-	/// <param name="_vertexes">Graph represented by neighborhood matrix.</param>
-	public OList<EdgeObject> GetEdges(OList<Vertex> _vertexes){
+	public OList<EdgeObject> GetEdges(){
 		OList<EdgeObject> output = new OList<EdgeObject> ();
-		for (int i = 0; i < _vertexes.Count; i++) {
-			int edges = _vertexes [i].VertexObject.GetComponent<VertexObject> ().EdgeCount;
+		for (int i = 0; i < vertexes.Count; i++) {
+			int edges = vertexes[i].VertexObject.GetComponent<VertexObject> ().EdgeCount;
 			for (int j = 0; j < edges; j++) {
-				AddEdge (ref output, _vertexes [i].VertexObject.GetComponent<VertexObject> ().Edge (j));
+				AddEdge (ref output, vertexes[i].VertexObject.GetComponent<VertexObject> ().Edge (j));
 			}
 
 		}
@@ -48,15 +54,15 @@ public class LocationModule {
 		edges.Add (newEdge);
 	}
 
-    public OList<Vertex> FindBorderers(Vertex _currentVertex, Graph _matrix)
+    public OList<Vertex> FindBorderers(Vertex _currentVertex)
     {
         OList<Vertex> output = new OList<Vertex>();
-        for (int i = 0; i < _matrix.vertexes.Count; i++)
+        for (int i = 0; i < vertexes.Count; i++)
         {
-            int current = _matrix.vertexes.IndexOf(new Vertex(_currentVertex.VertexName));
-            if (_matrix.vertexes[current][i] > 0)
+            int current = vertexes.IndexOf(new Vertex(_currentVertex.VertexName));
+            if (vertexes[current][i] > 0)
             {
-                output.Add(_matrix.vertexes[i]);
+                output.Add(vertexes[i]);
             }
         }
 
@@ -65,17 +71,17 @@ public class LocationModule {
 
     #region DFS 
 
-    public OList<EdgeStruct> DFS(Graph _matrix){
+    public OList<EdgeStruct> DFS(){
 		Vertex currentVertex;
 		Stack<Vertex> stack = new Stack<Vertex> ();
 		OList<EdgeStruct> treeEdges = new OList<EdgeStruct> ();
 		OList<Vertex> visitedVertexes = new OList<Vertex> ();
 
-		currentVertex = visitVertex(_matrix.vertexes[0], ref stack, ref visitedVertexes);
+		currentVertex = visitVertex(vertexes[0], ref stack, ref visitedVertexes);
 
 		while (!stack.IsEmpty ()) {
 
-			OList<Vertex> borderers = FindUnseenBorderers (currentVertex, visitedVertexes, _matrix);
+			OList<Vertex> borderers = FindUnseenBorderers (currentVertex, visitedVertexes);
 			if (borderers.Count > 0) {
 				treeEdges.Add (new EdgeStruct (currentVertex, borderers [0]));
 				currentVertex = visitVertex (borderers [0], ref stack, ref visitedVertexes);

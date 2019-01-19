@@ -16,7 +16,7 @@ public class DijkstraAlgorithm : MonoBehaviour {
     {
         matrixBehaviour = GetComponent<MatrixBehaviour>();
         vertexes = matrixBehaviour.matrix.vertexes;
-        edges = matrixBehaviour.matrix.GetEdges();
+        edges = matrixBehaviour.matrix.locationModule.GetEdges();
         sceneText = matrixBehaviour.infoText;
     }
 

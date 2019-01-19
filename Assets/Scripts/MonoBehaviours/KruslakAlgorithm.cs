@@ -14,7 +14,7 @@ public class KruslakAlgorithm : MonoBehaviour {
 			return;
 		}
 
-		OList<EdgeObject> edges = matrix.GetEdges ();
+		OList<EdgeObject> edges = matrix.locationModule.GetEdges ();
 		List<EdgeObject> edgesList = edges.ToList ();
 		edgesList = edgesList.OrderBy (x => x.EdgeCost).ToList();
 		KruskalEdges (edgesList);

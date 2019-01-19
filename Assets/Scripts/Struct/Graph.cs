@@ -8,10 +8,13 @@ public class Graph{
 
 	public OList<Vertex> vertexes;
 
-	public PaintModule brush;
+    public LocationModule locationModule;
+
+
+    public PaintModule brush;
 	protected InfoModule info;
 	protected ConstructModule construct;
-	protected LocationModule locationModule;
+	
     
 	protected ConsistencyModule consistency = new ConsistencyModule();
     public MarkModule markModule;
@@ -19,7 +22,7 @@ public class Graph{
 
 	public Graph(GameObject _vertexPrefab, GameObject _edgePrefab, Material _originalMaterial, Material _markedMaterial){
 		vertexes = new OList<Vertex> ();
-		locationModule = new LocationModule ();
+		locationModule = new LocationModule (this);
 		info = new InfoModule (this);
 		brush = new PaintModule (_originalMaterial, _markedMaterial);
 		construct = new ConstructModule (_vertexPrefab, _edgePrefab,brush);
@@ -98,34 +101,6 @@ public class Graph{
 		return output;
 	}
 
-	protected bool findCycle(int current, List<int> visited, int parent, ref int cyclesFound)
-	{
-		visited.Add(current);
-		for (int i = 0; i < vertexes[current].Count; i++)
-		{
-			if (vertexes[current][i] == 1)
-			{
-				if (!visited.Contains(i))
-				{
-					findCycle(i, visited, current, ref cyclesFound);
-				}
-				else
-				{
-					if(parent < 0)
-						continue;
-
-					if (i != parent && vertexes[i][parent] == 1)
-					{
-						cyclesFound++;
-						return true;
-					}
-				}
-			}
-		}
-
-		return false;
-	}
-
 
 	public bool IsConsistent(){
 		return consistency.IsConsistent (vertexes);
@@ -143,9 +118,6 @@ public class Graph{
 		string result = String.Join(" ", vertexes.ToList().Select(item => item.ToString()).ToArray());
 		return result;
 	}
-
-	
-
 
 	public void ResetEdges(){
 		construct.ResetEdges (this);
@@ -188,13 +160,10 @@ public class Graph{
 		brush.Paint (consistencyParts);
 	}
 
-	public OList<EdgeObject> GetEdges(){
-		return locationModule.GetEdges (vertexes);
-	}
-
+    //TODO : TO locationModule
     public EdgeObject GetEdge(Vertex A, Vertex B)
     {
-        OList<EdgeObject> edges = GetEdges();
+        OList<EdgeObject> edges = locationModule.GetEdges();
         OList<EdgeObject> edgesX = new OList<EdgeObject>();
         for (int i = 0; i < edges.Count; i++)
         {
@@ -227,10 +196,10 @@ public class Graph{
         }
         return null;
     }
-
+    //TODO : To locationModule
     public EdgeObject GetEdge(Vertex A, Vertex B, Operator sign)
     {
-        OList<EdgeObject> edges = GetEdges();
+        OList<EdgeObject> edges = locationModule.GetEdges();
         for (int i = 0; i < edges.Count; i++)
         {
             if (edges[i].obj1.vertexData.VertexName == A.VertexName && edges[i].obj2.vertexData.VertexName == B.VertexName && edges[i].Sign == sign)
@@ -257,15 +226,6 @@ public class Graph{
     {
         return vertexes[_number];
     }
-
-    public OList<Vertex> FindBorderers(Vertex _currentVertex)
-    {
-        return locationModule.FindBorderers(_currentVertex, this);
-    }
-
-	public OList<EdgeStruct> DFSAlgorithm(){
-		return locationModule.DFS (this);
-	}
 
     public bool Color()
     {

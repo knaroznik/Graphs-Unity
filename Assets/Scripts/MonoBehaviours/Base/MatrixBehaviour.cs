@@ -80,7 +80,7 @@ public class MatrixBehaviour : MonoBehaviour {
     {
         OList<MathEdgeStruct> edgesCopy = new OList<MathEdgeStruct>();
 
-        OList<EdgeObject> edges = matrix.GetEdges();
+        OList<EdgeObject> edges = matrix.locationModule.GetEdges();
         for(int i=0; i< edges.Count; i++)
         {
             edgesCopy.Add(edges[i].Copy());

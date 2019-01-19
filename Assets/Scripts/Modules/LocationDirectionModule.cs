@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class LocationDirectionModule : LocationModule {
 
-	public Stack<Vertex> FullVertexesStack(DiGraph _matrix){
+    public LocationDirectionModule(Graph _graph) : base(_graph){}
+
+    public Stack<Vertex> FullVertexesStack(DiGraph _matrix){
 
 		Stack<Vertex> globalStack = new Stack<Vertex> ();
 		OList<Vertex> globalVisited = new OList<Vertex> ();

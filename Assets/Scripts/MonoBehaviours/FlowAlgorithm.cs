@@ -90,7 +90,7 @@ public class FlowAlgorithm : MonoBehaviour {
             while (!queue.Contains(escape))
             {
                 int markedVertexes = 0;
-                OList<Vertex> borderers = graph.FindBorderers(currentVertex);
+                OList<Vertex> borderers = graph.locationModule.FindBorderers(currentVertex);
                 string x = "";
                 for (int i = 0; i < borderers.Count; i++)
                 {
