@@ -11,12 +11,10 @@ public class Graph{
     public LocationModule locationModule;
     public InfoModule info;
     public ConstructModule construct;
-
-
-
+    public ConsistencyModule consistency;
     public PaintModule brush;
 	
-	protected ConsistencyModule consistency = new ConsistencyModule();
+	
     public MarkModule markModule;
     public CycleModule cycleModule;
 
@@ -24,10 +22,10 @@ public class Graph{
 		vertexes = new OList<Vertex> ();
         locationModule = new LocationModule(this);
         info = new InfoModule(this);
-        construct = new ConstructModule(_vertexPrefab, _edgePrefab, brush, this);
-
         brush = new PaintModule (_originalMaterial, _markedMaterial);
-		
+        construct = new ConstructModule(_vertexPrefab, _edgePrefab, brush, this);
+        consistency = new ConsistencyModule(this, brush);
+
         markModule = new MarkModule(this); ;
         cycleModule = new CycleModule(this);
     }
@@ -58,7 +56,7 @@ public class Graph{
     /// <returns> True if is consistent, false otherwise.</returns>
     public bool IsConsistent()
     {
-        return consistency.IsConsistent(vertexes);
+        return consistency.IsConsistent();
     }
 
     /// <summary>
@@ -77,7 +75,7 @@ public class Graph{
     public List<Vertex> GetConnectedVertexes(string _startedVertexName)
     {
         int vertexNumber = vertexes.IndexOf(new Vertex(_startedVertexName));
-        List<Vertex> graph = consistency.GetConnectedVertexes(vertexes, vertexNumber);
+        List<Vertex> graph = consistency.GetConnectedVertexes(vertexNumber);
         return graph;
     }
 		
@@ -118,14 +116,6 @@ public class Graph{
 
     public void InsertEdges(OList<EdgeStruct> _edges){
 		construct.InsertEdges (_edges);
-	}
-
-	public void PaintConsistency(){
-		consistency.PaintConsistency (vertexes, brush);
-	}
-
-	public void PaintConsistency(OList<OList<Vertex>> consistencyParts){
-		brush.Paint (consistencyParts);
 	}
 
     //TODO : TO locationModule

@@ -7,19 +7,20 @@ using System;
 [System.Serializable]
 public class OList<T> {
 	
-	private T[] array;
+	private List<T> array;
 
 	public OList(){
-		array = new T[0];
+        array = new List<T>();
 	}
 
 	public OList(List<T> list){
-		array = new T[list.Count];
-		for (int i = 0; i < list.Count; i++) {
-			array [i] = list [i];
+        array = new List<T>();
+        for (int i = 0; i < list.Count; i++) {
+			Add(list [i]);
 		}
 	}
 
+    //Dunno if copy or same reference!
 	public List<T> ToList(){
 		return array.ToList ();
 	}
@@ -27,7 +28,7 @@ public class OList<T> {
 	public override string ToString ()
 	{
 		string output = "";
-		for (int i = 0; i < array.Length; i++) {
+		for (int i = 0; i < array.Count; i++) {
 			output += array [i].ToString () + ", ";
 		}
 		return output;
@@ -48,45 +49,20 @@ public class OList<T> {
 	/// </summary>
 	/// <param name="newItem">New item.</param>
 	public void Add(T newItem){
-		T[] tempArray = new T[array.Length + 1];
-		for (int i = 0; i < array.Length; i++) {
-			tempArray [i] = array [i];
-		}
-		tempArray [tempArray.Length - 1] = newItem;
-		array = tempArray;
+        array.Add(newItem);
 	}
 
 	public void RemoveAt(int _position){
-		T[] tempArray = new T[array.Length-1];
-		int i = 0;
-		int j = 0;
-		while (i < array.Length) {
-			if (i != _position) {
-				tempArray [j] = array [i];
-				j++;
-			}
-			i++;
-		}
-		array = tempArray;
+        array.RemoveAt(_position);
 	}
 
     public void Clear()
     {
-        array = new T[0];
+        array = new List<T>();
     }
 
 	public void Remove(T obj){
-		T[] tempArray = new T[array.Length-1];
-		int i = 0;
-		int j = 0;
-		while (i < array.Length) {
-			if (!array[i].Equals(obj)) {
-				tempArray [j] = array [i];
-				j++;
-			}
-			i++;
-		}
-		array = tempArray;
+        array.Remove(obj);
 	}
 
 	public void Insert(T newItem, int index){
@@ -96,17 +72,12 @@ public class OList<T> {
 	}
 
 	public int IndexOf(T value){
-		for (int i = 0; i < array.Length; i++) {
-			if (array [i].Equals (value)) {
-				return i;
-			}
-		}
-		return -1;
+        return array.IndexOf(value);
 	}
 
 	public int Count{
 		get{
-			return array.Length;
+			return array.Count;
 		}
 	}
 

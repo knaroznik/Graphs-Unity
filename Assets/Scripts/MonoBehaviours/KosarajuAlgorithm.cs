@@ -34,7 +34,7 @@ public class KosarajuAlgorithm : MonoBehaviour {
 			}
 			consistencyParts.Add (consistencyPart);
 		}
-		matrix.PaintConsistency (consistencyParts);
+		matrix.brush.Paint (consistencyParts);
 
 	}
 }

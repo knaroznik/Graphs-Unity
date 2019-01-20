@@ -4,16 +4,10 @@ using UnityEngine;
 
 public class ConsistencyAlgoritm : MonoBehaviour {
 
-	public Graph matrix;
+	private Graph matrix;
 
 	public void Algorithm(){
 		matrix = GetComponent<MatrixBehaviour> ().matrix;
-
-//		if (!matrix.IsConsistent ()) {
-//			GetComponent<MatrixBehaviour> ().infoText.text = matrix.Print () + " \n\nDFS STARTING...\n\n Graph is not consistent or is empty!";
-//			return;
-//		}
-
-		matrix.PaintConsistency ();
+		matrix.consistency.PaintConsistency ();
 	}
 }

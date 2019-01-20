@@ -5,61 +5,70 @@ using System.Linq;
 
 public class ConsistencyModule {
 
-	public bool IsConsistent(OList<Vertex> _vertexes){
-		if (_vertexes.Count < 1) {
+    private OList<Vertex> vertexes;
+    private PaintModule brush;
+
+    public ConsistencyModule(Graph _graph, PaintModule _brush)
+    {
+        vertexes = _graph.vertexes;
+        brush = _brush;
+    }
+
+	public bool IsConsistent(){
+		if (vertexes.Count < 1) {
 			return false;
 		}
 
 		List<Vertex> graph = new List<Vertex> ();
-		GraphPassage (0, graph, _vertexes);
-		if (graph.Count == _vertexes.Count) {
+		GraphPassage (0, graph);
+		if (graph.Count == vertexes.Count) {
 			return true;
 		}
 		return false;
 	}
     
-    public List<Vertex> GetConnectedVertexes(OList<Vertex> _vertexes, int startedVertex)
+    public List<Vertex> GetConnectedVertexes(int startedVertex)
     {
         List<Vertex> graph = new List<Vertex>();
-        GraphPassage(startedVertex, graph, _vertexes);
+        GraphPassage(startedVertex, graph);
         return graph;
     }
 
-	private void GraphPassage(int current, List<Vertex> visited, OList<Vertex> _vertexes)
+	private void GraphPassage(int current, List<Vertex> visited)
 	{
-		visited.Add (_vertexes[current]);
-		for (int i = 0; i < _vertexes.Count; i++) {
-			if (_vertexes [current] [i] > 0) {
-				if (!visited.ToList().Contains (_vertexes [i])) {
-					GraphPassage (i, visited, _vertexes);
+		visited.Add (vertexes[current]);
+		for (int i = 0; i < vertexes.Count; i++) {
+			if (vertexes [current] [i] > 0) {
+				if (!visited.ToList().Contains (vertexes [i])) {
+					GraphPassage (i, visited);
 				}
 			}
 		}
 	}
 
-	private void GraphPassage(int current, ref OList<Vertex> visited, OList<Vertex> _vertexes, List<Vertex> visitedGlobal)
+	private void GraphPassage(int current, ref OList<Vertex> visited, List<Vertex> visitedGlobal)
 	{
-		visited.Add (_vertexes[current]);
-		visitedGlobal.Add (_vertexes [current]);
-		for (int i = 0; i < _vertexes.Count; i++) {
-			if (_vertexes [current] [i] > 0) {
-				if (!visited.ToList().Contains (_vertexes [i]) && !visitedGlobal.ToList().Contains (_vertexes [i])) {
-					GraphPassage (i, ref visited, _vertexes, visitedGlobal);
+		visited.Add (vertexes[current]);
+		visitedGlobal.Add (vertexes [current]);
+		for (int i = 0; i < vertexes.Count; i++) {
+			if (vertexes [current] [i] > 0) {
+				if (!visited.ToList().Contains (vertexes [i]) && !visitedGlobal.ToList().Contains (vertexes [i])) {
+					GraphPassage (i, ref visited, visitedGlobal);
 				}
 			}
 		}
 	}
 
-	public void PaintConsistency(OList<Vertex> _vertexes, PaintModule brush){
-		if (_vertexes.Count < 1) {
+	public void PaintConsistency(){
+		if (vertexes.Count < 1) {
 			return;
 		}
 		int foundVertexes = 0;
 		OList<OList<Vertex>> consistencyParts = new OList<OList<Vertex>>();
 		List<Vertex> visitedVertexes = new List<Vertex> ();
-		while (foundVertexes < _vertexes.Count) {
+		while (foundVertexes < vertexes.Count) {
 			OList<Vertex> graph = new OList<Vertex> ();
-			GraphPassageStart (ref graph, _vertexes, visitedVertexes);
+			GraphPassageStart (ref graph, visitedVertexes);
 			foundVertexes += graph.Count;
 			consistencyParts.Add (graph);
 		}
@@ -67,10 +76,10 @@ public class ConsistencyModule {
 		return;
 	}
 
-	private void GraphPassageStart(ref OList<Vertex> visited, OList<Vertex> _vertexes, List<Vertex> visitedGlobal){
-		for (int i = 0; i < _vertexes.Count; i++) {
-			if (!visitedGlobal.ToList ().Contains (_vertexes [i])) {
-				GraphPassage (i, ref visited, _vertexes, visitedGlobal);
+	private void GraphPassageStart(ref OList<Vertex> visited, List<Vertex> visitedGlobal){
+		for (int i = 0; i < vertexes.Count; i++) {
+			if (!visitedGlobal.ToList ().Contains (vertexes [i])) {
+				GraphPassage (i, ref visited, visitedGlobal);
 				return;
 			}
 		}
