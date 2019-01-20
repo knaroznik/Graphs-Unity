@@ -214,7 +214,7 @@ public class InputBehaviour : MonoBehaviour {
                 Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 mousePosition = new Vector3(mousePosition.x, mousePosition.y, 0f);
 
-                matrixObject.matrix.AddNewVertex(mousePosition);
+                matrixObject.matrix.construct.AddNewVertex(mousePosition);
                 matrixObject.Print();
             }
         }
@@ -252,11 +252,11 @@ public class InputBehaviour : MonoBehaviour {
     {
         if (destroyingObject.GetComponent<VertexObject>())
         {
-            matrixObject.matrix.RemoveVertex(destroyingObject.GetComponent<VertexObject>().vertexData.VertexName);
+            matrixObject.matrix.construct.RemoveVertex(destroyingObject.GetComponent<VertexObject>().vertexData.VertexName);
         }
         else
         {
-            matrixObject.matrix.RemoveEdge(destroyingObject.GetComponent<EdgeObject>().obj1.vertexData.VertexName,
+            matrixObject.matrix.construct.RemoveEdge(destroyingObject.GetComponent<EdgeObject>().obj1.vertexData.VertexName,
                 destroyingObject.GetComponent<EdgeObject>().obj2.vertexData.VertexName);
         }
         matrixObject.Print();
@@ -318,7 +318,7 @@ public class InputBehaviour : MonoBehaviour {
     {
         if (start != end)
         {
-            matrixObject.matrix.AddEdge(start, end, edgeCost, sign);
+            matrixObject.matrix.construct.AddEdge(start, end, edgeCost, sign);
             
         }
     }

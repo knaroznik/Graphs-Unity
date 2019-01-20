@@ -17,7 +17,7 @@ public class GalaxyCreator : MonoBehaviour {
         for(int i=0; i<_galaxySize; i++)
         {
             //Some space for each system.
-            galaxy.AddVertex(i.ToString());
+            galaxy.construct.AddVertex(i.ToString());
         }
 
         while (!galaxy.IsConsistent())
@@ -31,7 +31,7 @@ public class GalaxyCreator : MonoBehaviour {
             //Check if graph will still be planar.
             if(x != y && galaxy.GetEdge(one, two) == null)
             {
-                galaxy.AddEdge(one.VertexName, two.VertexName, 1);
+                galaxy.construct.AddEdge(one.VertexName, two.VertexName, 1);
             }
 
         }

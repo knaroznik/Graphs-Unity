@@ -7,44 +7,46 @@ public class ConstructModule {
 	protected GameObject vertexPrefab;
 	protected GameObject edgePrefab;
 	protected PaintModule brush;
+    protected Graph graph;
 
-	public ConstructModule(GameObject _vertexPrefab, GameObject _edgePrefab, PaintModule _brush){
+	public ConstructModule(GameObject _vertexPrefab, GameObject _edgePrefab, PaintModule _brush, Graph _graph){
 		vertexPrefab = _vertexPrefab;
 		edgePrefab = _edgePrefab;
 		brush = _brush;
+        graph = _graph;
 	}
 
-	public void ResetEdges(Graph _matrix){
-		for (int i = 0; i < _matrix.vertexes.Count; i++) {
-			for (int j = 0; j < _matrix.vertexes.Count; j++) {
-				if (_matrix.vertexes [i] [j] > 0) {
-					int edgeCount = _matrix.vertexes [i] [j];
+	public void ResetEdges(){
+		for (int i = 0; i < graph.vertexes.Count; i++) {
+			for (int j = 0; j < graph.vertexes.Count; j++) {
+				if (graph.vertexes [i] [j] > 0) {
+					int edgeCount = graph.vertexes [i] [j];
 					for (int x = 0; x < edgeCount; x++) {
-						_matrix.RemoveEdge (_matrix.vertexes [i].VertexName, _matrix.vertexes [j].VertexName);
+                        RemoveEdge (graph.vertexes [i].VertexName, graph.vertexes [j].VertexName);
 					}
 				}
 			}
 		}
 	}
 
-    public void ResetVertexes(Graph _matrix)
+    public void ResetVertexes()
     {
-        int x = _matrix.vertexes.Count;
+        int x = graph.vertexes.Count;
         for (int i=0; i< x; i++)
         {
-            RemoveVertex(_matrix.vertexes[0].VertexName, ref _matrix.vertexes);
+            RemoveVertex(graph.vertexes[0].VertexName);
         }
     }
 
-	public void InsertEdges(OList<EdgeStruct> _edges, Graph _matrix){
+	public void InsertEdges(OList<EdgeStruct> _edges){
 		for (int i = 0; i < _edges.Count; i++) {
-			_matrix.AddEdge (_edges [i].FirstPoint().VertexName, _edges [i].SecondPoint().VertexName, 1);
+            AddEdge (_edges [i].FirstPoint().VertexName, _edges [i].SecondPoint().VertexName, 1);
 		}
 	}
 
-	public void AddVertex(string _newVertexName, ref OList<Vertex> _vertexes, Vector3? vertexPosition = null){
+	public void AddVertex(string _newVertexName, Vector3? vertexPosition = null){
 
-		if (_vertexes.IndexOf (new Vertex (_newVertexName)) != -1) {
+		if (graph.vertexes.IndexOf (new Vertex (_newVertexName)) != -1) {
 			return;
 		}
 
@@ -61,21 +63,21 @@ public class ConstructModule {
         {
             vertex = MonoBehaviour.Instantiate(vertexPrefab, vertexPosition.GetValueOrDefault(), Quaternion.identity);
         }
-        for (int i = 0; i < _vertexes.Count; i++) {
-			_vertexes.Get (i).AddPossibility (vertex);
+        for (int i = 0; i < graph.Size; i++) {
+            graph.vertexes.Get (i).AddPossibility (vertex);
 		}
 
-		_vertexes.Add (new Vertex (vertex, _newVertexName));
+        graph.vertexes.Add (new Vertex (vertex, _newVertexName));
 
-		_vertexes.Get (_vertexes.Count - 1).AddPossibilities (_vertexes.Count, _vertexes);
+        graph.vertexes.Get (graph.vertexes.Count - 1).AddPossibilities (graph.vertexes.Count, graph.vertexes);
 	}
 
-	public void RemoveVertex(string _vertexName, ref OList<Vertex> _vertexes){
-		int vertexNumber = _vertexes.IndexOf (new Vertex (_vertexName));
+	public void RemoveVertex(string _vertexName){
+		int vertexNumber = graph.vertexes.IndexOf (new Vertex (_vertexName));
 
-        for(int i=0; i<_vertexes[vertexNumber].VertexObject.GetComponent<VertexObject>().EdgeCount; i++)
+        for(int i=0; i< graph.vertexes[vertexNumber].VertexObject.GetComponent<VertexObject>().EdgeCount; i++)
         {
-            EdgeObject edge = _vertexes[vertexNumber].VertexObject.GetComponent<VertexObject>().Edge(i);
+            EdgeObject edge = graph.vertexes[vertexNumber].VertexObject.GetComponent<VertexObject>().Edge(i);
             edge.obj1.vertexData.OutEdges--;
             edge.obj2.vertexData.InEdges++;
         }
@@ -84,31 +86,31 @@ public class ConstructModule {
 			return;
 
 
-		for (int i = 0; i < _vertexes.Count; i++) {
-			_vertexes [i].RemoveAt (vertexNumber);
+		for (int i = 0; i < graph.vertexes.Count; i++) {
+            graph.vertexes[i].RemoveAt (vertexNumber);
 		}
 		if (brush != null) {
 			brush.Reset ();
 		}
 
-		_vertexes [vertexNumber].VertexObject.GetComponent<VertexObject> ().Destroy ();
-		_vertexes.RemoveAt (vertexNumber);
+        graph.vertexes[vertexNumber].VertexObject.GetComponent<VertexObject> ().Destroy ();
+        graph.vertexes.RemoveAt (vertexNumber);
 	}
 
-	public virtual void AddEdge(int x, int y, ref OList<Vertex> _vertexes){
+	public virtual void AddEdge(int x, int y){
 		if (brush != null) {
 			brush.Reset ();
 		}
-		_vertexes [x] [y] += 1;
-		_vertexes [y] [x] += 1;
+        graph.vertexes[x] [y] += 1;
+        graph.vertexes[y] [x] += 1;
 
-        _vertexes[x].OutEdges++;
-        _vertexes[y].InEdges++;
+        graph.vertexes[x].OutEdges++;
+        graph.vertexes[y].InEdges++;
 	}
 
-	public void AddEdge(string one, string two, string edgeCost, ref OList<Vertex> _vertexes, Operator sign = Operator.PLUS){
-		int x = _vertexes.IndexOf (new Vertex (one));
-		int y = _vertexes.IndexOf (new Vertex (two));
+	public void AddEdge(string one, string two, string edgeCost, Operator sign = Operator.PLUS){
+		int x = graph.vertexes.IndexOf (new Vertex (one));
+		int y = graph.vertexes.IndexOf (new Vertex (two));
 		int cost = 0;
 		int.TryParse (edgeCost, out cost);
 
@@ -118,63 +120,63 @@ public class ConstructModule {
 
 		if(x == -1 || y == -1|| cost == 0)
 			return;
-		AddEdge (x, y, ref _vertexes);
+		AddEdge (x, y);
         
 
 		GameObject line = MonoBehaviour.Instantiate (edgePrefab, new Vector3 (0, 0, 0), Quaternion.identity) as GameObject;
-		line.GetComponent<EdgeObject> ().Init (_vertexes.Get (x).VertexObject.GetComponent<VertexObject>(), _vertexes.Get (y).VertexObject.GetComponent<VertexObject>(), cost);
+		line.GetComponent<EdgeObject> ().Init (graph.vertexes.Get (x).VertexObject.GetComponent<VertexObject>(), graph.vertexes.Get (y).VertexObject.GetComponent<VertexObject>(), cost);
         line.GetComponent<EdgeObject>().Sign = sign;
 
     }
 
-	public void AddEdge(string one, string two, int edgeCost, ref OList<Vertex> _vertexes, Operator sign = Operator.PLUS)
+	public void AddEdge(string one, string two, int edgeCost, Operator sign = Operator.PLUS)
     {
-		int x = _vertexes.IndexOf (new Vertex (one));
-		int y = _vertexes.IndexOf (new Vertex (two));
+		int x = graph.vertexes.IndexOf (new Vertex (one));
+		int y = graph.vertexes.IndexOf (new Vertex (two));
 		if(x == -1 || y == -1)
 			return;
-		AddEdge (x, y, ref _vertexes);
+		AddEdge (x, y);
 
 		GameObject line = MonoBehaviour.Instantiate (edgePrefab, new Vector3 (0, 0, 0), Quaternion.identity) as GameObject;
-		line.GetComponent<EdgeObject> ().Init (_vertexes.Get (x).VertexObject.GetComponent<VertexObject>(), _vertexes.Get (y).VertexObject.GetComponent<VertexObject>(), edgeCost);
+		line.GetComponent<EdgeObject> ().Init (graph.vertexes.Get (x).VertexObject.GetComponent<VertexObject>(), graph.vertexes.Get (y).VertexObject.GetComponent<VertexObject>(), edgeCost);
         line.GetComponent<EdgeObject>().Sign = sign;
     }
 
-	public virtual void RemoveEdge(int x, int y, ref OList<Vertex> _vertexes){
+	public virtual void RemoveEdge(int x, int y){
 		if (brush != null) {
 			brush.Reset ();
 		}
-		_vertexes [x] [y] -= 1;
-		_vertexes [y] [x] -= 1;
+        graph.vertexes[x] [y] -= 1;
+        graph.vertexes[y] [x] -= 1;
 
-        _vertexes[x].OutEdges--;
-        _vertexes[y].InEdges--;
+        graph.vertexes[x].OutEdges--;
+        graph.vertexes[y].InEdges--;
     }
 
-	public void RemoveEdge(string one, string two, ref OList<Vertex> _vertexes){
-		int x = _vertexes.IndexOf (new Vertex (one));
-		int y = _vertexes.IndexOf (new Vertex (two));
-		if(x == -1 || y == -1 || _vertexes [x] [y] == 0)
+	public void RemoveEdge(string one, string two){
+		int x = graph.vertexes.IndexOf (new Vertex (one));
+		int y = graph.vertexes.IndexOf (new Vertex (two));
+		if(x == -1 || y == -1 || graph.vertexes[x] [y] == 0)
 			return;
-		RemoveEdge (x, y, ref _vertexes);
-		_vertexes.Get (x).VertexObject.GetComponent<VertexObject> ().RemoveEdgeWith (_vertexes.Get (y).VertexObject.GetComponent<VertexObject> ());
+		RemoveEdge (x, y);
+        graph.vertexes.Get (x).VertexObject.GetComponent<VertexObject> ().RemoveEdgeWith (graph.vertexes.Get (y).VertexObject.GetComponent<VertexObject> ());
 	}
 
-    public void AddNewVertex(Vector3 _vertexPosition, ref OList<Vertex> _vertexes, string _vertexName = "")
+    public void AddNewVertex(Vector3 _vertexPosition, string _vertexName = "")
     {
         if (_vertexName == "")
         {
             int newVertexName = 0;
 
-            while (_vertexes.IndexOf(new Vertex(newVertexName.ToString())) != -1)
+            while (graph.vertexes.IndexOf(new Vertex(newVertexName.ToString())) != -1)
             {
                 newVertexName++;
             }
-            AddVertex(newVertexName.ToString(), ref _vertexes, _vertexPosition);
+            AddVertex(newVertexName.ToString(), _vertexPosition);
         }
         else
         {
-            AddVertex(_vertexName, ref _vertexes, _vertexPosition);
+            AddVertex(_vertexName, _vertexPosition);
         }
     }
 }

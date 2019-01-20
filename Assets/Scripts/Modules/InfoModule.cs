@@ -13,6 +13,7 @@ public class InfoModule {
 
     public string Print()
     {
+        vertexes = dataMatrix.vertexes;
         string output = "";
         output += " Macierz sąsiedztwa : \n";
         for (int i = 0; i < vertexes.Count; i++)

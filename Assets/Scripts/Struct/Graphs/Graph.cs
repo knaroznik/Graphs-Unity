@@ -10,23 +10,24 @@ public class Graph{
 
     public LocationModule locationModule;
     public InfoModule info;
+    public ConstructModule construct;
+
 
 
     public PaintModule brush;
 	
-	protected ConstructModule construct;
-	
-    
 	protected ConsistencyModule consistency = new ConsistencyModule();
     public MarkModule markModule;
     public CycleModule cycleModule;
 
 	public Graph(GameObject _vertexPrefab, GameObject _edgePrefab, Material _originalMaterial, Material _markedMaterial){
 		vertexes = new OList<Vertex> ();
-		locationModule = new LocationModule (this);
-		info = new InfoModule (this);
-		brush = new PaintModule (_originalMaterial, _markedMaterial);
-		construct = new ConstructModule (_vertexPrefab, _edgePrefab,brush);
+        locationModule = new LocationModule(this);
+        info = new InfoModule(this);
+        construct = new ConstructModule(_vertexPrefab, _edgePrefab, brush, this);
+
+        brush = new PaintModule (_originalMaterial, _markedMaterial);
+		
         markModule = new MarkModule(this); ;
         cycleModule = new CycleModule(this);
     }
@@ -60,41 +61,18 @@ public class Graph{
         return consistency.IsConsistent(vertexes);
     }
 
+    /// <summary>
+    /// Getting vertex by index.
+    /// </summary>
+    /// <param name="_number"></param>
+    /// <returns></returns>
     public Vertex GetVertex(int _number){
         return vertexes[_number];
     }
 
-    #region Construct Module 
-
-    public void AddVertex(string _newVertexName){
-		construct.AddVertex (_newVertexName, ref vertexes);
-	}
-
-    public void AddNewVertex(Vector3 vertexPosition, string _vertexName = "")
-    {
-        construct.AddNewVertex(vertexPosition, ref vertexes, _vertexName);
-    }
-
-    public void RemoveVertex(string _vertexName){
-		construct.RemoveVertex (_vertexName, ref vertexes);
-	}
-
-	public void AddEdge(string one, string two, string edgeCost){
-		construct.AddEdge (one, two, edgeCost, ref vertexes);
-	}
-
-	public void AddEdge(string one, string two, int edgeCost, Operator sign = Operator.MINUS){
-		construct.AddEdge (one, two, edgeCost, ref vertexes, sign);
-	}
-
-	public void RemoveEdge(string one, string two){
-		construct.RemoveEdge (one, two, ref vertexes);
-	}
-
-	#endregion
-
-
 	
+
+
 
     public List<Vertex> GetConnectedVertexes(string _startedVertexName)
     {
@@ -110,13 +88,13 @@ public class Graph{
 	}
 
 	public void ResetEdges(){
-		construct.ResetEdges (this);
+		construct.ResetEdges ();
 	}
 
     public void Reset()
     {
-        construct.ResetEdges(this);
-        construct.ResetVertexes(this);
+        construct.ResetEdges();
+        construct.ResetVertexes();
         vertexes = new OList<Vertex>();
     }
 
@@ -126,20 +104,20 @@ public class Graph{
         {
             if (!vertexes.Contains(new Vertex(edgesCopy[i].obj1)))
             {
-                AddNewVertex(edgesCopy[i].obj1Position, edgesCopy[i].obj1);
+               construct.AddNewVertex(edgesCopy[i].obj1Position, edgesCopy[i].obj1);
             }
 
             if (!vertexes.Contains(new Vertex(edgesCopy[i].obj2)))
             {
-                AddNewVertex(edgesCopy[i].obj2Position, edgesCopy[i].obj2);
+                construct.AddNewVertex(edgesCopy[i].obj2Position, edgesCopy[i].obj2);
             }
 
-            AddEdge(edgesCopy[i].obj1, edgesCopy[i].obj2, edgesCopy[i].edgeCost);
+            construct.AddEdge(edgesCopy[i].obj1, edgesCopy[i].obj2, edgesCopy[i].edgeCost);
         }
     }
 
     public void InsertEdges(OList<EdgeStruct> _edges){
-		construct.InsertEdges (_edges, this);
+		construct.InsertEdges (_edges);
 	}
 
 	public void PaintConsistency(){

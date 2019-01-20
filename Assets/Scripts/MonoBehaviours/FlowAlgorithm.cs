@@ -140,17 +140,17 @@ public class FlowAlgorithm : MonoBehaviour {
     {
         if (_sources.Count > 1)
         {
-            matrixBehaviour.matrix.AddNewVertex(new Vector3(-18, 0, 0), "S");
+            matrixBehaviour.matrix.construct.AddNewVertex(new Vector3(-18, 0, 0), "S");
 
             for (int i = 0; i < _sources.Count; i++)
             {
                 if(_value != -1)
                 {
-                    matrixBehaviour.matrix.AddEdge("S", _sources[i].VertexName, _value);
+                    matrixBehaviour.matrix.construct.AddEdge("S", _sources[i].VertexName, _value);
                 }
                 else
                 {
-                    matrixBehaviour.matrix.AddEdge("S", _sources[i].VertexName, _sources[i].Value);
+                    matrixBehaviour.matrix.construct.AddEdge("S", _sources[i].VertexName, _sources[i].Value);
                 }
                 
             }
@@ -167,17 +167,17 @@ public class FlowAlgorithm : MonoBehaviour {
     {
         if (_escapes.Count > 1)
         {
-            matrixBehaviour.matrix.AddNewVertex(new Vector3(6, 0, 0), "T");
+            matrixBehaviour.matrix.construct.AddNewVertex(new Vector3(6, 0, 0), "T");
 
             for (int i = 0; i < _escapes.Count; i++)
             {
                 if(_value != -1)
                 {
-                    matrixBehaviour.matrix.AddEdge(_escapes[i].VertexName, "T", _value);
+                    matrixBehaviour.matrix.construct.AddEdge(_escapes[i].VertexName, "T", _value);
                 }
                 else
                 {
-                    matrixBehaviour.matrix.AddEdge(_escapes[i].VertexName, "T", _escapes[i].Value);
+                    matrixBehaviour.matrix.construct.AddEdge(_escapes[i].VertexName, "T", _escapes[i].Value);
                 }
                 
             }

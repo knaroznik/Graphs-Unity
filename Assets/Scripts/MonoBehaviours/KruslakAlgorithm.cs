@@ -29,10 +29,10 @@ public class KruslakAlgorithm : MonoBehaviour {
 		}
 		matrix.ResetEdges ();
 		for (int i = 0; i < edgesCopy.Count; i++) {
-			matrix.AddEdge (edgesCopy [i].FirstPoint ().VertexName, edgesCopy [i].SecondPoint ().VertexName, edgesCopy [i].EdgeCost);
+			matrix.construct.AddEdge (edgesCopy [i].FirstPoint ().VertexName, edgesCopy [i].SecondPoint ().VertexName, edgesCopy [i].EdgeCost);
 
 			if (matrix.cycleModule.HasCycle()) {
-				matrix.RemoveEdge (edgesCopy [i].FirstPoint ().VertexName, edgesCopy [i].SecondPoint ().VertexName);
+				matrix.construct.RemoveEdge (edgesCopy [i].FirstPoint ().VertexName, edgesCopy [i].SecondPoint ().VertexName);
 			}
 		}
 	}

@@ -115,7 +115,7 @@ public class Vertex : MathVertex {
         edge.EdgeCost -= (int)_pathCost;
         if (edge.EdgeCost == 0)
         {
-            _graph.RemoveEdge(pathVertex.vertexName, VertexName);
+            _graph.construct.RemoveEdge(pathVertex.vertexName, VertexName);
         }
 
         //dodać do ścieżki w drugą stronę
@@ -132,7 +132,7 @@ public class Vertex : MathVertex {
         edge = _graph.GetEdge(this, pathVertex, oppositeSign);
         if (edge == null)
         {
-            _graph.AddEdge(VertexName, pathVertex.VertexName, 0, oppositeSign);
+            _graph.construct.AddEdge(VertexName, pathVertex.VertexName, 0, oppositeSign);
             edge = _graph.GetEdge(this, pathVertex, oppositeSign);
         }
 
