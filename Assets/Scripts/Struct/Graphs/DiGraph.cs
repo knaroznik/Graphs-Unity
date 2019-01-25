@@ -7,14 +7,13 @@ public class DiGraph : Graph {
 	public DiGraph(GameObject _vertexPrefab, GameObject _edgePrefab, Material _originalMaterial, Material _markedMaterial) : 
 		base(_vertexPrefab, _edgePrefab, _originalMaterial, _markedMaterial){
 		locationModule = new LocationDirectionModule (this);
-        construct = new DiConstructModule(_vertexPrefab, _edgePrefab, brush, this);
+        construct = new ConstructModule(_vertexPrefab, _edgePrefab, brush, this, false);
     }
 
 	public Stack<Vertex> FullVertexesStack(){
 		return ((LocationDirectionModule)locationModule).FullVertexesStack (this);
 	}
 
-    //TODO : Sprawdzać czy wchodzące krawędzie sa wykorzystywane itd
     public OList<Vertex> GetSources()
     {
         OList<Vertex> output = new OList<Vertex>();

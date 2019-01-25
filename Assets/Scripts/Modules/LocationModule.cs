@@ -68,6 +68,55 @@ public class LocationModule {
 
         return output;
     }
+    
+    public EdgeObject GetEdge(Vertex A, Vertex B, Operator sign)
+    {
+        OList<EdgeObject> edges = GetEdges();
+        for (int i = 0; i < edges.Count; i++)
+        {
+            if (edges[i].obj1.vertexData.VertexName == A.VertexName && edges[i].obj2.vertexData.VertexName == B.VertexName && edges[i].Sign == sign)
+            {
+                return edges[i];
+            }
+        }
+        return null;
+    }
+
+    public EdgeObject GetEdge(Vertex A, Vertex B)
+    {
+        OList<EdgeObject> edges = GetEdges();
+        OList<EdgeObject> edgesX = new OList<EdgeObject>();
+        for (int i = 0; i < edges.Count; i++)
+        {
+            if (edges[i].obj1.vertexData.VertexName == A.VertexName && edges[i].obj2.vertexData.VertexName == B.VertexName)
+            {
+                edgesX.Add(edges[i]);
+            }
+        }
+        if (edgesX.Count == 0)
+        {
+            return null;
+        }
+        else
+        {
+            for (int i = 0; i < edgesX.Count; i++)
+            {
+                if (edgesX[i].Sign == Operator.MINUS)
+                {
+                    return edgesX[i];
+                }
+            }
+
+            for (int i = 0; i < edgesX.Count; i++)
+            {
+                if (edgesX[i].Sign == Operator.PLUS)
+                {
+                    return edgesX[i];
+                }
+            }
+        }
+        return null;
+    }
 
     #region DFS 
 

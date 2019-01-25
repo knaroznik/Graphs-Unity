@@ -192,7 +192,8 @@ public class FlowAlgorithm : MonoBehaviour {
 
     private bool Connected()
     {
-        List<Vertex> connectedVertexes = matrixBehaviour.matrix.GetConnectedVertexes(source.VertexName);
+        int startVertexIndex = matrixBehaviour.matrix.GetVertexIndex(source.VertexName);
+        List<Vertex> connectedVertexes = matrixBehaviour.matrix.consistency.GetConnectedVertexes(startVertexIndex);
 
         if (!connectedVertexes.Contains(escape))
         {

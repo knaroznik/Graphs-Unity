@@ -27,7 +27,7 @@ public class KruslakAlgorithm : MonoBehaviour {
 		for (int i = 0; i < edges.Count; i++) {
 			edgesCopy.Add (new CostEdgeStruct (edges [i].obj1.vertexData, edges [i].obj2.vertexData, edges[i].EdgeCost));
 		}
-		matrix.ResetEdges ();
+		matrix.construct.ResetEdges ();
 		for (int i = 0; i < edgesCopy.Count; i++) {
 			matrix.construct.AddEdge (edgesCopy [i].FirstPoint ().VertexName, edgesCopy [i].SecondPoint ().VertexName, edgesCopy [i].EdgeCost);
 

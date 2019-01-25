@@ -16,8 +16,8 @@ public class DFSAlgorithm : MonoBehaviour {
 
 		OList<EdgeStruct> treeEdges = matrix.locationModule.DFS ();
 
-		matrix.ResetEdges ();
-		matrix.InsertEdges (treeEdges);
+		matrix.construct.ResetEdges ();
+		matrix.construct.InsertEdges (treeEdges);
 
 		GetComponent<MatrixBehaviour> ().infoText.text = matrix.info.Print () + " \n\nDFS STARTING...\n\n DFS found tree!";;
 	}

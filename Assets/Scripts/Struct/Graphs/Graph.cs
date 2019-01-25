@@ -7,14 +7,12 @@ using System;
 public class Graph{
 
 	public OList<Vertex> vertexes;
+    public ConstructModule construct;
 
     public LocationModule locationModule;
     public InfoModule info;
-    public ConstructModule construct;
     public ConsistencyModule consistency;
     public PaintModule brush;
-	
-	
     public MarkModule markModule;
     public CycleModule cycleModule;
 
@@ -23,7 +21,7 @@ public class Graph{
         locationModule = new LocationModule(this);
         info = new InfoModule(this);
         brush = new PaintModule (_originalMaterial, _markedMaterial);
-        construct = new ConstructModule(_vertexPrefab, _edgePrefab, brush, this);
+        construct = new ConstructModule(_vertexPrefab, _edgePrefab, brush, this, true);
         consistency = new ConsistencyModule(this, brush);
 
         markModule = new MarkModule(this); ;
@@ -62,119 +60,25 @@ public class Graph{
     /// <summary>
     /// Getting vertex by index.
     /// </summary>
-    /// <param name="_number"></param>
+    /// <param name="_number">Index of Vertex.</param>
     /// <returns></returns>
     public Vertex GetVertex(int _number){
         return vertexes[_number];
     }
 
-	
-
-
-
-    public List<Vertex> GetConnectedVertexes(string _startedVertexName)
+    /// <summary>
+    /// Getting index of vertex by vertexName.
+    /// </summary>
+    /// <param name="_name">Name of Vertex</param>
+    /// <returns></returns>
+	public int GetVertexIndex(string _name)
     {
-        int vertexNumber = vertexes.IndexOf(new Vertex(_startedVertexName));
-        List<Vertex> graph = consistency.GetConnectedVertexes(vertexNumber);
-        return graph;
-    }
-		
-
-	public string WriteVertexes(){
-		string result = String.Join(" ", vertexes.ToList().Select(item => item.ToString()).ToArray());
-		return result;
-	}
-
-	public void ResetEdges(){
-		construct.ResetEdges ();
-	}
-
-    public void Reset()
-    {
-        construct.ResetEdges();
-        construct.ResetVertexes();
-        vertexes = new OList<Vertex>();
+        return vertexes.IndexOf(new Vertex(_name));
     }
 
-    public void Construct(OList<MathEdgeStruct> edgesCopy)
+    public override string ToString()
     {
-        for (int i = 0; i < edgesCopy.Count; i++)
-        {
-            if (!vertexes.Contains(new Vertex(edgesCopy[i].obj1)))
-            {
-               construct.AddNewVertex(edgesCopy[i].obj1Position, edgesCopy[i].obj1);
-            }
-
-            if (!vertexes.Contains(new Vertex(edgesCopy[i].obj2)))
-            {
-                construct.AddNewVertex(edgesCopy[i].obj2Position, edgesCopy[i].obj2);
-            }
-
-            construct.AddEdge(edgesCopy[i].obj1, edgesCopy[i].obj2, edgesCopy[i].edgeCost);
-        }
-    }
-
-    public void InsertEdges(OList<EdgeStruct> _edges){
-		construct.InsertEdges (_edges);
-	}
-
-    //TODO : TO locationModule
-    public EdgeObject GetEdge(Vertex A, Vertex B)
-    {
-        OList<EdgeObject> edges = locationModule.GetEdges();
-        OList<EdgeObject> edgesX = new OList<EdgeObject>();
-        for (int i = 0; i < edges.Count; i++)
-        {
-            if(edges[i].obj1.vertexData.VertexName == A.VertexName && edges[i].obj2.vertexData.VertexName == B.VertexName)
-            {
-                edgesX.Add(edges[i]);
-            }
-        }
-        if (edgesX.Count == 0)
-        {
-            return null;
-        }
-        else
-        {
-            for(int i=0; i<edgesX.Count; i++)
-            {
-                if(edgesX[i].Sign == Operator.MINUS)
-                {
-                    return edgesX[i];
-                }
-            }
-
-            for (int i = 0; i < edgesX.Count; i++)
-            {
-                if (edgesX[i].Sign == Operator.PLUS)
-                {
-                    return edgesX[i];
-                }
-            }
-        }
-        return null;
-    }
-    //TODO : To locationModule
-    public EdgeObject GetEdge(Vertex A, Vertex B, Operator sign)
-    {
-        OList<EdgeObject> edges = locationModule.GetEdges();
-        for (int i = 0; i < edges.Count; i++)
-        {
-            if (edges[i].obj1.vertexData.VertexName == A.VertexName && edges[i].obj2.vertexData.VertexName == B.VertexName && edges[i].Sign == sign)
-            {
-                return edges[i];
-            }
-        }
-        return null;
-    }
-
-    public bool Color()
-    {
-        for(int i=0; i<vertexes.Count; i++)
-        {
-            vertexes[i].color = -1;
-        }
-        return vertexes[0].CheckColor(0);
-        
+        string result = String.Join(" ", vertexes.ToList().Select(item => item.ToString()).ToArray());
+        return result;
     }
 }

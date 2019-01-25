@@ -41,7 +41,7 @@ public class MatrixBehaviour : MonoBehaviour {
     {
         DiGraph = !DiGraph;
         OList<MathEdgeStruct> edgesCopy = GetEdges();
-        matrix.Reset();
+        matrix.construct.Reset();
 
         if (DiGraph)
         {
@@ -52,12 +52,18 @@ public class MatrixBehaviour : MonoBehaviour {
             matrix = new Graph(VertexPrefab, EdgePrefab, OriginalMaterial, MarkedMaterial);
         }
         
-        matrix.Construct(edgesCopy);
+        matrix.construct.Construct(edgesCopy);
         Print();
     }
 
     public void GraphColor()
     {
+
+        ConstructDiGraph();
+        Print();
+        return;
+
+
         if (matrix.IsConsistent())
         {
             if (DiGraph)
@@ -65,12 +71,13 @@ public class MatrixBehaviour : MonoBehaviour {
                 ConstructDiGraph();
                 return;
             }
-            if (matrix.Color())
+            if (matrix.markModule.IsTwoColored())
             {
                 ConstructDiGraph();
-                GetComponent<FlowAlgorithm>().Check(1);
-                GetComponent<FlowAlgorithm>().Algorithm(10000000);
-                infoText.text = "Maksymalne skojarzenie : " + ((DiGraph)matrix).GetAssociation();
+                //GetComponent<FlowAlgorithm>().Check(1);
+                //GetComponent<FlowAlgorithm>().Algorithm(10000000);
+                //infoText.text = "Maksymalne skojarzenie : " + ((DiGraph)matrix).GetAssociation();
+                Print();
                 return;
             }
         }

@@ -23,7 +23,7 @@ public class MarkModule {
         else
         {
             float prevCost = prevVertex.pathCost;
-            EdgeObject currentCost = graph.GetEdge(prevVertex, _toMark);
+            EdgeObject currentCost = graph.locationModule.GetEdge(prevVertex, _toMark);
             _toMark.pathCost = Mathf.Min(prevCost, currentCost.EdgeCost);
             _toMark.sign = currentCost.Sign;
         }
@@ -35,6 +35,16 @@ public class MarkModule {
         {
             graph.vertexes[i].Reset();
         }
+    }
+
+    public bool IsTwoColored()
+    {
+        for (int i = 0; i < graph.vertexes.Count; i++)
+        {
+            graph.vertexes[i].color = -1;
+        }
+        return graph.vertexes[0].CheckColor(0);
+
     }
 
 }

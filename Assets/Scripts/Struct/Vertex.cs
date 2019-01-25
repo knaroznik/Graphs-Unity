@@ -83,9 +83,6 @@ public class Vertex : MathVertex {
 
     #region Cechowanie
 
-    public int InEdges{get; set;}
-    public int OutEdges{get; set;}
-
     public new int Value
     {
         get
@@ -111,7 +108,7 @@ public class Vertex : MathVertex {
             return "(" + VertexName + " " + sign.ToString() + ")";
         }
         //Odjąć koszt ze znanej ścieżki, 
-        EdgeObject edge = _graph.GetEdge(pathVertex, this, sign);
+        EdgeObject edge = _graph.locationModule.GetEdge(pathVertex, this, sign);
         edge.EdgeCost -= (int)_pathCost;
         if (edge.EdgeCost == 0)
         {
@@ -129,11 +126,11 @@ public class Vertex : MathVertex {
             oppositeSign = Operator.PLUS;
         }
 
-        edge = _graph.GetEdge(this, pathVertex, oppositeSign);
+        edge = _graph.locationModule.GetEdge(this, pathVertex, oppositeSign);
         if (edge == null)
         {
             _graph.construct.AddEdge(VertexName, pathVertex.VertexName, 0, oppositeSign);
-            edge = _graph.GetEdge(this, pathVertex, oppositeSign);
+            edge = _graph.locationModule.GetEdge(this, pathVertex, oppositeSign);
         }
 
         edge.EdgeCost += (int)_pathCost;
